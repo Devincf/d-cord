@@ -26,7 +26,7 @@ add_library(dppcord SHARED
 set_target_properties(dppcord PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(dppcord PROPERTIES SOVERSION 1)
 
-target_include_directories(dppcord PRIVATE include/dppcord submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp
+target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp
                             )
 
 target_link_libraries(dppcord Threads::Threads crypto ssl curl curlpp sqlite3 Boost::thread)

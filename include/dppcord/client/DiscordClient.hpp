@@ -12,7 +12,7 @@
 #ifndef DISCORDCLIENT_HPP
 #define DISCORDCLIENT_HPP
 
-#include "websocket/WebsocketHandler.hpp"
+#include "dppcord/websocket/WebsocketHandler.hpp"
 
 namespace dppcord
 {

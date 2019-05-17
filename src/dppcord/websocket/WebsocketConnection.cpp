@@ -9,7 +9,7 @@
  * 
  */
 
-#include "websocket/WebsocketConnection.hpp"
+#include "dppcord/websocket/WebsocketConnection.hpp"
 
 namespace dppcord
 {
@@ -26,6 +26,11 @@ WebsocketConnection::WebsocketConnection(boost::function<void(nlohmann::json&)> 
     m_clientEndpoint.set_fail_handler(bind(&WebsocketConnection::on_fail, this, _1));
     m_clientEndpoint.set_open_handler(bind(&WebsocketConnection::on_open, this, _1));
     m_clientEndpoint.set_message_handler(bind(&WebsocketConnection::on_message, this, _1, _2));
+}
+
+WebsocketConnection::~WebsocketConnection()
+{
+    
 }
 
 void WebsocketConnection::connect()

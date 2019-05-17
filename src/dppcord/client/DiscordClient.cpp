@@ -9,14 +9,14 @@
  * 
  */
 
-#include "client/DiscordClient.hpp"
+#include "dppcord/client/DiscordClient.hpp"
 
 
 namespace dppcord
 {
     DiscordClient::DiscordClient(const std::string& token): m_discordtoken(token), m_websockethandler(token)
     {
-        
+        m_websockethandler.init();
     }
 
     DiscordClient::~DiscordClient()

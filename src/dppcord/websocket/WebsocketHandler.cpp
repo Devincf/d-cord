@@ -9,13 +9,14 @@
  * 
  */
 
-#include "websocket/WebsocketHandler.hpp"
+#include "dppcord/websocket/WebsocketHandler.hpp"
 
 
 namespace dppcord
 {
     WebsocketHandler::WebsocketHandler(const std::string& token): m_token(token)
     {
+        std::cout << "construct websocket handler";
         m_connection = new WebsocketConnection(boost::bind(&WebsocketHandler::processWebsocketMessage, this, boost::placeholders::_1));
     }
 
@@ -32,6 +33,7 @@ namespace dppcord
 
     bool WebsocketHandler::init()
     {
+        std::cout << "init websocket handler";
         //connect to websocket.
         m_websocketConnectionThread = boost::thread(boost::bind(&WebsocketConnection::connect, m_connection));
         //wait for identify to be completed.
