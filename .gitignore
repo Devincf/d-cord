@@ -1,4 +1,6 @@
 bin/
 .vscode/
 example/token.txt
+example/Makefile
+example/CMakeFiles/
 build.sh
