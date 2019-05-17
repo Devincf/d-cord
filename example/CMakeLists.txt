@@ -32,4 +32,4 @@ INTERFACE_INCLUDE_DIRECTORIES "/home/lumi/code/cpp/d++cord/include/")
 
 target_include_directories(Example PRIVATE "../include/" "../submodules/nlohmannjson/single_include/" "../submodules/websocketpp/websocketpp/" "../submodules/curlpp/include/")
 
-target_link_libraries(Example dppcord Threads::Threads crypto ssl curl curlpp sqlite3 Boost::thread)
+target_link_libraries(Example dppcord Threads::Threads crypto ssl curl curlpp sqlite3 stdc++fs Boost::thread)

@@ -19,6 +19,8 @@
 #include <boost/thread.hpp>
 
 #include "WebsocketConnection.hpp"
+#include "dppcord/websocket/api/gateway/Heartbeater.hpp"
+#include "dppcord/websocket/WebsocketConnectionStatus.hpp"
 
 namespace dppcord
 {
@@ -41,9 +43,21 @@ public:
      */
     bool init();
 
+    /**
+     * @brief Called when a HeartbeatACK gets received
+     */
+    void receiveHeartbeatACK();
+    /**
+     * @brief Called when to reset the last HeartbeatACK
+     */
+    void resetHeartbeatACK();
+
+    bool getHeartbeatACK();
+    int getLastSequence();
+    WebsocketConnection *getConnection();
+    WebsocketConnectionStatus getConnectionStatus();
 
 private:
-
     /**
      * @brief Processes a Gateway Message
      * @param json containing the message
@@ -51,9 +65,30 @@ private:
     void processWebsocketMessage(const nlohmann::json &json);
 
     /**
+     * @brief Last Sequence received by discord
+     */
+    int m_lastSequence;
+    /**
+     * @brief Whether the Client received a heartbeat ack since the last heartbeat or not
+     */
+    bool m_heartbeatACK;
+
+    /**
      * @brief Token for communication with the discordapi
      */
     std::string m_token;
+
+    /**
+     * @brief Current connection status of the gateway
+     */
+    WebsocketConnectionStatus m_connectionStatus;
+    
+    /**
+     * @brief Object to the heartbeater that automatically sends heartbeats every heartbeat interval
+     */
+    Heartbeater m_heartbeater;
+
+    boost::asio::io_service m_ioservice;
 
     /**
      * @brief Thread that runs the websocket connection
@@ -73,7 +108,7 @@ private:
      * @brief pointer to the discord api gatewayconnection
      */
     //std::unique_ptr<WebsocketConnection> m_connection;
-    WebsocketConnection* m_connection;
+    WebsocketConnection *m_connection;
 };
 } // namespace dppcord
 

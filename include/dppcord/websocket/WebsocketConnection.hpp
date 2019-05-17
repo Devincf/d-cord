@@ -21,7 +21,6 @@
 
 #include "nlohmann/json.hpp"
 
-
 using websocketpp::connection_hdl;
 
 using websocketpp::lib::bind;
@@ -33,66 +32,71 @@ typedef websocketpp::client<websocketpp::config::asio_tls_client> client;
 typedef websocketpp::lib::shared_ptr<boost::asio::ssl::context> context_ptr;
 typedef websocketpp::config::asio_tls_client::message_type::ptr message_ptr;
 
-
 namespace dppcord
 {
-    class WebsocketConnection
-    {
-        public:
-        /**
+class WebsocketConnection
+{
+public:
+    /**
          * @brief Construct a new Websocket Connection object
          */
-        WebsocketConnection(boost::function<void(nlohmann::json&)> msg_proc);
-        /**
+    WebsocketConnection(boost::function<void(const nlohmann::json &)> msg_proc);
+    /**
          * @brief Destroy the Websocket Connection object
          */
-        ~WebsocketConnection();
+    ~WebsocketConnection();
 
-        /**
+    /**
          * @brief Connects to the Gateway
          */
-        void connect();
+    void connect();
 
-        private:
-        /**
+    /**
+         * @brief Sends payload through the gateway
+         * @param json payload to send
+         */
+    void sendPayload(const nlohmann::json &json);
+
+private:
+    /**
          * @brief Called on socket initialization by websocketpp
          * @param hdl for connection
          */
-        void on_socket_init(const connection_hdl& hdl);
-        /**
+    void on_socket_init(const connection_hdl &hdl);
+    /**
          * @brief Called on tls connection initialization by websocketpp
          * @param hdl for connection
          * @return context_ptr for tls connection
          */
-        context_ptr on_tls_init(const connection_hdl& hdl);
-        /**
+    context_ptr on_tls_init(const connection_hdl &hdl);
+    /**
          * @brief Called if the connection fails to open
          * @param hdl for attempted connection
          */
-        void on_fail(const connection_hdl& hdl);
-        /**
+    void on_fail(const connection_hdl &hdl);
+    /**
          * @brief Called once the connection successfully gets established
          * @param hdl for connection
          */
-        void on_open(const connection_hdl& hdl);
-        /**
+    void on_open(const connection_hdl &hdl);
+    /**
          * @brief Called everytime the gateway sends a message to the client
          * @param hdl for connection
          * @param msgptr containing the message
          */
-        void on_message(const connection_hdl& hdl, const message_ptr& msgptr);
+    void on_message(const connection_hdl &hdl, const message_ptr &msgptr);
 
-        /**
+    /**
          * @brief Client endpoint that connects to the discord gateway
          */
-        client m_clientEndpoint;
-        /**
+    client m_clientEndpoint;
+    /**
          * @brief Handle to current connection
          */
-        connection_hdl m_connHdl;
+    connection_hdl m_connHdl;
 
-        boost::function<void(nlohmann::json&)> m_msgProc;
-    };
-}
+    boost::function<void(const nlohmann::json &)> m_msgProc;
+};
+} // namespace dppcord
 
 #endif

@@ -1,3 +1,4 @@
 bin/
 .vscode/
 example/token.txt
+build.sh

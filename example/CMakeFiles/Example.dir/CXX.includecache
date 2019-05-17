@@ -6,9 +6,19 @@
 
 #IncludeRegexTransform: 
 
-../include/dppcord/client/DiscordClient.hpp
+../include/dppcord/core/client/DiscordClient.hpp
 dppcord/websocket/WebsocketHandler.hpp
-../include/dppcord/client/dppcord/websocket/WebsocketHandler.hpp
+../include/dppcord/core/client/dppcord/websocket/WebsocketHandler.hpp
+
+../include/dppcord/core/task/BaseTask.hpp
+boost/asio.hpp
+-
+boost/asio/io_service.hpp
+-
+boost/asio/steady_timer.hpp
+-
+boost/thread.hpp
+-
 
 ../include/dppcord/websocket/WebsocketConnection.hpp
 string
@@ -22,6 +32,8 @@ websocketpp/config/asio_client.hpp
 nlohmann/json.hpp
 ../include/dppcord/websocket/nlohmann/json.hpp
 
+../include/dppcord/websocket/WebsocketConnectionStatus.hpp
+
 ../include/dppcord/websocket/WebsocketHandler.hpp
 memory
 -
@@ -33,6 +45,14 @@ boost/thread.hpp
 -
 WebsocketConnection.hpp
 ../include/dppcord/websocket/WebsocketConnection.hpp
+dppcord/websocket/api/gateway/Heartbeater.hpp
+../include/dppcord/websocket/dppcord/websocket/api/gateway/Heartbeater.hpp
+dppcord/websocket/WebsocketConnectionStatus.hpp
+../include/dppcord/websocket/dppcord/websocket/WebsocketConnectionStatus.hpp
+
+../include/dppcord/websocket/api/gateway/Heartbeater.hpp
+dppcord/core/task/BaseTask.hpp
+../include/dppcord/websocket/api/gateway/dppcord/core/task/BaseTask.hpp
 
 ../submodules/nlohmannjson/single_include/nlohmann/json.hpp
 algorithm
@@ -365,6 +385,8 @@ type_traits
 /home/lumi/code/cpp/d++cord/example/bot.cpp
 bot.hpp
 /home/lumi/code/cpp/d++cord/example/bot.hpp
+filesystem
+-
 
 /home/lumi/code/cpp/d++cord/example/bot.hpp
 string
@@ -373,6 +395,6 @@ fstream
 -
 streambuf
 -
-dppcord/client/DiscordClient.hpp
-/home/lumi/code/cpp/d++cord/example/dppcord/client/DiscordClient.hpp
+dppcord/core/client/DiscordClient.hpp
+/home/lumi/code/cpp/d++cord/example/dppcord/core/client/DiscordClient.hpp
 

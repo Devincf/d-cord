@@ -2,7 +2,7 @@
 #include <fstream>
 #include <streambuf>
 
-#include "dppcord/client/DiscordClient.hpp"
+#include "dppcord/core/client/DiscordClient.hpp"
 
 
 class Example : public dppcord::DiscordClient

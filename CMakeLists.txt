@@ -18,8 +18,10 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 add_library(dppcord SHARED
-            src/dppcord/client/DiscordClient.cpp
-            src/dppcord/websocket/WebsocketConnection.cpp    src/dppcord/websocket/WebsocketHandler.cpp        
+            src/dppcord/core/client/DiscordClient.cpp   
+            src/dppcord/core/task/BaseTask.cpp
+            src/dppcord/websocket/WebsocketConnection.cpp    src/dppcord/websocket/WebsocketHandler.cpp    
+            src/dppcord/websocket/api/gateway/Heartbeater.cpp    
 )
 
 

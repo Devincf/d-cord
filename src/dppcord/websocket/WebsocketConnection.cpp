@@ -14,7 +14,7 @@
 namespace dppcord
 {
 
-WebsocketConnection::WebsocketConnection(boost::function<void(nlohmann::json&)> msg_proc): m_msgProc(msg_proc)
+WebsocketConnection::WebsocketConnection(boost::function<void(const nlohmann::json&)> msg_proc): m_msgProc(msg_proc)
 {
     m_clientEndpoint.set_access_channels(websocketpp::log::alevel::none);
     m_clientEndpoint.set_error_channels(websocketpp::log::alevel::all);
@@ -49,6 +49,14 @@ void WebsocketConnection::connect()
 
     m_clientEndpoint.run();
 
+}
+
+void WebsocketConnection::sendPayload(const nlohmann::json& payload)
+{
+    if(true) //Todo: if connected
+    {
+        m_clientEndpoint.send(m_connHdl, payload.dump(), websocketpp::frame::opcode::text);
+    }
 }
 
 void WebsocketConnection::on_socket_init(const connection_hdl& hdl)

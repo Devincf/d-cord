@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/client/DiscordClient.hpp"
+#include "dppcord/core/client/DiscordClient.hpp"
 
 
 namespace dppcord
