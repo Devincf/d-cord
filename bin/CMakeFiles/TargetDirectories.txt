@@ -1,7 +1,0 @@
-/home/lumi/code/cpp/d++cord/bin/CMakeFiles/install/strip.dir
-/home/lumi/code/cpp/d++cord/bin/CMakeFiles/edit_cache.dir
-/home/lumi/code/cpp/d++cord/bin/CMakeFiles/dppcord.dir
-/home/lumi/code/cpp/d++cord/bin/CMakeFiles/rebuild_cache.dir
-/home/lumi/code/cpp/d++cord/bin/CMakeFiles/list_install_components.dir
-/home/lumi/code/cpp/d++cord/bin/CMakeFiles/install/local.dir
-/home/lumi/code/cpp/d++cord/bin/CMakeFiles/install.dir
