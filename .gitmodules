@@ -1,0 +1,9 @@
+[submodule "submodules/curlpp"]
+	path = submodules/curlpp
+	url = https://github.com/jpbarrette/curlpp.git
+[submodule "submodules/nlohmannjson"]
+	path = submodules/nlohmannjson
+	url = https://github.com/jpbarrette/curlpp.git
+[submodule "submodules/websocketpp"]
+	path = submodules/websocketpp
+	url = https://github.com/zaphoyd/websocketpp.git
