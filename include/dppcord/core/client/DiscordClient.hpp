@@ -41,7 +41,9 @@ private:
      * @brief discordapi token used for interaction with the discord api
      */
     std::string m_discordtoken;
-
+    /**
+     * @brief Handler that does all the internal Websocket connection related stuff
+     */
     WebsocketHandler m_websockethandler; //change to gatewaymanager
 };
 } // namespace dppcord

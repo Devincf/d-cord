@@ -12,9 +12,6 @@
 #ifndef GATEWAYCLOSECODES_HPP
 #define GATEWAYCLOSECODES_HPP
 
-#define UNKNOWN_ERROR 4000
-#define UNKNOWN_OPCCODE 4001
-
 #define UNKNOWN_ERROR 4000	        //	We're not sure what went wrong. Try reconnecting?
 #define UNKNOWN_OPCCODE 4001	    //	You sent an invalid Gateway opcode or an invalid payload for an opcode. Don't do that!
 #define DECODE_ERROR4002	        //  sent an invalid payload to us. Don't do that!

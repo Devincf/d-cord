@@ -28,12 +28,21 @@ WebsocketHandler::~WebsocketHandler()
 
 void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
 {
-    std::cout << json.dump(2) << "\n";
     const int opcode = json["op"].get<int>();
+    //std::cout << json.dump(2) << "\n";
     switch (opcode)
     {
     case DISPATCH:
     {
+        std::string type = json["t"].get<std::string>();
+        std::cout << type << ": \n";
+        if(type == "READY")
+        {
+            std::cout << "ready";
+            m_connectionStatus = WEBSOCKET_CONNTECTED;
+            m_initializationcv.notify_all();
+        }
+
         break;
     }
     case HEARTBEAT:
@@ -98,7 +107,6 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
             payload["d"]["presence"]["status"] = "online";
             payload["d"]["presence"]["since"] = nullptr;
             payload["d"]["presence"]["afk"] = false;
-            std::cout << payload.dump(2) << "\n";
             m_connection->sendPayload(payload);
         }
         break;
@@ -117,11 +125,14 @@ bool WebsocketHandler::init()
 {
     //connect to websocket.
     m_connectionStatus = WEBSOCKET_CONNECTING;
+    std::cout << "Starting Websocket Thread..";
     m_websocketConnectionThread = boost::thread(boost::bind(&WebsocketConnection::connect, m_connection));
     m_connectionStatus = WEBSOCKET_AWAITING_HELLO;
     //wait for identify to be completed.
+    std::cout << "Waiting for Websocket Thread to finish identifying..";
     std::unique_lock<std::mutex> lock(m_mutex);
     m_initializationcv.wait(lock);
+    std::cout << "done\n";
     return true; //Todo: return if initialized correctly
 }
 

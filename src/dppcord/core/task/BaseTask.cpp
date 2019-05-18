@@ -61,10 +61,7 @@ void BaseTask::setInterval(const int interval)
 
 void BaseTask::resetTimer(const int interval)
 {
-    if (interval < 0)
-    {
-        return;
-    }
+    setInterval(interval);
     m_taskTimer->expires_at(m_taskTimer->expires_at() + m_interval);
     m_taskTimer->async_wait(boost::bind(&BaseTask::proc, this));
 }

@@ -48,13 +48,28 @@ public:
      */
     void receiveHeartbeatACK();
     /**
-     * @brief Called when to reset the last HeartbeatACK
+     * @brief Called to reset the last HeartbeatACK
      */
     void resetHeartbeatACK();
-
+    /**
+     * @brief Get whether the heartbeat ack boolean is currently set
+     * @return boolean whether heartbeat ack was received
+     */
     bool getHeartbeatACK();
+    /**
+     * @brief Get the last sequence
+     * @return int last sequence
+     */
     int getLastSequence();
+    /**
+     * @brief Get the gateway connection
+     * @return WebsocketConnection* Pointer to the websocket connection object
+     */
     WebsocketConnection *getConnection();
+    /**
+     * @brief Get thec onnection status
+     * @return WebsocketConnectionStatus connection status of the gateway
+     */
     WebsocketConnectionStatus getConnectionStatus();
 
 private:
@@ -63,7 +78,6 @@ private:
      * @param json containing the message
      */
     void processWebsocketMessage(const nlohmann::json &json);
-
     /**
      * @brief Last Sequence received by discord
      */
@@ -72,29 +86,26 @@ private:
      * @brief Whether the Client received a heartbeat ack since the last heartbeat or not
      */
     bool m_heartbeatACK;
-
     /**
      * @brief Token for communication with the discordapi
      */
     std::string m_token;
-
     /**
      * @brief Current connection status of the gateway
      */
     WebsocketConnectionStatus m_connectionStatus;
-    
     /**
      * @brief Object to the heartbeater that automatically sends heartbeats every heartbeat interval
      */
     Heartbeater m_heartbeater;
-
+    /**
+     * @brief ioservice used for the automatic heartbeater
+     */
     boost::asio::io_service m_ioservice;
-
     /**
      * @brief Thread that runs the websocket connection
      */
     boost::thread m_websocketConnectionThread;
-
     /**
      * @brief mutex needed for condition variable
      */
@@ -103,7 +114,6 @@ private:
      * @brief condition variable to determine the completion of the discordapi connection
      */
     std::condition_variable m_initializationcv;
-
     /**
      * @brief pointer to the discord api gatewayconnection
      */

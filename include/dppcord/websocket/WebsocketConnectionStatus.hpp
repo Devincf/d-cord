@@ -15,12 +15,12 @@
 namespace dppcord
 {
     enum WebsocketConnectionStatus{
-        WEBSOCKET_DISCONNECTED = 0,
-        WEBSOCKET_CONNECTING = 1,
-        WEBSOCKET_AWAITING_HELLO = 2,
-        WEBSOCKET_AUTHENTICATING = 4,
-        WEBSOCKET_CONNTECTED = 8,
-        WEBSOCKET_RECONNECTING = 16
+        WEBSOCKET_DISCONNECTED = 0,     //  Websocket connection is currently completly shutdown
+        WEBSOCKET_CONNECTING = 1,       //  Websocket connection is currently trying to connect
+        WEBSOCKET_AWAITING_HELLO = 2,   //  Websocket connection is waiting for hello message
+        WEBSOCKET_AUTHENTICATING = 4,   //  Websocket connection is currently trying to authenticate the client
+        WEBSOCKET_CONNTECTED = 8,       //  Websocket is completly connected
+        WEBSOCKET_RECONNECTING = 16     //  Websocket is reconnecting
     };
 }
 

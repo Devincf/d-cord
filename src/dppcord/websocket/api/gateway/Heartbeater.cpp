@@ -25,12 +25,10 @@ Heartbeater::Heartbeater(WebsocketHandler *websockethandlerptr, const int interv
 
 void Heartbeater::proc()
 {
-    std::cout << "heartbeat proc\n";
     if (!m_websocketHandler->getHeartbeatACK() && m_websocketHandler->getConnectionStatus() == WEBSOCKET_CONNTECTED)
     {
         std::cout << "[ERROR]Heartbeat ACK not received.\n"; 
     }
-    std::cout << "sending heartbeat\n";
     nlohmann::json payload;
     payload["op"] = HEARTBEAT;
     payload["d"] = m_websocketHandler->getLastSequence();
