@@ -20,7 +20,8 @@ find_package(Threads REQUIRED)
 add_library(dppcord SHARED
             src/dppcord/core/client/DiscordClient.cpp   
             src/dppcord/core/task/BaseTask.cpp
-            src/dppcord/websocket/WebsocketConnection.cpp    src/dppcord/websocket/WebsocketHandler.cpp    
+            src/dppcord/core/objects/Guild.cpp  src/dppcord/core/objects/Channel.cpp src/dppcord/core/objects/User.cpp       src/dppcord/core/objects/GuildUser.cpp
+            src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp    
             src/dppcord/websocket/api/gateway/Heartbeater.cpp    
 )
 
