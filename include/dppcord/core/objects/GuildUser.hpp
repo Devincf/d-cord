@@ -26,10 +26,27 @@ mute	boolean	whether the user is muted in voice channels */
 
 namespace dppcord
 {
+/**
+ * @brief Todo: uhh somehow make user a ptr in order to use globalusers
+ */
 class GuildUser : public User
 {
 public:
+    /**
+     * @brief Construct a new Guild User object 
+     * @param guserjson 
+     */
+    GuildUser(const nlohmann::json &guserjson);
+
+    /**
+     * @brief Destroy the Guild User object
+     */
+    ~GuildUser();
 private:
+    /**
+     * @brief Construct a new Guild User object
+     */
+    GuildUser();
     /**
      * @brief The users guild nickname if one is set
      */
@@ -38,6 +55,7 @@ private:
     //roles
 
     //Timestamp joined_at
+    
     /**
      * @brief Whether the user is deafened in voice channels or not
      */

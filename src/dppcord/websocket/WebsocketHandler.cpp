@@ -13,6 +13,8 @@
 
 #include "dppcord/websocket/api/gateway/GatewayOpCodes.hpp"
 
+#include "dppcord/core/objects/Guild.hpp"
+
 namespace dppcord
 {
 WebsocketHandler::WebsocketHandler(const std::string &token) : m_lastSequence(0),m_token(token), m_heartbeater(this, 0)
@@ -38,9 +40,11 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
         std::cout << type << ": \n";
         if(type == "READY")
         {
-            std::cout << "ready";
             m_connectionStatus = WEBSOCKET_CONNTECTED;
             m_initializationcv.notify_all();
+        }else if(type == "GUILD_CREATE")
+        {
+            Guild g = Guild(json["d"]);
         }
 
         break;

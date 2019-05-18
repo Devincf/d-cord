@@ -11,7 +11,18 @@
 
 #include "dppcord/core/objects/GuildUser.hpp"
 
+#include "dppcord/util/jsonutil.hpp"
+
 namespace dppcord
 {
-    
+    GuildUser::GuildUser(){}
+    GuildUser::~GuildUser(){}
+    GuildUser::GuildUser(const nlohmann::json& guserjson): User(guserjson["user"])
+    {
+        m_nickname = tryGetJson<std::string>("nick",guserjson);
+        //roles
+        //joined_at
+        m_deaf = tryGetJson<bool>("deaf",guserjson);
+        m_mute = tryGetJson<bool>("mute",guserjson);
+    }
 }

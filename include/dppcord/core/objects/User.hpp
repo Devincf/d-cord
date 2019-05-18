@@ -19,6 +19,10 @@ namespace dppcord
 class User
 {
 public:
+User(const nlohmann::json& userjson);
+virtual ~User();
+protected:
+User();
 private:
     /**
      * @brief User's id

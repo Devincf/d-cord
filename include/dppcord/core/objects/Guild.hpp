@@ -12,6 +12,10 @@
 #ifndef GUILD_HPP
 #define GUILD_HPP
 
+#include "Channel.hpp"
+#include "Emoji.hpp"
+#include "GuildUser.hpp"
+#include "Role.hpp"
 #include "Snowflake.hpp"
 
 namespace dppcord
@@ -19,7 +23,10 @@ namespace dppcord
 class Guild
 {
 public:
+    Guild(const nlohmann::json& guildjson);
+    ~Guild();
 private:
+    Guild();
     /**
      * @brief Guild id 
      */
@@ -81,10 +88,14 @@ private:
      * @brief Explicit content filter level
      */
     int m_explicitContentFilter;
-
-    //roles
-
-    //emojis
+    /**
+     * @brief Vector ccontaining all guild specific roles
+     */
+    std::vector<Role> m_roles;
+    /**
+     * @brief Vector containing all guild specific emojis
+     */
+    std::vector<Emoji> m_emojis;
     /**
      * @brief Vector containing all enabled guild features
      */
@@ -128,9 +139,15 @@ private:
 
     //voice_states? *	array of partial voice state objects	(without the guild_id key)
 
-    //members
-
-    //channels
+    /**
+     * @brief Vector containing all guild members
+     */
+    std::vector<GuildUser> m_members;
+    /**
+     * @brief Vector containing all guild channels
+     * Todo: switch to Channel* after Channel has been split into different objects
+     */
+    std::vector<Channel> m_channels;
 
     //presences
     /**

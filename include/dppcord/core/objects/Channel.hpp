@@ -20,7 +20,10 @@ class Guild;
 class Channel // Todo: split text/voice/dm channels
 {
 public:
+    Channel(const nlohmann::json& channeljson);
+    ~Channel();
 private:
+    Channel();
     /**
      * @brief The id of this channel
      */
@@ -32,8 +35,9 @@ private:
     int m_type;
     /**
      * @brief The Guild this channel belongs to
+     * Todo: implement
      */
-    Guild *m_guild;
+    //Guild *m_guild;
     /**
      * @brief Integer sorting position of this channel
      */
