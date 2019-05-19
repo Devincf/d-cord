@@ -16,12 +16,17 @@
 
 namespace dppcord
 {
-    class GuildCreateEvent : public BaseEvent
-    {
-        using BaseEvent::BaseEvent;
-        public:
-        void proc(const nlohmann::json& eventPacket);
-    };
-}
+class GuildCreateEvent : public BaseEvent
+{
+    using BaseEvent::BaseEvent;
+
+public:
+    /**
+     * @brief Called when the client receives a GUILD_CREATE dispatch event
+     * @param json data containing information about the event
+     */
+    void proc(const nlohmann::json &eventPacket);
+};
+} // namespace dppcord
 
 #endif

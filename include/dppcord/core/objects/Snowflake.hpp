@@ -55,8 +55,6 @@ public:
      */
   operator uint64_t() const { return m_snowflake; }
 
-  operator std::string() const { return std::to_string(m_snowflake); }
-
   /**
      * @brief returns the timestamp contained within the snowflake
      * @return const uint64_t the timestamp

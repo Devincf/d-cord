@@ -16,12 +16,17 @@
 
 namespace dppcord
 {
-    class ReadyEvent : public BaseEvent
-    {
-        using BaseEvent::BaseEvent;
-        public:
-        void proc(const nlohmann::json& eventPacket);
-    };
-}
+class ReadyEvent : public BaseEvent
+{
+    using BaseEvent::BaseEvent;
+
+public:
+    /**
+     * @brief Called when the client receives a READY dispatch event
+     * @param eventPacket json information about the event
+     */
+    void proc(const nlohmann::json &eventPacket);
+};
+} // namespace dppcord
 
 #endif

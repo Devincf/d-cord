@@ -20,21 +20,44 @@
 
 namespace dppcord
 {
-    class DispatchDistributor
-    {
-        public:
-        ~DispatchDistributor();
-        DispatchDistributor();
+class DispatchDistributor
+{
+public:
+    /**
+     * @brief Destroy the Dispatch Distributor object
+     */
+    ~DispatchDistributor();
+    /**
+     * @brief Construct a new Dispatch Distributor object
+     */
+    DispatchDistributor();
+    /**
+     * @brief Distributes events
+     * @param name of event to be called
+     * @param json data about the event
+     * @return Whether the event was found or not
+     */
+    bool distributeEvent(const std::string &eventName, const nlohmann::json &eventPacket);
+    /**
+     * @brief Adds an event into the dispatch event map
+     * @param name of the event to be added
+     * @param pointer to the event 
+     * @return Whether the event didnt exist in the map before  
+     */
+    bool addEvent(const std::string &eventName, BaseEvent *pBaseEvent);
+    /**
+     * @brief Get the pointer of a event with a name
+     * @param eventName of the event 
+     * @return pointer of the event if exists, nullptr if eventName wasnt found
+     */
+    BaseEvent *getEvent(const std::string &eventName);
 
-        bool distributeEvent(const std::string& eventName, const nlohmann::json& eventPacket);
-        bool addEvent(const std::string& eventName, BaseEvent* pBaseEvent);
-
-        BaseEvent* getEvent(const std::string& eventName);
-
-        private:
-
-        std::map<std::string,std::unique_ptr<BaseEvent>> m_eventMap;
-    };
-}
+private:
+    /**
+     * @brief Map containing all dispatch events
+     */
+    std::map<std::string, std::unique_ptr<BaseEvent>> m_eventMap;
+};
+} // namespace dppcord
 
 #endif

@@ -19,10 +19,20 @@ namespace dppcord
 class Role
 {
 public:
+    /**
+     * @brief Construct a new Role object with given json data 
+     * @param json data to construct the role object with
+     */
     Role(const nlohmann::json &rolejson);
-
+    /**
+     * @brief Destroy the Role object
+     */
     ~Role();
+
 private:
+    /**
+     * @brief Construct a new Role object
+     */
     Role();
     /**
      * @brief Role id

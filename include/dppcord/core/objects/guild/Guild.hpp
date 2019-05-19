@@ -24,7 +24,15 @@ class UsersHandler;
 class Guild
 {
 public:
+    /**
+     * @brief Construct a new Guild object from a given json object
+     * @param guildjson the json object to construct the guild from
+     * @param pUserHandler pointer to Userhandler if you want to use global userlists
+     */
     Guild(const nlohmann::json& guildjson, UsersHandler* pUserHandler = nullptr);
+    /**
+     * @brief Destroy the Guild object
+     */
     ~Guild();
     /**
      * @brief Get the Id of the guild
@@ -32,6 +40,9 @@ public:
      */
     Snowflake getId();
 private:
+    /**
+     * @brief Construct a new Guild object
+     */
     Guild();
     /**
      * @brief Guild id 

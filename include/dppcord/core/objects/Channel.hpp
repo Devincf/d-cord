@@ -20,9 +20,19 @@ class Guild;
 class Channel // Todo: split text/voice/dm channels
 {
 public:
+    /**
+     * @brief Construct a new Channel object with given json data
+     * @param json data to construct the Channel object from
+     */
     Channel(const nlohmann::json& channeljson);
+    /**
+     * @brief Destroy the Channel object
+     */
     ~Channel();
 private:
+    /**
+     * @brief Construct a new Channel object
+     */
     Channel();
     /**
      * @brief The id of this channel

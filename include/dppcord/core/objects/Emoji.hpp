@@ -22,10 +22,21 @@ class User;
      */
 class Emoji
 {
-    public:
-    Emoji(const nlohmann::json& emojijson);
+public:
+    /**
+     * @brief Construct a new Emoji object with given json data
+     * @param json data to construct the emoji from
+     */
+    Emoji(const nlohmann::json &emojijson);
+    /**
+     * @brief Destroy the Emoji object
+     */
     ~Emoji();
-    private:
+
+private:
+    /**
+     * @brief Construct a new Emoji object
+     */
     Emoji();
     /**
      * @brief Emoji id 

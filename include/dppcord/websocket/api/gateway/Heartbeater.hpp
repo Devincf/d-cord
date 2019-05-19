@@ -16,28 +16,28 @@
 
 namespace dppcord
 {
-    class WebsocketHandler;
+class WebsocketHandler;
 
-    class Heartbeater : public BaseTask
-    {
-        public:
-        /**
-         * @brief Construct a new Heartbeater object
-         * @param websockethandlerptr pointer to the websocket handler
-         * @param interval Heartbeat interval
-         */
-        Heartbeater(WebsocketHandler* websockethandlerptr, const int interval);
-        private:
-        /**
-         * @brief Called each heartbeat interval
-         */
-        void proc();
-        /**
-         * @brief Pointer to the websocket handler
-         */
-        WebsocketHandler* m_websocketHandler;
-    };
-}
+class Heartbeater : public BaseTask
+{
+public:
+    /**
+     * @brief Construct a new Heartbeater object
+     * @param websockethandlerptr pointer to the websocket handler
+     * @param interval Heartbeat interval
+     */
+    Heartbeater(WebsocketHandler *websockethandlerptr, const int interval);
 
+private:
+    /**
+     * @brief Called each heartbeat interval
+     */
+    void proc();
+    /**
+     * @brief Pointer to the websocket handler
+     */
+    WebsocketHandler *m_websocketHandler;
+};
+} // namespace dppcord
 
 #endif

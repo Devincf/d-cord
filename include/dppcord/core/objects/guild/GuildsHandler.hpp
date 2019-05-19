@@ -18,15 +18,30 @@
 
 namespace dppcord
 {
-    class GuildsHandler
-    {
-        public:
-        GuildsHandler();
-        ~GuildsHandler();
-        bool addGuild(Guild&& rGuild);
-        private:
-        std::map<Snowflake, Guild> m_guildMap;
-    };
-}
+class GuildsHandler
+{
+public:
+    /**
+     * @brief Construct a new Guilds Handler object
+     */
+    GuildsHandler();
+    /**
+     * @brief Destroy the Guilds Handler object
+     */
+    ~GuildsHandler();
+    /**
+     * @brief Adds a guild into map through a rval reference.
+     * @param rGuild Guild to be added
+     * @return whether the guild didnt exist in the map before or not
+     */
+    bool addGuild(Guild &&rGuild);
+
+private:
+    /**
+     * @brief Map containing every Guild the bot is in
+     */
+    std::map<Snowflake, Guild> m_guildMap;
+};
+} // namespace dppcord
 
 #endif
