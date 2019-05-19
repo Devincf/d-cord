@@ -22,8 +22,8 @@ src/dppcord/core/client/DiscordClient.cpp
  
 src/dppcord/core/task/BaseTask.cpp
 
-src/dppcord/core/objects/guild/Guild.cpp  src/dppcord/core/objects/Channel.cpp src/dppcord/core/objects/User.cpp  src/dppcord/core/objects/guild/GuildUser.cpp src/dppcord/core/objects/Role.cpp 
-src/dppcord/core/objects/Emoji.cpp
+src/dppcord/core/objects/guild/GuildsHandler.cpp src/dppcord/core/objects/guild/Guild.cpp  src/dppcord/core/objects/Channel.cpp src/dppcord/core/objects/user/UsersHandler.cpp 
+src/dppcord/core/objects/user/User.cpp  src/dppcord/core/objects/user/GuildUser.cpp src/dppcord/core/objects/Role.cpp src/dppcord/core/objects/Emoji.cpp
 
 src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp
 src/dppcord/websocket/api/gateway/events/DispatchDistributor.cpp  src/dppcord/websocket/api/gateway/events/BaseEvent.cpp    

@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/core/objects/User.hpp"
+#include "dppcord/core/objects/user/User.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
 
@@ -32,4 +32,6 @@ User::User(const nlohmann::json &userjson)
     m_premiumType = tryGetJson<int>("premium_type",userjson);
 
 }
+
+Snowflake User::getId(){ return m_id;}
 } // namespace dppcord

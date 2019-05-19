@@ -12,19 +12,25 @@
 #ifndef GUILD_HPP
 #define GUILD_HPP
 
-#include "Channel.hpp"
-#include "Emoji.hpp"
-#include "GuildUser.hpp"
-#include "Role.hpp"
-#include "Snowflake.hpp"
+#include "dppcord/core/objects/user/GuildUser.hpp"
+#include "dppcord/core/objects/Channel.hpp"
+#include "dppcord/core/objects/Emoji.hpp"
+#include "dppcord/core/objects/Role.hpp"
+#include "dppcord/core/objects/Snowflake.hpp"
 
 namespace dppcord
 {
+class UsersHandler;
 class Guild
 {
 public:
-    Guild(const nlohmann::json& guildjson);
+    Guild(const nlohmann::json& guildjson, UsersHandler* pUserHandler = nullptr);
     ~Guild();
+    /**
+     * @brief Get the Id of the guild
+     * @return Snowflake 
+     */
+    Snowflake getId();
 private:
     Guild();
     /**
@@ -142,7 +148,7 @@ private:
     /**
      * @brief Vector containing all guild members
      */
-    std::vector<GuildUser> m_members;
+    std::vector<std::shared_ptr<User>> m_members;
     /**
      * @brief Vector containing all guild channels
      * Todo: switch to Channel* after Channel has been split into different objects

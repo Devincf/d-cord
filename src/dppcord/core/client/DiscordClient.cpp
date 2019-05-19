@@ -11,21 +11,18 @@
 
 #include "dppcord/core/client/DiscordClient.hpp"
 
-
 namespace dppcord
 {
-    DiscordClient::DiscordClient(const std::string& token): m_discordtoken(token), m_websockethandler(token, this)
-    {
-        m_websockethandler.init();
-    }
-
-    DiscordClient::~DiscordClient()
-    {
-
-    }
-
-    WebsocketHandler* DiscordClient::getWebsocketHandler()
-    {
-        return &m_websockethandler;
-    }
+DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
+{
+    m_websockethandler.init();
 }
+
+DiscordClient::~DiscordClient()
+{
+}
+
+WebsocketHandler *DiscordClient::getWebsocketHandler() { return &m_websockethandler; }
+GuildsHandler *DiscordClient::getGuildsHandler() { return &m_guildHandler; }
+UsersHandler* DiscordClient::getUsersHandler(){return &m_userHandler; }
+} // namespace dppcord

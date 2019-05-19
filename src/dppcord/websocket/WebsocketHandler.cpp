@@ -13,8 +13,6 @@
 
 #include "dppcord/websocket/api/gateway/GatewayOpCodes.hpp"
 
-#include "dppcord/core/objects/Guild.hpp"
-
 #include "dppcord/websocket/api/gateway/events/DispatchEvents.hpp"
 
 namespace dppcord
@@ -43,17 +41,14 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
 {
     const int opcode = json["op"].get<int>();
     //std::cout << json.dump(2) << "\n";
+        //std::cout << json.dump();
     switch (opcode)
     {
     case DISPATCH:
     {
         std::string type = json["t"].get<std::string>();
-        if (type == "GUILD_CREATE")
-        {
-            Guild g = Guild(json["d"]);
-        }
-
         m_eventDispatcher.distributeEvent(type, json["d"]);
+
 
         break;
     }

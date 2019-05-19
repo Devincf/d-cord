@@ -10,13 +10,15 @@
  */
 
 #include "dppcord/websocket/api/gateway/events/GuildCreateEvent.hpp"
+#include "dppcord/core/client/DiscordClient.hpp"
 #include <iostream>
 
 namespace dppcord
 {
     void GuildCreateEvent::proc(const nlohmann::json& eventPacket)
     {
-        std::cout << "GuildCreateEvent proc\n";
+        std::cout << "GuildEvent proc\n";
+        m_pDiscordClient->getGuildsHandler()->addGuild(Guild(eventPacket, m_pDiscordClient->getUsersHandler()));
     }
 
 }

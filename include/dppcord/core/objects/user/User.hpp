@@ -12,7 +12,7 @@
 #ifndef USER_HPP
 #define USER_HPP
 
-#include "Snowflake.hpp"
+#include "dppcord/core/objects/Snowflake.hpp"
 
 namespace dppcord
 {
@@ -21,6 +21,13 @@ class User
 public:
 User(const nlohmann::json& userjson);
 virtual ~User();
+
+/**
+ * @brief Get the user id
+ * @return Snowflake 
+ */
+Snowflake getId();
+
 protected:
 User();
 private:

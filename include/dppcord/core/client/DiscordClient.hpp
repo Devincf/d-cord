@@ -13,6 +13,8 @@
 #define DISCORDCLIENT_HPP
 
 #include "dppcord/websocket/WebsocketHandler.hpp"
+#include "dppcord/core/objects/guild/GuildsHandler.hpp"
+#include "dppcord/core/objects/user/UsersHandler.hpp"
 
 namespace dppcord
 {
@@ -35,7 +37,16 @@ public:
      * @param token - discord api token
      */
     DiscordClient(const std::string &token);
-
+    /**
+     * @brief Get the Users Handler object
+     * @return Pointer to the UsersHandler object
+     */
+    UsersHandler* getUsersHandler();
+    /**
+     * @brief Get the Guilds Handler object
+     * @return Pointer to the GuildsHandler object
+     */
+    GuildsHandler* getGuildsHandler();
     /**
      * @brief Get the Websocket Handler object
      * @return Pointer to the WebsocketHandler object
@@ -47,6 +58,14 @@ private:
      * @brief discordapi token used for interaction with the discord api
      */
     std::string m_discordtoken;
+    /**
+     * @brief Handler containing all the guilds the bot is in with helper functions
+     */
+    GuildsHandler m_guildHandler;
+    /**
+     * @brief Handler containing all the users the bot has some kind of connection with
+     */
+    UsersHandler m_userHandler;
     /**
      * @brief Handler that does all the internal Websocket connection related stuff
      */
