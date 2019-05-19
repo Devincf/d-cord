@@ -36,6 +36,12 @@ public:
      */
     DiscordClient(const std::string &token);
 
+    /**
+     * @brief Get the Websocket Handler object
+     * @return Pointer to the WebsocketHandler object
+     */
+    WebsocketHandler* getWebsocketHandler();
+
 private:
     /**
      * @brief discordapi token used for interaction with the discord api

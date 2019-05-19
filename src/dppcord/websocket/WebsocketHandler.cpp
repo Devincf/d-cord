@@ -48,13 +48,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     case DISPATCH:
     {
         std::string type = json["t"].get<std::string>();
-        //std::cout << type << ": \n";
-        if (type == "READY")
-        {
-            m_connectionStatus = WEBSOCKET_CONNTECTED;
-            m_initializationcv.notify_all();
-        }
-        else if (type == "GUILD_CREATE")
+        if (type == "GUILD_CREATE")
         {
             Guild g = Guild(json["d"]);
         }
@@ -155,6 +149,12 @@ bool WebsocketHandler::init()
     m_initializationcv.wait(lock);
     std::cout << "done\n";
     return true; //Todo: return if initialized correctly
+}
+
+void WebsocketHandler::setReady()
+{
+    m_connectionStatus = WEBSOCKET_CONNTECTED;
+    m_initializationcv.notify_all();
 }
 
 void WebsocketHandler::receiveHeartbeatACK()

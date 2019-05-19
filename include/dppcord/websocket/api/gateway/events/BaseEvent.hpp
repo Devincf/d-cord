@@ -34,9 +34,9 @@ namespace dppcord
         BaseEvent(DiscordClient* pDiscordClient);
         virtual ~BaseEvent();
         protected:
+        DiscordClient* m_pDiscordClient;
         private:
         BaseEvent();
-        DiscordClient* m_pDiscordClient;
         boost::function<void(const nlohmann::json&)> m_userFunc;
     };
 }

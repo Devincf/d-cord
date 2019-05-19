@@ -10,6 +10,7 @@
  */
 
 #include "dppcord/websocket/api/gateway/events/ReadyEvent.hpp"
+#include "dppcord/core/client/DiscordClient.hpp"
 #include <iostream>
 
 namespace dppcord
@@ -17,5 +18,6 @@ namespace dppcord
     void ReadyEvent::proc(const nlohmann::json& eventPacket)
     {
         std::cout << "ReadyEvent proc\n";
+        m_pDiscordClient->getWebsocketHandler()->setReady();
     }
 }

@@ -23,4 +23,9 @@ namespace dppcord
     {
 
     }
+
+    WebsocketHandler* DiscordClient::getWebsocketHandler()
+    {
+        return &m_websockethandler;
+    }
 }

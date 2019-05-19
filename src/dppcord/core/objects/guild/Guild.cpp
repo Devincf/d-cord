@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/core/objects/Guild.hpp"
+#include "dppcord/core/objects/guild/Guild.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
 

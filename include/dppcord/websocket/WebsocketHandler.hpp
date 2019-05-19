@@ -44,6 +44,10 @@ public:
      */
     bool init();
     /**
+     * @brief Used to notify the websocket handler that the gateway connection is now ready
+     */
+    void setReady();
+    /**
      * @brief Called when a HeartbeatACK gets received
      */
     void receiveHeartbeatACK();
