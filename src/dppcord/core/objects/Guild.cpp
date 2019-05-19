@@ -58,17 +58,17 @@ namespace dppcord
         m_unavailable = tryGetJson<bool>("unavailable", guildjson);
         m_memberCount = tryGetJson<int>("member_count",guildjson);
         //voice states
-        std::cout << "loading members\n";
+        //std::cout << "loading members\n";
         for(auto it = guildjson["members"].begin();it!= guildjson["members"].end();it++)
         {
             m_members.push_back(GuildUser(*it));
         }
-        std::cout << "loading channels\n";
+        //std::cout << "loading channels\n";
         for(auto it = guildjson["channels"].begin();it!= guildjson["channels"].end();it++)
         {
             m_channels.push_back(Channel(*it));
         }
-        std::cout << "loading done\n";
+        //std::cout << "loading done\n";
         //presences
         m_maxPresences = tryGetJson<int>("max_presences", guildjson);
         m_maxMembers = tryGetJson<int>("max_members",guildjson);

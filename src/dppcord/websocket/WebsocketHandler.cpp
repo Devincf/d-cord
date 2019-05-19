@@ -15,15 +15,26 @@
 
 #include "dppcord/core/objects/Guild.hpp"
 
+#include "dppcord/websocket/api/gateway/events/DispatchEvents.hpp"
+
 namespace dppcord
 {
-WebsocketHandler::WebsocketHandler(const std::string &token) : m_lastSequence(0),m_token(token), m_heartbeater(this, 0)
+WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDiscordClient) : m_lastSequence(0), m_token(token), m_heartbeater(this, 0)
 {
     m_connection = new WebsocketConnection(boost::bind(&WebsocketHandler::processWebsocketMessage, this, boost::placeholders::_1));
+
+    m_eventDispatcher.addEvent("READY", new ReadyEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("GUILD_CREATE", new GuildCreateEvent(pDiscordClient));
+
+    m_eventDispatcher.getEvent("READY")->bind(
+        [](const nlohmann::json &eventPacket) {
+            std::cout << "user defined ready proc\n";
+        });
 }
 
 WebsocketHandler::~WebsocketHandler()
 {
+    std::cout << "Waiting for gateway connection to close\n";
     m_websocketConnectionThread.join();
     delete m_connection;
 }
@@ -37,15 +48,18 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     case DISPATCH:
     {
         std::string type = json["t"].get<std::string>();
-        std::cout << type << ": \n";
-        if(type == "READY")
+        //std::cout << type << ": \n";
+        if (type == "READY")
         {
             m_connectionStatus = WEBSOCKET_CONNTECTED;
             m_initializationcv.notify_all();
-        }else if(type == "GUILD_CREATE")
+        }
+        else if (type == "GUILD_CREATE")
         {
             Guild g = Guild(json["d"]);
         }
+
+        m_eventDispatcher.distributeEvent(type, json["d"]);
 
         break;
     }
@@ -53,6 +67,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     {
         break;
     }
+    /*
     case IDENTIFY:
     {
         break;
@@ -68,33 +83,35 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     case RESUME:
     {
         break;
-    }
+    }*/
     case RECONNECT:
     {
         break;
-    }
+    } /*
     case REQUEST_GUILD_MEMBERS:
     {
         break;
-    }
+    }*/
     case INVALID_SESSION:
     {
         break;
     }
-    case HELLO:{
+    case HELLO:
+    {
         //initialize heartbeat thread
         const int heartbeat_interval = json["d"]["heartbeat_interval"].get<int>();
-        std::cout << "heartbeat interval received as  "<< heartbeat_interval << "\n";
+        std::cout << "heartbeat interval received as  " << heartbeat_interval << "\n";
         m_heartbeater.setInterval(heartbeat_interval);
         m_heartbeater.start(m_ioservice);
         m_connectionStatus = WEBSOCKET_AUTHENTICATING;
-        
+
         break;
-        }
-    case HEARTBEAT_ACK:{
+    }
+    case HEARTBEAT_ACK:
+    {
         receiveHeartbeatACK();
 
-        if(m_connectionStatus == WEBSOCKET_AUTHENTICATING)
+        if (m_connectionStatus == WEBSOCKET_AUTHENTICATING)
         {
             std::cout << "sending identify\n";
             //Send identify packet
@@ -114,7 +131,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
             m_connection->sendPayload(payload);
         }
         break;
-        }
+    }
     default:
     {
         //??? wtf happend
@@ -140,10 +157,10 @@ bool WebsocketHandler::init()
     return true; //Todo: return if initialized correctly
 }
 
-void WebsocketHandler::receiveHeartbeatACK() 
-{ 
-    if(m_heartbeatACK)
-        std::cout << "[ERROR]Received HeartbeatACK but didnt send one???\n";    
+void WebsocketHandler::receiveHeartbeatACK()
+{
+    if (m_heartbeatACK)
+        std::cout << "[ERROR]Received HeartbeatACK but didnt send one???\n";
 
     m_heartbeatACK = true;
 }

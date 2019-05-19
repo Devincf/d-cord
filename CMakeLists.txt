@@ -25,7 +25,9 @@ src/dppcord/core/task/BaseTask.cpp
 src/dppcord/core/objects/Guild.cpp  src/dppcord/core/objects/Channel.cpp src/dppcord/core/objects/User.cpp  src/dppcord/core/objects/GuildUser.cpp src/dppcord/core/objects/Role.cpp 
 src/dppcord/core/objects/Emoji.cpp
 
-src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp    
+src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp
+src/dppcord/websocket/api/gateway/events/DispatchDistributor.cpp  src/dppcord/websocket/api/gateway/events/BaseEvent.cpp    
+src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    src/dppcord/websocket/api/gateway/events/GuildCreateEvent.cpp    
 src/dppcord/websocket/api/gateway/Heartbeater.cpp    
 )
 

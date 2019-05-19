@@ -14,7 +14,7 @@
 
 namespace dppcord
 {
-    DiscordClient::DiscordClient(const std::string& token): m_discordtoken(token), m_websockethandler(token)
+    DiscordClient::DiscordClient(const std::string& token): m_discordtoken(token), m_websockethandler(token, this)
     {
         m_websockethandler.init();
     }

@@ -19,8 +19,10 @@
 #include <boost/thread.hpp>
 
 #include "WebsocketConnection.hpp"
-#include "dppcord/websocket/api/gateway/Heartbeater.hpp"
-#include "dppcord/websocket/WebsocketConnectionStatus.hpp"
+#include "WebsocketConnectionStatus.hpp"
+#include "api/gateway/Heartbeater.hpp"
+
+#include "api/gateway/events/DispatchDistributor.hpp"
 
 namespace dppcord
 {
@@ -31,18 +33,16 @@ public:
      * @brief Construct a new Websocket Handler object
      * @param token for communication with the discordapi
      */
-    WebsocketHandler(const std::string &token);
+    WebsocketHandler(const std::string &token, DiscordClient* pDiscordClient);
     /**
      * @brief Destroy the Websocket Handler object
      */
     ~WebsocketHandler();
-
     /**
      * @brief Initialize WebsocketHandler
      * @return true if everything worked out
      */
     bool init();
-
     /**
      * @brief Called when a HeartbeatACK gets received
      */
@@ -90,6 +90,10 @@ private:
      * @brief Token for communication with the discordapi
      */
     std::string m_token;
+    /**
+     * @brief Event dispatcher for incoming dispatch events.
+     */
+    DispatchDistributor m_eventDispatcher;
     /**
      * @brief Current connection status of the gateway
      */
