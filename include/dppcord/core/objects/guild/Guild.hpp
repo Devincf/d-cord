@@ -29,7 +29,7 @@ public:
      * @param guildjson the json object to construct the guild from
      * @param pUserHandler pointer to Userhandler if you want to use global userlists
      */
-    Guild(const nlohmann::json& guildjson, UsersHandler* pUserHandler = nullptr);
+    Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler = nullptr);
     /**
      * @brief Destroy the Guild object
      */
@@ -44,7 +44,14 @@ public:
      * @param id of the role
      * @return std::shared_ptr<Role> 
      */
-    std::shared_ptr<Role> getRole(const Snowflake& id);
+    std::shared_ptr<Role> getRole(const Snowflake &id);
+    /**
+     * @brief Returns a pointer to a user object with a given id inside the guild
+     * @param id of the user
+     * @return std::shared_ptr<User> 
+     */
+    std::shared_ptr<User> getUserFromId(const Snowflake &id);
+
 private:
     /**
      * @brief Construct a new Guild object
@@ -85,7 +92,7 @@ private:
     /**
      * @brief Pointer to the afk channel
      */
-    Channel* m_afkChannel;
+    Channel *m_afkChannel;
     /**
      * @brief Afk timeout in seconds
      */
@@ -97,7 +104,7 @@ private:
     /**
      * @brief  Pointer to the channel that the widget will generate an invite to if not null
      */
-    Channel* m_embedChannel;
+    Channel *m_embedChannel;
     /**
      * @brief Verification level required for the guild
      * 
@@ -114,7 +121,7 @@ private:
     /**
      * @brief Vector ccontaining all guild specific roles
      */
-    std::map<Snowflake,std::shared_ptr<Role>> m_roles;
+    std::map<Snowflake, std::shared_ptr<Role>> m_roles;
     /**
      * @brief Vector containing all guild specific emojis
      */
@@ -140,11 +147,11 @@ private:
     /**
      * @brief  Pointer to the channel for the server widget
      */
-    Channel* m_widgetChannel;
+    Channel *m_widgetChannel;
     /**
      * @brief  Pointer to the of the channel to which system messages are sent
      */
-    Channel* m_systemChannel;
+    Channel *m_systemChannel;
 
     //Timestamp m_joinedAt
     /**

@@ -34,6 +34,11 @@ public:
      * @return Snowflake 
      */
     Snowflake getId();
+    /**
+     * @brief Returns the username
+     * @return std::string 
+     */
+    std::string getName();
 
 protected:
     /**

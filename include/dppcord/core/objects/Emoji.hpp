@@ -27,11 +27,16 @@ public:
      * @brief Construct a new Emoji object with given json data
      * @param json data to construct the emoji from
      */
-    Emoji(const nlohmann::json &emojijson);
+    Emoji(std::shared_ptr<User> pUser, const nlohmann::json &emojijson);
     /**
      * @brief Destroy the Emoji object
      */
     ~Emoji();
+    /**
+     * @brief Construct a new Emoji object without an owner user object
+     * @param emojijson 
+     */
+    Emoji(const nlohmann::json& emojijson);
 
 private:
     /**
@@ -48,9 +53,9 @@ private:
     std::string m_name;
     /**
      * @brief Creator of the emoji
-     * Todo: implement
      */
-    //User *m_user;
+    std::shared_ptr<User> m_user;
+
     /**
      * @brief Whether the emoji needs to be wrapped in colons or not
      */

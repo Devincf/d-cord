@@ -46,13 +46,17 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
     m_defaultMessageNotifications = tryGetJson<int>("default_message_notifications", guildjson);
     m_explicitContentFilter = tryGetJson<int>("explicit_content_filter", guildjson);
 
+    
     for (auto it = guildjson["roles"].begin(); it != guildjson["roles"].end(); it++)
     {
         m_roles.insert({(*it)["id"], std::shared_ptr<Role>(new Role(*it))});
     }
     for (auto it = guildjson["emojis"].begin(); it != guildjson["emojis"].end(); it++)
     {
-        m_emojis.push_back(Emoji(*it));
+        if (it->find("user") != it->end())
+            m_emojis.push_back(Emoji(getUserFromId(tryGetSnowflake("id", (*it)["user"])), *it));
+        else
+            m_emojis.push_back(Emoji(*it));
     }
 
     //features
@@ -150,10 +154,23 @@ Snowflake Guild::getId() { return m_id; }
 std::shared_ptr<Role> Guild::getRole(const Snowflake &id)
 {
     auto roleptr = m_roles.find(id);
-    if(roleptr == m_roles.end())
+    if (roleptr == m_roles.end())
     {
         return nullptr;
     }
     return roleptr->second;
+}
+
+std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id)
+{
+    for (auto i : m_members)
+    {
+        if (i->getId() == id)
+        {
+            return i;
+        }
+    }
+    //doesnt exist.
+    return nullptr;
 }
 } // namespace dppcord

@@ -34,4 +34,5 @@ User::User(const nlohmann::json &userjson)
 }
 
 Snowflake User::getId(){ return m_id;}
+std::string User::getName(){return m_username;}
 } // namespace dppcord
