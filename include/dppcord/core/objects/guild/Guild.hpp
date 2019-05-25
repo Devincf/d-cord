@@ -65,9 +65,9 @@ private:
      */
     bool m_owner; //unneeded atm.
     /**
-     * @brief Id of guild owner
+     * @brief Pointer to the owner user object
      */
-    Snowflake m_ownerId;
+    std::shared_ptr<User> m_ownerPtr;
     /**
      * @brief Total permission for the user in the guild
      */
@@ -77,9 +77,9 @@ private:
      */
     std::string m_region;
     /**
-     * @brief Id of afk channel
+     * @brief Pointer to the afk channel
      */
-    Snowflake m_afkChannelId;
+    Channel* m_afkChannel;
     /**
      * @brief Afk timeout in seconds
      */
@@ -89,9 +89,9 @@ private:
      */
     bool m_embedEnabled;
     /**
-     * @brief Channel id that the widget will generate an invite to if not null
+     * @brief  Pointer to the channel that the widget will generate an invite to if not null
      */
-    Snowflake m_embedChannelId;
+    Channel* m_embedChannel;
     /**
      * @brief Verification level required for the guild
      * 
@@ -132,13 +132,13 @@ private:
      */
     bool m_widgetEnabled;
     /**
-     * @brief The channel id for the server widget
+     * @brief  Pointer to the channel for the server widget
      */
-    Snowflake m_widgetChannelId;
+    Channel* m_widgetChannel;
     /**
-     * @brief The id of the channel to which system messages are sent
+     * @brief  Pointer to the of the channel to which system messages are sent
      */
-    Snowflake m_systemChannelId;
+    Channel* m_systemChannel;
 
     //Timestamp m_joinedAt
     /**
@@ -151,6 +151,7 @@ private:
     bool m_unavailable;
     /**
      * @brief Total number of members in this guild
+     * Todo: probably unneeded and will be replaced with m_members.size()
      */
     int m_memberCount;
 
@@ -164,14 +165,14 @@ private:
      * @brief Vector containing all guild channels
      * Todo: switch to Channel* after Channel has been split into different objects
      */
-    std::vector<Channel> m_channels;
+    std::vector<std::shared_ptr<Channel>> m_channels;
 
     //presences
     /**
      * @brief The maximum amount of presences for the guild.
      * Default, currently 5000, is in effect when null is returned
      */
-    int m_maxPresences; //default:5000
+    int m_maxPresences;
     /**
      * @brief The maximum amount of members for the guild
      */

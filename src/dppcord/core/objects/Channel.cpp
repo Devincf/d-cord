@@ -38,4 +38,7 @@ Channel::Channel(const nlohmann::json &channeljson)
     m_parentId = tryGetSnowflake("parent_id",channeljson);
     //timestamp
 }
+
+Snowflake Channel::getId(){return m_id;}
+std::string Channel::getName() { return m_name;}
 } // namespace dppcord

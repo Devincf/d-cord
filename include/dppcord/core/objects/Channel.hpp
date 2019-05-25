@@ -29,6 +29,16 @@ public:
      * @brief Destroy the Channel object
      */
     ~Channel();
+    /**
+     * @brief Returns the id of the channel
+     * @return Snowflake 
+     */
+    Snowflake getId();
+    /**
+     * @brief Returns the name of the channel
+     * @return std::string 
+     */
+    std::string getName();
 private:
     /**
      * @brief Construct a new Channel object
