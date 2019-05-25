@@ -45,14 +45,14 @@ private:
      * @brief The users guild nickname if one is set
      */
     std::string m_nickname;
-
     /**
      * @brief Vector containing pointers to all of the roles the user currently has
      */
     std::vector<std::shared_ptr<Role>> m_roles;
-
+    /**
+     * @brief Timestamp of when the user joined the guild
+     */
     util::Timestamp m_joinedAt;
-    
     /**
      * @brief Whether the user is deafened in voice channels or not
      */

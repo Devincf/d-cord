@@ -9,7 +9,8 @@
  * 
  */
 
-#include "dppcord/core/objects/Channel.hpp"
+#include "dppcord/core/objects/channel/Channel.hpp"
+#include "dppcord/core/objects/channel/ChannelTypes.hpp"
 #include "dppcord/util/jsonutil.hpp"
 
 namespace dppcord
@@ -17,8 +18,9 @@ namespace dppcord
 Channel::Channel() {}
 Channel::~Channel() {}
 
-Channel::Channel(const nlohmann::json &channeljson)
+Channel::Channel(Guild* pGuild, const nlohmann::json &channeljson)
 {
+    m_guild = pGuild;
     m_id = tryGetSnowflake("id", channeljson);
     m_type = tryGetJson<int>("type",channeljson);
     //guildptr
@@ -33,8 +35,12 @@ Channel::Channel(const nlohmann::json &channeljson)
     m_rateLimitPerUser = tryGetJson<int>("rate_limit_per_user",channeljson);
     //recipients
     m_iconHash = tryGetJson<std::string>("icon",channeljson);
-    m_ownerId = tryGetSnowflake("owner_id",channeljson);
-    m_applicationId = tryGetSnowflake("application_id",channeljson);
+    if(m_type == GROUP_DM)
+    {
+        //Todo: implement once I split channels
+        //m_owner = tryGetSnowflake("owner_id",channeljson);
+        //m_application = tryGetSnowflake("application_id",channeljson);
+    }
     m_parentId = tryGetSnowflake("parent_id",channeljson);
     //timestamp
 }

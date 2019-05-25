@@ -12,11 +12,11 @@
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
-#include "Snowflake.hpp"
+#include "../Snowflake.hpp"
 namespace dppcord
 {
 class Guild;
-
+class User;
 class Channel // Todo: split text/voice/dm channels
 {
 public:
@@ -24,7 +24,7 @@ public:
      * @brief Construct a new Channel object with given json data
      * @param json data to construct the Channel object from
      */
-    Channel(const nlohmann::json& channeljson);
+    Channel(Guild* pGuild, const nlohmann::json& channeljson);
     /**
      * @brief Destroy the Channel object
      */
@@ -104,17 +104,22 @@ private:
      * @brief Owner of the DM Channel
      * Todo: replace with User*
      */
-    Snowflake m_ownerId;
+    //std::shared_ptr<User> m_owner;
     /**
      * @brief Application id of owner if group dm is bot created
      * Todo: replace with User*
      */
-    Snowflake m_applicationId; 
+    //std::shared_ptr<User> m_application; 
     /**
      * @brief Id of parent category for the channel
      * Todo: replace with Channel*
      */
     Snowflake m_parentId;
+    /**
+     * @brief Guild this channel belongs to
+     * Todo: some changes when channels get split
+     */
+    Guild* m_guild;
 
     //Timestamp m_lastPinTimestamp;
 };

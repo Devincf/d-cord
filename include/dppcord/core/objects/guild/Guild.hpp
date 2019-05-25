@@ -13,7 +13,7 @@
 #define GUILD_HPP
 
 #include "dppcord/core/objects/user/GuildUser.hpp"
-#include "dppcord/core/objects/Channel.hpp"
+#include "dppcord/core/objects/channel/Channel.hpp"
 #include "dppcord/core/objects/Emoji.hpp"
 #include "dppcord/core/objects/Role.hpp"
 #include "dppcord/core/objects/Snowflake.hpp"

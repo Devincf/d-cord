@@ -102,7 +102,7 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
     //std::cout << "loading channels\n";
     for (auto it = guildjson["channels"].begin(); it != guildjson["channels"].end(); it++)
     {
-        auto ptr = std::shared_ptr<Channel>(new Channel(*it));
+        auto ptr = std::shared_ptr<Channel>(new Channel(this, *it));
         m_channels.push_back(ptr);
         if (ptr->getId() == tryGetSnowflake("afk_channel_id", guildjson))
         {
