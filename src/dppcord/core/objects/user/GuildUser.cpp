@@ -11,17 +11,23 @@
 
 #include "dppcord/core/objects/user/GuildUser.hpp"
 
+#include "dppcord/core/objects/guild/Guild.hpp"
+
 #include "dppcord/util/jsonutil.hpp"
 
 namespace dppcord
 {
 GuildUser::GuildUser() {}
 GuildUser::~GuildUser() {}
-GuildUser::GuildUser(const nlohmann::json &guserjson):User(guserjson["user"])
+GuildUser::GuildUser(Guild* pGuild, const nlohmann::json &guserjson):User(guserjson["user"])
 {
+    m_guild = pGuild;
     m_nickname = tryGetJson<std::string>("nick", guserjson);
-    //roles
-    //joined_at
+    for(auto it = guserjson["roles"].begin();it!= guserjson["roles"].end();it++)
+    {
+        m_roles.push_back(m_guild->getRole(*it));
+    }
+    m_joinedAt = util::Timestamp(tryGetJson<std::string>("joined_at", guserjson));
     m_deaf = tryGetJson<bool>("deaf", guserjson);
     m_mute = tryGetJson<bool>("mute", guserjson);
 }

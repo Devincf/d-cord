@@ -28,6 +28,11 @@ public:
      * @brief Destroy the Role object
      */
     ~Role();
+    /**
+     * @brief Returns the name of the role
+     * @return std::string 
+     */
+    std::string getName();
 
 private:
     /**

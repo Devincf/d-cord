@@ -28,4 +28,6 @@ namespace dppcord
         m_managed = tryGetJson<bool>("managed",rolejson);
         m_mentionable = tryGetJson<bool>("mentionable",rolejson);
     }
+
+    std::string Role::getName(){ return m_name;}
 }

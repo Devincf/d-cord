@@ -48,7 +48,7 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
 
     for (auto it = guildjson["roles"].begin(); it != guildjson["roles"].end(); it++)
     {
-        m_roles.push_back(Role(*it));
+        m_roles.insert({(*it)["id"], std::shared_ptr<Role>(new Role(*it))});
     }
     for (auto it = guildjson["emojis"].begin(); it != guildjson["emojis"].end(); it++)
     {
@@ -72,7 +72,7 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
         //implement users locally
         for (auto it = guildjson["members"].begin(); it != guildjson["members"].end(); it++)
         {
-            auto ptr = std::shared_ptr<User>(new GuildUser(*it));
+            auto ptr = std::shared_ptr<User>(new GuildUser(this, *it));
             m_members.push_back(ptr);
             if (ptr->getId() == tryGetSnowflake("owner_id", guildjson))
             {
@@ -87,7 +87,7 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
             auto userptr = pUserHandler->findUser(tryGetSnowflake("id", (*it)["user"]));
             if (userptr == nullptr)
             {
-                userptr = std::shared_ptr<User>(new GuildUser(*it));
+                userptr = std::shared_ptr<User>(new GuildUser(this, *it));
                 pUserHandler->addUser(userptr->getId(), userptr);
             }
             m_members.push_back(userptr);
@@ -146,4 +146,14 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
 }
 
 Snowflake Guild::getId() { return m_id; }
+
+std::shared_ptr<Role> Guild::getRole(const Snowflake &id)
+{
+    auto roleptr = m_roles.find(id);
+    if(roleptr == m_roles.end())
+    {
+        return nullptr;
+    }
+    return roleptr->second;
+}
 } // namespace dppcord

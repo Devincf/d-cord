@@ -39,6 +39,12 @@ public:
      * @return Snowflake 
      */
     Snowflake getId();
+    /**
+     * @brief Returns a pointer to a role object with a given id
+     * @param id of the role
+     * @return std::shared_ptr<Role> 
+     */
+    std::shared_ptr<Role> getRole(const Snowflake& id);
 private:
     /**
      * @brief Construct a new Guild object
@@ -108,7 +114,7 @@ private:
     /**
      * @brief Vector ccontaining all guild specific roles
      */
-    std::vector<Role> m_roles;
+    std::map<Snowflake,std::shared_ptr<Role>> m_roles;
     /**
      * @brief Vector containing all guild specific emojis
      */

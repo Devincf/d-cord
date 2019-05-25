@@ -14,21 +14,15 @@
 
 #include "User.hpp"
 
-/*
-
-
-user	user object	the user this guild member represents
-nick?	string	this users guild nickname (if one is set)
-roles	array of snowflakes	array of role object ids
-joined_at	ISO8601 timestamp	when the user joined the guild
-deaf	boolean	whether the user is deafened in voice channels
-mute	boolean	whether the user is muted in voice channels */
+#include "dppcord/util/Timestamp.hpp"
 
 namespace dppcord
 {
 /**
  * @brief Todo: uhh somehow make user a ptr in order to use globalusers
  */
+class Guild;
+class Role;
 class GuildUser : public User
 {
 public:
@@ -36,7 +30,7 @@ public:
      * @brief Construct a new Guild User object 
      * @param guserjson 
      */
-    GuildUser(const nlohmann::json &guserjson);
+    GuildUser(Guild* pGuild,const nlohmann::json &guserjson);
 
     /**
      * @brief Destroy the Guild User object
@@ -52,9 +46,12 @@ private:
      */
     std::string m_nickname;
 
-    //roles
+    /**
+     * @brief Vector containing pointers to all of the roles the user currently has
+     */
+    std::vector<std::shared_ptr<Role>> m_roles;
 
-    //Timestamp joined_at
+    util::Timestamp m_joinedAt;
     
     /**
      * @brief Whether the user is deafened in voice channels or not
@@ -64,6 +61,10 @@ private:
      * @brief Whether the user is muted in voice channels or not
      */
     bool m_mute;
+    /**
+     * @brief The guild this guild user belongs to
+     */
+    Guild* m_guild;
 };
 } // namespace dppcord
 

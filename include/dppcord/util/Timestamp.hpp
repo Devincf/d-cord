@@ -17,7 +17,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <string>
 
-namespace discordpp::util
+namespace dppcord::util
 {
 
 const boost::posix_time::ptime UNIX_TIME = boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
