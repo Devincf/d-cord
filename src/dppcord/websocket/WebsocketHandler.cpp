@@ -23,6 +23,7 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
 
     m_eventDispatcher.addEvent("READY", new ReadyEvent(pDiscordClient));
     m_eventDispatcher.addEvent("GUILD_CREATE", new GuildCreateEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("MESSAGE_CREATE", new MessageCreateEvent(pDiscordClient));
 
     m_eventDispatcher.getEvent("READY")->bind(
         [](const nlohmann::json &eventPacket) {
@@ -44,7 +45,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
         //std::cout << json.dump();
     switch (opcode)
     {
-    case DISPATCH:
+    case GATEWAYOP_DISPATCH:
     {
         std::string type = json["t"].get<std::string>();
         m_eventDispatcher.distributeEvent(type, json["d"]);
@@ -52,40 +53,40 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
 
         break;
     }
-    case HEARTBEAT:
+    case GATEWAYOP_HEARTBEAT:
     {
         break;
     }
     /*
-    case IDENTIFY:
+    case GATEWAYOP_IDENTIFY:
     {
         break;
     }
-    case STATUS_UPDATE:
+    case GATEWAYOP_STATUS_UPDATE:
     {
         break;
     }
-    case VOICE_STATE_UPDATE:
+    case GATEWAYOP_VOICE_STATE_UPDATE:
     {
         break;
     }
-    case RESUME:
+    case GATEWAYOP_RESUME:
     {
         break;
     }*/
-    case RECONNECT:
+    case GATEWAYOP_RECONNECT:
     {
         break;
     } /*
-    case REQUEST_GUILD_MEMBERS:
+    case GATEWAYOP_REQUEST_GUILD_MEMBERS:
     {
         break;
     }*/
-    case INVALID_SESSION:
+    case GATEWAYOP_INVALID_SESSION:
     {
         break;
     }
-    case HELLO:
+    case GATEWAYOP_HELLO:
     {
         //initialize heartbeat thread
         const int heartbeat_interval = json["d"]["heartbeat_interval"].get<int>();
@@ -96,7 +97,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
 
         break;
     }
-    case HEARTBEAT_ACK:
+    case GATEWAYOP_HEARTBEAT_ACK:
     {
         receiveHeartbeatACK();
 
@@ -105,7 +106,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
             std::cout << "sending identify\n";
             //Send identify packet
             nlohmann::json payload;
-            payload["op"] = IDENTIFY;
+            payload["op"] = GATEWAYOP_IDENTIFY;
             payload["d"]["token"] = m_token;
             payload["d"]["properties"]["$os"] = "linux";
             payload["d"]["properties"]["$browser"] = "disco";

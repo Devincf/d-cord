@@ -35,11 +35,6 @@ public:
      */
     ~Guild();
     /**
-     * @brief Get the Id of the guild
-     * @return Snowflake 
-     */
-    Snowflake getId();
-    /**
      * @brief Returns a pointer to a role object with a given id
      * @param id of the role
      * @return std::shared_ptr<Role> 
@@ -48,9 +43,25 @@ public:
     /**
      * @brief Returns a pointer to a user object with a given id inside the guild
      * @param id of the user
-     * @return std::shared_ptr<User> 
+     * @return std::shared_ptr<User> , nullptr if it doesnt exist
      */
     std::shared_ptr<User> getUserFromId(const Snowflake &id);
+    /**
+     * @brief Returns a pointer to a channel object with a given id inside the guild
+     * @param id of the channel
+     * @return std::shared_ptr<Channel> , nullptr if it doesnt exist
+     */
+    std::shared_ptr<Channel> getChannel(const Snowflake& id);
+    /**
+     * @brief Get the Id of the guild
+     * @return Snowflake 
+     */
+    Snowflake getId();
+    /**
+     * @brief Returns the name of the guild
+     * @return std::string 
+     */
+    std::string getName();
 
 private:
     /**

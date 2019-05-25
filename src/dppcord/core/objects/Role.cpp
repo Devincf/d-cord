@@ -17,8 +17,10 @@ namespace dppcord
     Role::Role(){}
     Role::~Role(){}
 
-    Role::Role(const nlohmann::json& rolejson)
+    Role::Role(Guild* pGuild, const nlohmann::json& rolejson)
     {
+        m_guild = pGuild;
+        
         m_id = tryGetSnowflake("id",rolejson);
         m_name =tryGetJson<std::string>("name",rolejson);
         m_color = tryGetJson<int>("color",rolejson);

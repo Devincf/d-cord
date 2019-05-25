@@ -30,7 +30,7 @@ void Heartbeater::proc()
         std::cout << "[ERROR]Heartbeat ACK not received.\n"; 
     }
     nlohmann::json payload;
-    payload["op"] = HEARTBEAT;
+    payload["op"] = GATEWAYOP_HEARTBEAT;
     payload["d"] = m_websocketHandler->getLastSequence();
     m_websocketHandler->getConnection()->sendPayload(payload);
     m_websocketHandler->resetHeartbeatACK();

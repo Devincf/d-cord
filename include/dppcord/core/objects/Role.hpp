@@ -16,6 +16,7 @@
 
 namespace dppcord
 {
+class Guild;
 class Role
 {
 public:
@@ -23,7 +24,7 @@ public:
      * @brief Construct a new Role object with given json data 
      * @param json data to construct the role object with
      */
-    Role(const nlohmann::json &rolejson);
+    Role(Guild* pGuild,const nlohmann::json &rolejson);
     /**
      * @brief Destroy the Role object
      */
@@ -71,6 +72,10 @@ private:
      * @brief Whether this role is mentionable or not
      */
     bool m_mentionable;
+    /**
+     * @brief Pointer to the guild this role belongs to
+     */
+    Guild* m_guild;
 };
 } // namespace dppcord
 

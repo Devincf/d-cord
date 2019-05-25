@@ -39,6 +39,11 @@ public:
      * @return std::string 
      */
     std::string getName();
+    /**
+     * @brief Returns the guild object this channel belongs to
+     * @return Guild* 
+     */
+    Guild* getGuild();
 private:
     /**
      * @brief Construct a new Channel object

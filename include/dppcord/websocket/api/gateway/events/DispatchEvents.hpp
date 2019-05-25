@@ -14,5 +14,6 @@
 
 #include "ReadyEvent.hpp"
 #include "GuildCreateEvent.hpp"
+#include "MessageCreateEvent.hpp"
 
 #endif
