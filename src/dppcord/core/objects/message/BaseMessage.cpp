@@ -10,7 +10,7 @@
  */
 
 #include "dppcord/core/objects/message/BaseMessage.hpp"
-#include "dppcord/core/objects/channel/Channel.hpp"
+#include "dppcord/core/objects/channel/GuildChannel.hpp"
 #include "dppcord/core/objects/guild/Guild.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
@@ -20,12 +20,13 @@ namespace dppcord
 BaseMessage::BaseMessage() {}
 BaseMessage::BaseMessage(const nlohmann::json& msgjson):BaseMessage(nullptr, msgjson) {}
 
-BaseMessage::BaseMessage(std::shared_ptr<Channel> pChannel, const nlohmann::json &msgjson):m_channel(pChannel)
+BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::json &msgjson):m_channel(pChannel)
 {
+    auto channel = std::dynamic_pointer_cast<GuildChannel>(pChannel);
     m_id = tryGetSnowflake("id", msgjson);
     //std::cout << msgjson.dump(1) << '\n';
     Snowflake test = tryGetSnowflake("id", msgjson["author"]);
-    m_author = pChannel->getGuild()->getUserFromId(test);
+    m_author = channel->getGuild()->getUserFromId(test);
     m_content = tryGetJson<std::string>("content", msgjson);
     m_timestamp = util::Timestamp(tryGetJson<std::string>("timestamp", msgjson));
     m_tts = tryGetJson<bool>("tts", msgjson);
@@ -35,7 +36,7 @@ BaseMessage::BaseMessage(std::shared_ptr<Channel> pChannel, const nlohmann::json
     m_webhookId = tryGetSnowflake("webhook_id",msgjson);
     m_type = tryGetJson<int>("type",msgjson);
 
-    std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel: " << pChannel->getName() << '\n';
+    std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel: " << channel->getName() << '\n';
 }
 
 BaseMessage::~BaseMessage() {}

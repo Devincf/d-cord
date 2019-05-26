@@ -20,7 +20,7 @@ User::~User() {}
 User::User(const nlohmann::json &userjson)
 {
     m_id = tryGetSnowflake("id",userjson);
-    m_username = tryGetJson<std::string>("username",userjson);
+    m_name = tryGetJson<std::string>("username",userjson);
     m_discriminator = tryGetJson<std::string>("discriminator",userjson);
     m_avatarHash = tryGetJson<std::string>("avatar",userjson);
     m_bot = tryGetJson<bool>("bot",userjson,false);
@@ -32,7 +32,4 @@ User::User(const nlohmann::json &userjson)
     m_premiumType = tryGetJson<int>("premium_type",userjson);
 
 }
-
-Snowflake User::getId(){ return m_id;}
-std::string User::getName(){return m_username;}
 } // namespace dppcord

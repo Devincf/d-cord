@@ -15,6 +15,9 @@
 
 #include "dppcord/core/objects/user/UsersHandler.hpp"
 
+#include "dppcord/core/objects/channel/GuildTextChannel.hpp"
+#include "dppcord/core/objects/channel/ChannelTypes.hpp"
+
 #include <string>
 
 namespace dppcord
@@ -105,27 +108,49 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
     //std::cout << "loading channels\n";
     for (auto it = guildjson["channels"].begin(); it != guildjson["channels"].end(); it++)
     {
-        auto ptr = std::shared_ptr<Channel>(new Channel(this, *it));
-        m_channels.push_back(ptr);
-        if (ptr->getId() == tryGetSnowflake("afk_channel_id", guildjson))
+        int type = tryGetJson<int>("type", *it);
+        switch (type)
         {
-            m_afkChannel = ptr.get();
-            continue;
+        case CHANNELTYPE_GUILD_TEXT:
+        {
+            auto ptr = std::shared_ptr<BaseChannel>(new GuildTextChannel(this, *it));
+            m_channels.push_back(ptr);
+            if (ptr->getId() == tryGetSnowflake("afk_channel_id", guildjson))
+            {
+                m_afkChannel = ptr.get();
+                continue;
+            }
+            else if (ptr->getId() == tryGetSnowflake("embed_channel_id", guildjson))
+            {
+                m_embedChannel = ptr.get();
+                continue;
+            }
+            else if (ptr->getId() == tryGetSnowflake("widget_channel_id", guildjson))
+            {
+                m_widgetChannel = ptr.get();
+                continue;
+            }
+            else if (ptr->getId() == tryGetSnowflake("system_channel_id", guildjson))
+            {
+                m_systemChannel = ptr.get();
+                continue;
+            }
+            break;
         }
-        else if (ptr->getId() == tryGetSnowflake("embed_channel_id", guildjson))
+        case CHANNELTYPE_GUILD_CATEGORY:
         {
-            m_embedChannel = ptr.get();
-            continue;
+            auto ptr = std::shared_ptr<BaseChannel>(new GuildChannel(this, *it));
+            m_channels.push_back(ptr);
+            if (ptr->getId() == tryGetSnowflake("widget_channel_id", guildjson))
+            {
+                m_widgetChannel = ptr.get();
+                continue;
+            }
+            break;
         }
-        else if (ptr->getId() == tryGetSnowflake("widget_channel_id", guildjson))
-        {
-            m_widgetChannel = ptr.get();
-            continue;
-        }
-        else if (ptr->getId() == tryGetSnowflake("system_channel_id", guildjson))
-        {
-            m_systemChannel = ptr.get();
-            continue;
+        default:
+        std::cout << "Channel with type " << type << "found id: " << tryGetSnowflake("id",*it) << '\n';
+        break;
         }
     }
     //std::cout << "loading done\n";
@@ -148,7 +173,6 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
         std::cout << "owner id: " << std::to_string(m_ownerPtr->getId()) << '\n';*/
 }
 
-
 std::shared_ptr<Role> Guild::getRole(const Snowflake &id)
 {
     auto roleptr = m_roles.find(id);
@@ -161,22 +185,22 @@ std::shared_ptr<Role> Guild::getRole(const Snowflake &id)
 
 std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id)
 {
-    for (auto it = m_members.begin(); it != m_members.end();it++)
+    for (const auto &it : m_members)
     {
-        if (it->get()->getId() == id)
+        if (it->getId() == id)
         {
-            return *it;
+            return it;
         }
     }
     //doesnt exist.
     return nullptr;
 }
 
-std::shared_ptr<Channel> Guild::getChannel(const Snowflake &id)
+std::shared_ptr<BaseChannel> Guild::getChannel(const Snowflake &id)
 {
-    for(auto i : m_channels)
+    for (const auto &i : m_channels)
     {
-        if(i->getId() == id)
+        if (i->getId() == id)
         {
             return i;
         }
@@ -184,8 +208,5 @@ std::shared_ptr<Channel> Guild::getChannel(const Snowflake &id)
     //doesnt exist
     return nullptr;
 }
-
-Snowflake Guild::getId() { return m_id; }
-std::string Guild::getName() { return m_name; }
 
 } // namespace dppcord

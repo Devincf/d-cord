@@ -11,7 +11,8 @@
 
 #ifndef EMOJI_HPP
 #define EMOJI_HPP
-#include "Snowflake.hpp"
+#include "IIdentifiableObject.hpp"
+#include "INamedObject.hpp"
 
 namespace dppcord
 {
@@ -20,7 +21,7 @@ class User;
      * @brief 
      * Todo: add roles
      */
-class Emoji
+class Emoji: public IIdentifiableObject, public INamedObject
 {
 public:
     /**
@@ -43,14 +44,6 @@ private:
      * @brief Construct a new Emoji object
      */
     Emoji();
-    /**
-     * @brief Emoji id 
-     */
-    Snowflake m_id;
-    /**
-     * @brief Emoji name
-     */
-    std::string m_name;
     /**
      * @brief Creator of the emoji
      */

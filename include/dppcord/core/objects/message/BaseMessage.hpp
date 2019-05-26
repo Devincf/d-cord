@@ -16,29 +16,28 @@
 #include "nlohmann/json.hpp"
 
 
-#include "../Snowflake.hpp"
+#include "dppcord/core/objects/IIdentifiableObject.hpp"
 
 #include "dppcord/util/Timestamp.hpp"
 
 namespace dppcord
 {
-class Channel;
+class BaseChannel;
 class User;
-class BaseMessage
+class BaseMessage: public IIdentifiableObject
 {
 public:
     virtual ~BaseMessage();
 
     BaseMessage(const nlohmann::json& msgjson);
-    BaseMessage(std::shared_ptr<Channel> pChannel, const nlohmann::json& msgjson);
+    BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::json& msgjson);
 
 protected:
     BaseMessage();
 
 private:
-    Snowflake m_id;
 
-    std::shared_ptr<Channel> m_channel;
+    std::shared_ptr<BaseChannel> m_channel;
 
     std::shared_ptr<User> m_author;
 

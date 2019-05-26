@@ -12,11 +12,12 @@
 #ifndef USER_HPP
 #define USER_HPP
 
-#include "dppcord/core/objects/Snowflake.hpp"
+#include "dppcord/core/objects/IIdentifiableObject.hpp"
+#include "dppcord/core/objects/INamedObject.hpp"
 
 namespace dppcord
 {
-class User
+class User: public IIdentifiableObject, public INamedObject
 {
 public:
     /**
@@ -29,17 +30,6 @@ public:
      */
     virtual ~User();
 
-    /**
-     * @brief Get the user id
-     * @return Snowflake 
-     */
-    Snowflake getId();
-    /**
-     * @brief Returns the username
-     * @return std::string 
-     */
-    std::string getName();
-
 protected:
     /**
      * @brief Construct a new User object
@@ -47,14 +37,6 @@ protected:
     User();
 
 private:
-    /**
-     * @brief User's id
-     */
-    Snowflake m_id;
-    /**
-     * @brief The user's username. not unique across the platform 
-     */
-    std::string m_username;
     /**
      * @brief The user's 4-digit discord-tag
      */

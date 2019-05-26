@@ -13,15 +13,16 @@
 #define GUILD_HPP
 
 #include "dppcord/core/objects/user/GuildUser.hpp"
-#include "dppcord/core/objects/channel/Channel.hpp"
 #include "dppcord/core/objects/Emoji.hpp"
 #include "dppcord/core/objects/Role.hpp"
-#include "dppcord/core/objects/Snowflake.hpp"
+#include "dppcord/core/objects/IIdentifiableObject.hpp"
+#include "dppcord/core/objects/INamedObject.hpp"
 
 namespace dppcord
 {
 class UsersHandler;
-class Guild
+class BaseChannel;
+class Guild: public IIdentifiableObject, public INamedObject
 {
 public:
     /**
@@ -51,31 +52,13 @@ public:
      * @param id of the channel
      * @return std::shared_ptr<Channel> , nullptr if it doesnt exist
      */
-    std::shared_ptr<Channel> getChannel(const Snowflake& id);
-    /**
-     * @brief Get the Id of the guild
-     * @return Snowflake 
-     */
-    Snowflake getId();
-    /**
-     * @brief Returns the name of the guild
-     * @return std::string 
-     */
-    std::string getName();
+    std::shared_ptr<BaseChannel> getChannel(const Snowflake& id);
 
 private:
     /**
      * @brief Construct a new Guild object
      */
     Guild();
-    /**
-     * @brief Guild id 
-     */
-    Snowflake m_id;
-    /**
-     * @brief Guild name
-     */
-    std::string m_name;
     /**
      * @brief Guild icon hash
      */
@@ -103,7 +86,7 @@ private:
     /**
      * @brief Pointer to the afk channel
      */
-    Channel *m_afkChannel;
+    BaseChannel *m_afkChannel;
     /**
      * @brief Afk timeout in seconds
      */
@@ -115,7 +98,7 @@ private:
     /**
      * @brief  Pointer to the channel that the widget will generate an invite to if not null
      */
-    Channel *m_embedChannel;
+    BaseChannel *m_embedChannel;
     /**
      * @brief Verification level required for the guild
      * 
@@ -158,11 +141,11 @@ private:
     /**
      * @brief  Pointer to the channel for the server widget
      */
-    Channel *m_widgetChannel;
+    BaseChannel *m_widgetChannel;
     /**
      * @brief  Pointer to the of the channel to which system messages are sent
      */
-    Channel *m_systemChannel;
+    BaseChannel *m_systemChannel;
 
     //Timestamp m_joinedAt
     /**
@@ -189,7 +172,7 @@ private:
      * @brief Vector containing all guild channels
      * Todo: switch to Channel* after Channel has been split into different objects
      */
-    std::vector<std::shared_ptr<Channel>> m_channels;
+    std::vector<std::shared_ptr<BaseChannel>> m_channels;
 
     //presences
     /**

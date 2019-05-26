@@ -12,12 +12,13 @@
 #ifndef ROLE_HPP
 #define ROLE_HPP
 
-#include "Snowflake.hpp"
+#include "IIdentifiableObject.hpp"
+#include "dppcord/core/objects/INamedObject.hpp"
 
 namespace dppcord
 {
 class Guild;
-class Role
+class Role: public IIdentifiableObject, public INamedObject
 {
 public:
     /**
@@ -29,25 +30,12 @@ public:
      * @brief Destroy the Role object
      */
     ~Role();
-    /**
-     * @brief Returns the name of the role
-     * @return std::string 
-     */
-    std::string getName();
 
 private:
     /**
      * @brief Construct a new Role object
      */
     Role();
-    /**
-     * @brief Role id
-     */
-    Snowflake m_id;
-    /**
-     * @brief Role name
-     */
-    std::string m_name;
     /**
      * @brief Integer representation of hexadecimal color code
      */
