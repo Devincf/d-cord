@@ -16,15 +16,28 @@
 
 namespace dppcord
 {
-    class IIdentifiableObject
-    {
-        public:
-        Snowflake getId(){ return m_id; }
-        void setId(const Snowflake& id){m_id = id;}
-        protected:
-        Snowflake m_id;
-        private:
-    };
-}
+class IIdentifiableObject
+{
+public:
+    /**
+     * @brief Returns the id of the object
+     * @return Snowflake 
+     */
+    Snowflake getId() { return m_id; }
+    /**
+     * @brief Sets the id of the object 
+     * @param id 
+     */
+    void setId(const Snowflake &id) { m_id = id; }
+
+protected:
+    /**
+     * @brief Id of the object
+     */
+    Snowflake m_id;
+
+private:
+};
+} // namespace dppcord
 
 #endif

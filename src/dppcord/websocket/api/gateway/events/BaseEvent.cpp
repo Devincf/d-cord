@@ -34,13 +34,13 @@ void BaseEvent::baseproc(const nlohmann::json &eventPacket)
 }
 void BaseEvent::bind(boost::function<void(const nlohmann::json &)> &funcptr)
 {
-    //Todo: uhh maybe some checking if was already set?
+    //TODO: uhh maybe some checking if was already set?
     if(m_userFunc.empty())
         m_userFunc = funcptr;
 }
 void BaseEvent::bind(boost::function<void(const nlohmann::json &)> &&funcptr)
 {
-    //Todo: uhh maybe some checking if was already set?
+    //TODO: uhh maybe some checking if was already set?
     if(m_userFunc.empty())
         m_userFunc = funcptr;
 }

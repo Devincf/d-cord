@@ -23,8 +23,6 @@ BaseChannel::BaseChannel(const nlohmann::json &channeljson)
     m_type = tryGetJson<int>("type",channeljson);
     //guildptr
     //permission_overwrites
-    m_bitrate = tryGetJson<int>("bitrate",channeljson);
-    m_userLimit = tryGetJson<int>("user_limit",channeljson);
     //recipients
     m_iconHash = tryGetJson<std::string>("icon",channeljson);
     //timestamp

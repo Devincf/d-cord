@@ -12,6 +12,9 @@
 #include "dppcord/websocket/api/gateway/events/MessageCreateEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
+#include "dppcord/core/objects/channel/BaseChannel.hpp"
+
+#include "dppcord/rest/DiscordEndpoint.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
 #include <iostream>
@@ -26,6 +29,10 @@ namespace dppcord
             // guild message
             auto channel = m_pDiscordClient->getGuildsHandler()->getGuild(tryGetSnowflake("guild_id", eventPacket))->getChannel(tryGetSnowflake("channel_id", eventPacket));
             BaseMessage m(channel, eventPacket);
+            if(m.content() == "!test")
+            {
+                DiscordEndpoint::sendMessage(channel->getId(), "Hello World!");
+            }
         }else
         {
             // dm/groupdm

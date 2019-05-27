@@ -10,11 +10,13 @@
  */
 
 #include "dppcord/core/client/DiscordClient.hpp"
+#include "dppcord/rest/DiscordEndpoint.hpp"
 
 namespace dppcord
 {
 DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
 {
+    DiscordEndpoint::init(token);
     m_websockethandler.init();
 }
 
@@ -25,4 +27,5 @@ DiscordClient::~DiscordClient()
 WebsocketHandler *DiscordClient::getWebsocketHandler() { return &m_websockethandler; }
 GuildsHandler *DiscordClient::getGuildsHandler() { return &m_guildHandler; }
 UsersHandler* DiscordClient::getUsersHandler(){return &m_userHandler; }
+std::string DiscordClient::getToken(){return m_discordtoken;}
 } // namespace dppcord

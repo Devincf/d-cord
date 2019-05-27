@@ -53,7 +53,7 @@ void WebsocketConnection::connect()
 
 void WebsocketConnection::sendPayload(const nlohmann::json& payload)
 {
-    if(true) //Todo: if connected
+    if(true) //TODO: if connected
     {
         m_clientEndpoint.send(m_connHdl, payload.dump(), websocketpp::frame::opcode::text);
     }

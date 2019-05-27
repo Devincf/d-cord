@@ -45,7 +45,7 @@ protected:
 
     /**
      * @brief Guild this channel belongs to
-     * Todo: some changes when channels get split
+     * TODO: some changes when channels get split
      */
     Guild *m_guild;
 
@@ -59,9 +59,9 @@ protected:
      */
     int m_position;
 
-    //Todo: add permission overwrites
+    //TODO: add permission overwrites
 
-    //Todo: add ParentId
+    //TODO: add ParentId
 private:
 };
 } // namespace dppcord

@@ -16,17 +16,23 @@
 
 namespace dppcord
 {
-    class DmChannel : public BaseChannel
-    {
-        public:
-        DmChannel(const nlohmann::json& channeljson);
-        ~DmChannel();
+class DmChannel : public BaseChannel
+{
+public:
+    /**
+     * @brief Construct a new Dm Channel object
+     * @param channeljson 
+     */
+    DmChannel(const nlohmann::json &channeljson);
+    /**
+     * @brief Destroy the Dm Channel object
+     */
+    ~DmChannel();
 
-        protected:
-
-        private:
-        //Todo: recipients
-    };
-}
+protected:
+private:
+    //TODO: recipients
+};
+} // namespace dppcord
 
 #endif

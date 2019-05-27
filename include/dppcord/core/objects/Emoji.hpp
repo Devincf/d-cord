@@ -19,7 +19,7 @@ namespace dppcord
 class User;
 /**
      * @brief 
-     * Todo: add roles
+     * TODO: add roles
      */
 class Emoji: public IIdentifiableObject, public INamedObject
 {

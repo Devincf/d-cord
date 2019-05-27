@@ -149,7 +149,7 @@ bool WebsocketHandler::init()
     std::unique_lock<std::mutex> lock(m_mutex);
     m_initializationcv.wait(lock);
     std::cout << "done\n";
-    return true; //Todo: return if initialized correctly
+    return true; //TODO: return if initialized correctly
 }
 
 void WebsocketHandler::setReady()

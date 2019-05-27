@@ -52,6 +52,11 @@ public:
      * @return Pointer to the WebsocketHandler object
      */
     WebsocketHandler* getWebsocketHandler();
+    /**
+     * @brief Returns the token of the bot
+     * @return std::string 
+     */
+    std::string getToken();
 
 private:
     /**

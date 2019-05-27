@@ -19,8 +19,19 @@ namespace dppcord
 class GuildVoiceChannel : public GuildChannel
 {
 public:
+    /**
+     * @brief Construct a new Guild Voice Channel object
+     */
     GuildVoiceChannel();
+    /**
+     * @brief Destroy the Guild Voice Channel object
+     */
     ~GuildVoiceChannel();
+    /**
+     * @brief Construct a new Guild Voice Channel object
+     * @param pGuild Pointer to the guild this channel belongs to
+     * @param channeljson json to use for the channel
+     */
     GuildVoiceChannel(Guild *pGuild, const nlohmann::json &channeljson);
 
 private:

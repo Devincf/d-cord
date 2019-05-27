@@ -19,7 +19,7 @@
 namespace dppcord
 {
 /**
- * @brief Todo: uhh somehow make user a ptr in order to use globalusers
+ * @brief TODO: uhh somehow make user a ptr in order to use globalusers
  */
 class Guild;
 class Role;

@@ -164,7 +164,7 @@ private:
     bool m_unavailable;
     /**
      * @brief Total number of members in this guild
-     * Todo: probably unneeded and will be replaced with m_members.size()
+     * TODO: probably unneeded and will be replaced with m_members.size()
      */
     int m_memberCount;
 
@@ -176,7 +176,7 @@ private:
     std::vector<std::shared_ptr<User>> m_members;
     /**
      * @brief Vector containing all guild channels
-     * Todo: switch to Channel* after Channel has been split into different objects
+     * TODO: switch to Channel* after Channel has been split into different objects
      */
     std::vector<std::shared_ptr<BaseChannel>> m_channels;
 

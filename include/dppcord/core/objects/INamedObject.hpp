@@ -16,14 +16,27 @@
 
 namespace dppcord
 {
-    class INamedObject
-    {
-        public:
-        std::string getName(){return m_name; }
-        void setName(const std::string& name){m_name = name;}
-        protected:
-        std::string m_name;
-    };
-}
+class INamedObject
+{
+public:
+    /**
+     * @brief Returns the name of the object
+     * @return std::string 
+     */
+    std::string getName() { return m_name; }
+    /**
+     * @brief Sets the name of the object
+     * 
+     * @param name 
+     */
+    void setName(const std::string &name) { m_name = name; }
+
+protected:
+    /**
+     * @brief The name of the object
+     */
+    std::string m_name;
+};
+} // namespace dppcord
 
 #endif

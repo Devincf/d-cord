@@ -18,7 +18,6 @@
 namespace dppcord
 {
 BaseMessage::BaseMessage() {}
-BaseMessage::BaseMessage(const nlohmann::json& msgjson):BaseMessage(nullptr, msgjson) {}
 
 BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::json &msgjson):m_channel(pChannel)
 {
@@ -40,4 +39,6 @@ BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::
 }
 
 BaseMessage::~BaseMessage() {}
+
+std::string BaseMessage::content(){ return m_content; }
 } // namespace dppcord

@@ -18,7 +18,7 @@ namespace dppcord
 {
 class Guild;
 class User;
-class BaseChannel : public IIdentifiableObject // Todo: split text/voice/dm channels
+class BaseChannel : public IIdentifiableObject // TODO: split text/voice/dm channels
 {
 public:
     /**
@@ -37,19 +37,11 @@ protected:
     BaseChannel();
     /**
      * @brief Type of the channel 
-     * Todo: replace with enum maybe or defines
+     * TODO: replace with enum maybe or defines
      */
     int m_type;
 
     //permission_overwrites?	array of overwrite objects	explicit permission overwrites for members and roles
-    /**
-     * @brief The bitrate (in bits) of the channel , if its a voice channel
-     */
-    int m_bitrate;
-    /**
-     * @brief The user limit of this channel, if its a voice channel
-     */
-    int m_userLimit;
 
     //recipients?	array of user objects	the recipients of the DM
     /**
@@ -58,12 +50,12 @@ protected:
     std::string m_iconHash;
     /**
      * @brief Owner of the DM Channel
-     * Todo: replace with User*
+     * TODO: replace with User*
      */
     //std::shared_ptr<User> m_owner;
     /**
      * @brief Application id of owner if group dm is bot created
-     * Todo: replace with User*
+     * TODO: replace with User*
      */
     //std::shared_ptr<User> m_application; 
 

@@ -22,7 +22,7 @@ class ChannelCreateEvent : public BaseEvent
 
 public:
     /**
-     * @brief Called when the client receives a GUILD_CREATE dispatch event
+     * @brief Called when the client receives a CHANNEL_CREATE dispatch event
      * @param json data containing information about the event
      */
     void proc(const nlohmann::json &eventPacket);
