@@ -13,8 +13,8 @@
 #define DISCORDCLIENT_HPP
 
 #include "dppcord/websocket/WebsocketHandler.hpp"
-#include "dppcord/core/objects/guild/GuildsHandler.hpp"
-#include "dppcord/core/objects/user/UsersHandler.hpp"
+#include "dppcord/core/handler/GuildsHandler.hpp"
+#include "dppcord/core/handler/UsersHandler.hpp"
 
 namespace dppcord
 {

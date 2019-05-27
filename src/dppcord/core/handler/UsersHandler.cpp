@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/core/objects/user/UsersHandler.hpp"
+#include "dppcord/core/handler/UsersHandler.hpp"
 
 namespace dppcord
 {

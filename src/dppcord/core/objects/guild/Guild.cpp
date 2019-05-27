@@ -13,7 +13,7 @@
 
 #include "dppcord/util/jsonutil.hpp"
 
-#include "dppcord/core/objects/user/UsersHandler.hpp"
+#include "dppcord/core/handler/UsersHandler.hpp"
 
 #include "dppcord/core/objects/channel/GuildVoiceChannel.hpp"
 #include "dppcord/core/objects/channel/GuildTextChannel.hpp"
@@ -109,54 +109,26 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
     //std::cout << "loading channels\n";
     for (auto it = guildjson["channels"].begin(); it != guildjson["channels"].end(); it++)
     {
-        int type = tryGetJson<int>("type", *it);
-        switch (type)
+        auto channelptr = addChannel(*it);
+        if (channelptr->getId() == tryGetSnowflake("afk_channel_id", guildjson))
         {
-        case CHANNELTYPE_GUILD_TEXT:
-        {
-            auto ptr = std::shared_ptr<BaseChannel>(new GuildTextChannel(this, *it));
-            m_channels.push_back(ptr);
-            if (ptr->getId() == tryGetSnowflake("afk_channel_id", guildjson))
-            {
-                m_afkChannel = ptr.get();
-                continue;
-            }
-            else if (ptr->getId() == tryGetSnowflake("embed_channel_id", guildjson))
-            {
-                m_embedChannel = ptr.get();
-                continue;
-            }
-            else if (ptr->getId() == tryGetSnowflake("widget_channel_id", guildjson))
-            {
-                m_widgetChannel = ptr.get();
-                continue;
-            }
-            else if (ptr->getId() == tryGetSnowflake("system_channel_id", guildjson))
-            {
-                m_systemChannel = ptr.get();
-                continue;
-            }
-            break;
+            m_afkChannel = channelptr.get();
+            continue;
         }
-        case CHANNELTYPE_GUILD_CATEGORY:
+        else if (channelptr->getId() == tryGetSnowflake("embed_channel_id", guildjson))
         {
-            auto ptr = std::shared_ptr<BaseChannel>(new GuildChannel(this, *it));
-            m_channels.push_back(ptr);
-            if (ptr->getId() == tryGetSnowflake("widget_channel_id", guildjson))
-            {
-                m_widgetChannel = ptr.get();
-                continue;
-            }
-            break;
+            m_embedChannel = channelptr.get();
+            continue;
         }
-        case CHANNELTYPE_GUILD_VOICE:
+        else if (channelptr->getId() == tryGetSnowflake("widget_channel_id", guildjson))
         {
-            auto ptr = std::shared_ptr<BaseChannel>(new GuildVoiceChannel(this, *it));
-            break;
+            m_widgetChannel = channelptr.get();
+            continue;
         }
-        default:
-        std::cout << "Channel with type " << type << "found id: " << tryGetSnowflake("id",*it) << '\n';
-        break;
+        else if (channelptr->getId() == tryGetSnowflake("system_channel_id", guildjson))
+        {
+            m_systemChannel = channelptr.get();
+            continue;
         }
     }
     //std::cout << "loading done\n";
@@ -177,6 +149,34 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
         std::cout << "widget channelid: " << m_widgetChannel->getName() << '\n';
     if (m_ownerPtr)
         std::cout << "owner id: " << std::to_string(m_ownerPtr->getId()) << '\n';*/
+}
+
+std::shared_ptr<BaseChannel> Guild::addChannel(const nlohmann::json &channeldata)
+{
+    int type = tryGetJson<int>("type", channeldata);
+    switch (type)
+    {
+    case CHANNELTYPE_GUILD_TEXT:
+    {
+        auto ptr = std::shared_ptr<BaseChannel>(new GuildTextChannel(this, channeldata));
+        m_channels.push_back(ptr);
+        return ptr;
+    }
+    case CHANNELTYPE_GUILD_CATEGORY:
+    {
+        auto ptr = std::shared_ptr<BaseChannel>(new GuildChannel(this, channeldata));
+        m_channels.push_back(ptr);
+        return ptr;
+    }
+    case CHANNELTYPE_GUILD_VOICE:
+    {
+        auto ptr = std::shared_ptr<BaseChannel>(new GuildVoiceChannel(this, channeldata));
+        return ptr;
+    }
+    default:
+        std::cout << "[ERROR] Channel with type " << type << "passed to Guild::addChannel id: " << tryGetSnowflake("id", channeldata) << " this should never happen \n";
+        return nullptr;
+    }
 }
 
 std::shared_ptr<Role> Guild::getRole(const Snowflake &id)

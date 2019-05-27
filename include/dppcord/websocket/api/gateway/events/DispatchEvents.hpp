@@ -15,5 +15,8 @@
 #include "ReadyEvent.hpp"
 #include "GuildCreateEvent.hpp"
 #include "MessageCreateEvent.hpp"
+#include "ChannelCreateEvent.hpp"
+#include "TypingStartEvent.hpp"
+#include "PresenceUpdateEvent.hpp"
 
 #endif

@@ -14,7 +14,7 @@
 
 #include <vector>
 
-#include "Guild.hpp"
+#include "dppcord/core/objects/guild/Guild.hpp"
 
 namespace dppcord
 {

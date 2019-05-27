@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/core/objects/guild/GuildsHandler.hpp"
+#include "dppcord/core/handler/GuildsHandler.hpp"
 
 namespace dppcord
 {

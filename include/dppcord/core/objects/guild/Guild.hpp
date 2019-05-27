@@ -53,6 +53,12 @@ public:
      * @return std::shared_ptr<Channel> , nullptr if it doesnt exist
      */
     std::shared_ptr<BaseChannel> getChannel(const Snowflake& id);
+    /**
+     * @brief Constructs and returns a new channel object
+     * @param channeldata the channel information as a json object
+     * @return std::shared_ptr<BaseChannel> the pointer that belongs to the new channel
+     */
+    std::shared_ptr<BaseChannel> addChannel(const nlohmann::json& channeldata);
 
 private:
     /**

@@ -19,12 +19,15 @@ find_package(Threads REQUIRED)
 
 add_library(dppcord SHARED
 src/dppcord/core/client/DiscordClient.cpp  
+
+src/dppcord/core/handler/GuildsHandler.cpp
+src/dppcord/core/handler/UsersHandler.cpp
  
 src/dppcord/core/task/BaseTask.cpp
 
-src/dppcord/core/objects/guild/GuildsHandler.cpp src/dppcord/core/objects/guild/Guild.cpp  
+src/dppcord/core/objects/guild/Guild.cpp  
 src/dppcord/core/objects/channel/BaseChannel.cpp src/dppcord/core/objects/channel/GuildChannel.cpp src/dppcord/core/objects/channel/DmChannel.cpp src/dppcord/core/objects/channel/GuildVoiceChannel.cpp src/dppcord/core/objects/channel/GuildTextChannel.cpp 
-src/dppcord/core/objects/user/UsersHandler.cpp src/dppcord/core/objects/user/User.cpp  src/dppcord/core/objects/user/GuildUser.cpp 
+src/dppcord/core/objects/user/User.cpp  src/dppcord/core/objects/user/GuildUser.cpp 
 src/dppcord/core/objects/Role.cpp 
 src/dppcord/core/objects/Emoji.cpp 
 src/dppcord/core/objects/message/BaseMessage.cpp
@@ -32,6 +35,7 @@ src/dppcord/core/objects/message/BaseMessage.cpp
 src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp
 src/dppcord/websocket/api/gateway/events/DispatchDistributor.cpp  src/dppcord/websocket/api/gateway/events/BaseEvent.cpp    
 src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    src/dppcord/websocket/api/gateway/events/GuildCreateEvent.cpp    src/dppcord/websocket/api/gateway/events/MessageCreateEvent.cpp
+src/dppcord/websocket/api/gateway/events/ChannelCreateEvent.cpp src/dppcord/websocket/api/gateway/events/TypingStartEvent.cpp src/dppcord/websocket/api/gateway/events/PresenceUpdateEvent.cpp 
 src/dppcord/websocket/api/gateway/Heartbeater.cpp    
 )
 
