@@ -48,9 +48,10 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     case GATEWAYOP_DISPATCH:
     {
         std::string type = json["t"].get<std::string>();
-        m_eventDispatcher.distributeEvent(type, json["d"]);
-
-
+        if(!m_eventDispatcher.distributeEvent(type, json["d"]))
+        {
+            std::cout << "[ERROR] Couldnt distribute Dispatch Event \"" << type << "\"\n";
+        }
         break;
     }
     case GATEWAYOP_HEARTBEAT:

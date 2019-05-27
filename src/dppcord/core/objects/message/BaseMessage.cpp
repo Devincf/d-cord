@@ -36,7 +36,7 @@ BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::
     m_webhookId = tryGetSnowflake("webhook_id",msgjson);
     m_type = tryGetJson<int>("type",msgjson);
 
-    std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel: " << channel->getName() << '\n';
+    std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel " << channel->getName() << " : " << m_content << '\n';
 }
 
 BaseMessage::~BaseMessage() {}

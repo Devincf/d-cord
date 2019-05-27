@@ -15,6 +15,7 @@
 
 #include "dppcord/core/objects/user/UsersHandler.hpp"
 
+#include "dppcord/core/objects/channel/GuildVoiceChannel.hpp"
 #include "dppcord/core/objects/channel/GuildTextChannel.hpp"
 #include "dppcord/core/objects/channel/ChannelTypes.hpp"
 
@@ -146,6 +147,11 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
                 m_widgetChannel = ptr.get();
                 continue;
             }
+            break;
+        }
+        case CHANNELTYPE_GUILD_VOICE:
+        {
+            auto ptr = std::shared_ptr<BaseChannel>(new GuildVoiceChannel(this, *it));
             break;
         }
         default:

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(dppcord VERSION 0.0.1 DESCRIPTION "Discord Library written in C++")
+project(dppcord VERSION 0.3.0 DESCRIPTION "Discord Library written in C++")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -23,7 +23,7 @@ src/dppcord/core/client/DiscordClient.cpp
 src/dppcord/core/task/BaseTask.cpp
 
 src/dppcord/core/objects/guild/GuildsHandler.cpp src/dppcord/core/objects/guild/Guild.cpp  
-src/dppcord/core/objects/channel/BaseChannel.cpp src/dppcord/core/objects/channel/GuildChannel.cpp src/dppcord/core/objects/channel/DmChannel.cpp src/dppcord/core/objects/channel/GuildTextChannel.cpp 
+src/dppcord/core/objects/channel/BaseChannel.cpp src/dppcord/core/objects/channel/GuildChannel.cpp src/dppcord/core/objects/channel/DmChannel.cpp src/dppcord/core/objects/channel/GuildVoiceChannel.cpp src/dppcord/core/objects/channel/GuildTextChannel.cpp 
 src/dppcord/core/objects/user/UsersHandler.cpp src/dppcord/core/objects/user/User.cpp  src/dppcord/core/objects/user/GuildUser.cpp 
 src/dppcord/core/objects/Role.cpp 
 src/dppcord/core/objects/Emoji.cpp 
