@@ -27,7 +27,7 @@ namespace dppcord
 class CommandParser
 {
 public:
-    static Command *parse(const std::string &cmdStr);
+    static std::unique_ptr<Command> parse(const std::string &cmdStr);
 };
 } // namespace dppcord
 

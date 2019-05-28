@@ -13,14 +13,16 @@
 
 namespace dppcord
 {
-    Command* CommandParser::parse(const std::string& cmdStr)
+    std::unique_ptr<Command> CommandParser::parse(const std::string& cmdStr)
     {
         
         std::cout << "Parsing command string(" << cmdStr << ")...";
+
+
         std::vector<std::string> split_cmdStr;
         boost::split(split_cmdStr, cmdStr, boost::is_any_of(" "));
 
-        Command *cmd = new Command(split_cmdStr[0]);
+        std::unique_ptr<Command> cmd = std::unique_ptr<Command>(new Command(split_cmdStr[0]));
         
         for (auto it = split_cmdStr.begin() + 1; it != split_cmdStr.end(); it++)
         {
@@ -48,6 +50,8 @@ namespace dppcord
 
             cmd->addArgument(arg);
         }
+
+
         std::cout << "done\n";
         return cmd;
     }
