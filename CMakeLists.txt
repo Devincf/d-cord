@@ -32,6 +32,10 @@ src/dppcord/core/objects/Role.cpp
 src/dppcord/core/objects/Emoji.cpp 
 src/dppcord/core/objects/message/BaseMessage.cpp
 
+src/dppcord/command/Command.cpp src/dppcord/command/CommandName.cpp 
+src/dppcord/command/argument/BoolArgument.cpp src/dppcord/command/argument/StringArgument.cpp src/dppcord/command/argument/DecimalArgument.cpp
+src/dppcord/command/parser/CommandParser.cpp
+
 src/dppcord/rest/Request.cpp src/dppcord/rest/RequestContent.cpp src/dppcord/rest/RequestHeaderList.cpp src/dppcord/rest/RequestResponse.cpp src/dppcord/rest/DiscordEndpoint.cpp
 
 src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp

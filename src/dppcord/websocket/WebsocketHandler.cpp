@@ -27,7 +27,6 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("CHANNEL_CREATE", new ChannelCreateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("PRESENCE_UPDATE", new PresenceUpdateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("TYPING_START", new TypingStartEvent(pDiscordClient));
-    
 
     m_eventDispatcher.getEvent("READY")->bind(
         [](const nlohmann::json &eventPacket) {
@@ -46,13 +45,13 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
 {
     const int opcode = json["op"].get<int>();
     //std::cout << json.dump(2) << "\n";
-        //std::cout << json.dump();
+    //std::cout << json.dump();
     switch (opcode)
     {
     case GATEWAYOP_DISPATCH:
     {
         std::string type = json["t"].get<std::string>();
-        if(!m_eventDispatcher.distributeEvent(type, json["d"]))
+        if (!m_eventDispatcher.distributeEvent(type, json["d"]))
         {
             std::cout << "[ERROR] Couldnt distribute Dispatch Event \"" << type << "\"\n";
         }
@@ -100,31 +99,28 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
         m_heartbeater.start(m_ioservice);
         m_connectionStatus = WEBSOCKET_AUTHENTICATING;
 
+        std::cout << "sending identify\n";
+        //Send identify packet
+        nlohmann::json payload;
+        payload["op"] = GATEWAYOP_IDENTIFY;
+        payload["d"]["token"] = m_token;
+        payload["d"]["properties"]["$os"] = "linux";
+        payload["d"]["properties"]["$browser"] = "dppcord";
+        payload["d"]["properties"]["$device"] = "dppcord";
+        payload["d"]["compress"] = false;
+        payload["d"]["large_threshold"] = 250;
+        payload["d"]["shard"] = {0, 1};
+        payload["d"]["presence"]["game"] = nullptr;
+        payload["d"]["presence"]["status"] = "online";
+        payload["d"]["presence"]["since"] = nullptr;
+        payload["d"]["presence"]["afk"] = false;
+        m_connection->sendPayload(payload);
+
         break;
     }
     case GATEWAYOP_HEARTBEAT_ACK:
     {
         receiveHeartbeatACK();
-
-        if (m_connectionStatus == WEBSOCKET_AUTHENTICATING)
-        {
-            std::cout << "sending identify\n";
-            //Send identify packet
-            nlohmann::json payload;
-            payload["op"] = GATEWAYOP_IDENTIFY;
-            payload["d"]["token"] = m_token;
-            payload["d"]["properties"]["$os"] = "linux";
-            payload["d"]["properties"]["$browser"] = "disco";
-            payload["d"]["properties"]["$device"] = "disco";
-            payload["d"]["compress"] = false;
-            payload["d"]["large_threshold"] = 250;
-            payload["d"]["shard"] = {0, 1};
-            payload["d"]["presence"]["game"] = nullptr;
-            payload["d"]["presence"]["status"] = "online";
-            payload["d"]["presence"]["since"] = nullptr;
-            payload["d"]["presence"]["afk"] = false;
-            m_connection->sendPayload(payload);
-        }
         break;
     }
     default:
