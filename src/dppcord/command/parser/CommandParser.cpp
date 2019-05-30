@@ -10,47 +10,49 @@
  */
 
 #include "dppcord/command/parser/CommandParser.hpp"
+#include "dppcord/command/argument/StringArgument.hpp"
+#include "dppcord/command/argument/DecimalArgument.hpp"
+#include "dppcord/command/argument/BoolArgument.hpp"
+#include "dppcord/command/builder/CommandBuilder.hpp"
 
 namespace dppcord
 {
-    std::unique_ptr<Command> CommandParser::parse(const std::string& cmdStr)
+    ParsedCommand CommandParser::parse(const std::string& cmdStr)
     {
-        
-        std::cout << "Parsing command string(" << cmdStr << ")...";
-
-
+        std::cout << "Parsing arguments of command string(" << cmdStr << ")...";
         std::vector<std::string> split_cmdStr;
         boost::split(split_cmdStr, cmdStr, boost::is_any_of(" "));
 
-        std::unique_ptr<Command> cmd = std::unique_ptr<Command>(new Command(split_cmdStr[0]));
+        ParsedCommand cmd;
+        cmd.arguments = std::vector<std::shared_ptr<IArgument>>();
         
         for (auto it = split_cmdStr.begin() + 1; it != split_cmdStr.end(); it++)
         {
-            IArgument *arg = nullptr;
+            std::shared_ptr<IArgument> arg = nullptr;
             if (*it == "true")
             {
-                arg = new BoolArgument(true);
+                arg = std::make_shared<BoolArgument>(true);
             }
             else if (*it == "false")
             {
-                arg = new BoolArgument(false);
+                arg = std::make_shared<BoolArgument>(false);
             }
             else
             {
                 try
                 {
                     double val = std::stod(*it);
-                    arg = new DecimalArgument(val);
+                    arg = std::make_shared<DecimalArgument>(val);
                 }
                 catch (const std::exception &e)
                 {
-                    arg = new StringArgument(*it);
+                    arg = std::make_shared<StringArgument>(*it);
                 }
             }
 
-            cmd->addArgument(arg);
+            cmd.arguments.push_back(arg);
         }
-
+        cmd.name = CommandName(split_cmdStr[0]);
 
         std::cout << "done\n";
         return cmd;

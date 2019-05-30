@@ -15,6 +15,7 @@
 
 #include "CommandName.hpp"
 #include <vector>
+#include <memory>
 
 #include "argument/IArgument.hpp"
 
@@ -23,13 +24,18 @@ namespace dppcord
     class Command
     {
         public:
-        Command();
+        Command() = default;
         Command(const std::string& name);
-        ~Command();
-        std::string get();
-        void addArgument(IArgument* pArg);
+        virtual ~Command() = default;
+        virtual int getArgumentCount();
+
+        virtual void internal_proc(const std::vector<std::shared_ptr<IArgument>>& args);
+
+        protected:
+
+        int m_argAmount;
+
         private:
-        std::vector<IArgument*> m_args;
         CommandName m_cmdName;
     };
 }

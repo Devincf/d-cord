@@ -13,29 +13,13 @@
 
 namespace dppcord
 {
-    Command::Command(){}
-    Command::Command(const std::string& name):m_cmdName(name){}
-    Command::~Command()
-    {
-        for(auto i : m_args)
-        {
-            delete i;
-        }
-    }
+Command::Command(const std::string &name) : m_cmdName(name) {}
 
-    void Command::addArgument(IArgument* pArg)
-    {
-        m_args.push_back(pArg);
-    }
-
-    std::string Command::get()
-    {
-        std::string retStr(m_cmdName.name + " >> ");
-            int x  = 0;
-            for(auto i : m_args)
-            {
-                retStr.append(" arg"+ std::to_string(++x) + " : " + i->str());
-            }
-            return retStr;
-    }
+void Command::internal_proc(const std::vector<std::shared_ptr<IArgument>> &args)
+{
 }
+int Command::getArgumentCount()
+{
+    return m_argAmount;
+}
+} // namespace dppcord

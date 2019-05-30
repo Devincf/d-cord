@@ -14,11 +14,9 @@
 
 #include <string>
 #include "../Command.hpp"
+#include "ParsedCommand.hpp"
 
 #include <boost/algorithm/string.hpp>
-#include "../argument/StringArgument.hpp"
-#include "../argument/DecimalArgument.hpp"
-#include "../argument/BoolArgument.hpp"
 
 #include <iostream>
 
@@ -27,7 +25,7 @@ namespace dppcord
 class CommandParser
 {
 public:
-    static std::unique_ptr<Command> parse(const std::string &cmdStr);
+    static ParsedCommand parse(const std::string &cmdStr);
 };
 } // namespace dppcord
 
