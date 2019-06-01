@@ -14,10 +14,8 @@
 #define COMMAND_HPP
 
 #include "CommandName.hpp"
-#include <vector>
-#include <memory>
-
-#include "argument/IArgument.hpp"
+#include "dppcord/command/argument/ArgumentList.hpp"
+#include "util.hpp"
 
 namespace dppcord
 {
@@ -27,13 +25,8 @@ namespace dppcord
         Command() = default;
         Command(const std::string& name);
         virtual ~Command() = default;
-        virtual int getArgumentCount();
 
-        virtual void internal_proc(const std::vector<std::shared_ptr<IArgument>>& args);
-
-        protected:
-
-        int m_argAmount;
+        virtual void internal_proc(BaseMessage* pMsg, const ArgumentList& argList);
 
         private:
         CommandName m_cmdName;

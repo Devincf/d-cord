@@ -32,11 +32,10 @@ src/dppcord/core/objects/Role.cpp
 src/dppcord/core/objects/Emoji.cpp 
 src/dppcord/core/objects/message/BaseMessage.cpp
 
-src/dppcord/command/Command.cpp src/dppcord/command/CommandName.cpp 
-src/dppcord/command/argument/BoolArgument.cpp src/dppcord/command/argument/StringArgument.cpp src/dppcord/command/argument/DecimalArgument.cpp
+src/dppcord/command/argument/ArgumentList.cpp
+src/dppcord/command/builder/CommandBuilder.cpp src/dppcord/command/builder/CommandMap.cpp
 src/dppcord/command/parser/CommandParser.cpp
-src/dppcord/command/builder/CommandBuilder.cpp
-src/dppcord/command/builder/CommandMap.cpp
+src/dppcord/command/Command.cpp src/dppcord/command/CommandName.cpp 
 
 src/dppcord/rest/Request.cpp src/dppcord/rest/RequestContent.cpp src/dppcord/rest/RequestHeaderList.cpp src/dppcord/rest/RequestResponse.cpp src/dppcord/rest/DiscordEndpoint.cpp
 
@@ -54,7 +53,7 @@ set_target_properties(dppcord PROPERTIES SOVERSION 1)
 target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp
                             )
 
-target_link_libraries(dppcord Threads::Threads crypto ssl curl curlpp sqlite3 Boost::thread)
+target_link_libraries(dppcord Threads::Threads crypto ssl curl curlpp sqlite3 Boost::thread pthread)
 
 include(GNUInstallDirs)
 

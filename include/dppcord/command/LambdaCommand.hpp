@@ -13,30 +13,24 @@
 #define LAMBDACOMMAND_HPP
 
 #include "Command.hpp"
-#include <functional>
-#include "unpack/Unpack.hpp"
 
 namespace dppcord
 {
-template <typename... Args>
+class BaseMessage;
+class ParsedCommand;
 class LambdaCommand : public Command
 {
 public:
     LambdaCommand()=default;
-    LambdaCommand(std::function<void(Args...)> f) : fn(f) {}
+    LambdaCommand(callback f) : fn(f) {}
     ~LambdaCommand() = default;
 
-    void internal_proc(const std::vector<std::shared_ptr<IArgument>> &vec)
+    void internal_proc(BaseMessage* pClient, const ArgumentList& cmd) override
     {
-        unpack_arguments<sizeof...(Args)>(fn, vec);
+        fn(pClient, cmd);
     }
 
-    int getArgumentCount()
-    {
-        return sizeof...(Args);
-    }
-
-    std::function<void(Args...)> fn;
+    callback fn;
 };
 } // namespace dppcord
 

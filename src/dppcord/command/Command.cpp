@@ -10,16 +10,15 @@
  */
 
 #include "dppcord/command/Command.hpp"
+#include <iostream>
 
 namespace dppcord
 {
 Command::Command(const std::string &name) : m_cmdName(name) {}
 
-void Command::internal_proc(const std::vector<std::shared_ptr<IArgument>> &args)
+void Command::internal_proc(BaseMessage* pClient, const ArgumentList& args)
 {
+    std::cout << "command::internal_proc()\n";
 }
-int Command::getArgumentCount()
-{
-    return m_argAmount;
-}
+
 } // namespace dppcord

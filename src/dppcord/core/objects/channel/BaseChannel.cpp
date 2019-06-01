@@ -11,6 +11,7 @@
 
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
 #include "dppcord/util/jsonutil.hpp"
+#include "dppcord/rest/DiscordEndpoint.hpp"
 
 namespace dppcord
 {
@@ -26,5 +27,9 @@ BaseChannel::BaseChannel(const nlohmann::json &channeljson)
     //recipients
     m_iconHash = tryGetJson<std::string>("icon",channeljson);
     //timestamp
+}
+void BaseChannel::sendMessage(const std::string& msg)
+{
+    DiscordEndpoint::sendMessage(m_id, msg);
 }
 } // namespace dppcord

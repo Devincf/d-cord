@@ -30,6 +30,11 @@ public:
      * @brief Destroy the Channel object
      */
     virtual ~BaseChannel();
+    /**
+     * @brief Sends a message in this channel
+     * @param msg 
+     */
+    void sendMessage(const std::string& msg);
 protected:
     /**
      * @brief Construct a new Channel object

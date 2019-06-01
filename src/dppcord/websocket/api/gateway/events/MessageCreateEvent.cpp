@@ -14,34 +14,34 @@
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
 
-#include "dppcord/rest/DiscordEndpoint.hpp"
+#include "dppcord/command/builder/CommandBuilder.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
 #include <iostream>
 
 namespace dppcord
 {
-    void MessageCreateEvent::proc(const nlohmann::json& eventPacket)
-    {
-        std::cout << "MessageCreateEvent proc\n";
-        if(jsonIsSet("guild_id", eventPacket))
-        {
-            // guild message
-            auto channel = m_pDiscordClient->getGuildsHandler()->getGuild(tryGetSnowflake("guild_id", eventPacket))->getChannel(tryGetSnowflake("channel_id", eventPacket));
-            BaseMessage m(channel, eventPacket);
-            if(m.content() == "!test")
-            {
-                DiscordEndpoint::sendMessage(channel->getId(), "Hello World!");
-            }
-        }else
-        {
-            // dm/groupdm
-            //std::cout << eventPacket.dump(1) << '\n';
-        }
-        
-    }
+void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
+{
+    std::cout << "MessageCreateEvent proc\n";
+    if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
+        return; // Bot message
 
+    if (jsonIsSet("guild_id", eventPacket))
+    {
+        // guild message
+        auto channel = m_pDiscordClient->getGuildsHandler()->getGuild(tryGetSnowflake("guild_id", eventPacket))->getChannel(tryGetSnowflake("channel_id", eventPacket));
+        BaseMessage m(channel, eventPacket);
+        dppcord::CommandBuilder::tryBuildCommand(&m);
+    }
+    else
+    {
+        // dm/groupdm
+        //std::cout << eventPacket.dump(1) << '\n';
+    }
 }
+
+} // namespace dppcord
 
 /*
 {

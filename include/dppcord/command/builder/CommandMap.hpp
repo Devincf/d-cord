@@ -17,8 +17,7 @@
 #include <functional>
 #include <iostream>
 
-#include "../LambdaCommand.hpp"
-#include "../WrappedCommand.hpp"
+#include "../Command.hpp"
 
 namespace dppcord
 {
@@ -26,29 +25,10 @@ class CommandMap
 {
 public:
     static void addCommand(const std::string &cmdStr, Command *pCmd);
-    template <typename T>
-    static void addCommand(const std::string &cmdStr, T fn)
-    {
-        addCommand(cmdStr, std::function(fn));
-    }
+    
+    //static void addCommand(const std::string &cmdStr, void (*fn)(DiscordClient*, const ArgumentList&));
 
-    template <typename... Args>
-    static void addCommand(const std::string &cmdStr, const std::function<void(Args...)> &fn)
-    {
-    std::cout << m_commandMap.size();
-        auto it = m_commandMap.find(cmdStr);
-        if (it == m_commandMap.end())
-        {
-            std::cout << "adding command " << cmdStr << '\n';
-            m_commandMap.insert({cmdStr,{std::make_shared<LambdaCommand<Args...>>(fn)}});
-            std::cout << m_commandMap[cmdStr].at(0)->getArgumentCount();
-        }
-        else
-        {
-            it->second.push_back(std::make_shared<LambdaCommand<Args...>>(fn));
-        }
-    std::cout << m_commandMap.size();
-    }
+    static void addCommand(const std::string &cmdStr, const callback& fn);
 
     static std::vector<std::shared_ptr<Command>> getCommand(const std::string &cmdStr);
 

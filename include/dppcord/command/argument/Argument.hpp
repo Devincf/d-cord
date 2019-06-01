@@ -12,34 +12,61 @@
 #ifndef ARGUMENT_HPP
 #define ARGUMENT_HPP
 
-#include "IArgument.hpp"
+#include <any>
+#include <iostream>
 
 namespace dppcord
 {
-template <typename T>
-class Argument : public IArgument
+
+class Argument
 {
     public:
-    Argument(const T& arg)
+    ~Argument() = default;
+    Argument()
     {
-        m_val = arg;
+
     }
-    Argument(){}
-    virtual ~Argument(){}
 
-    T get(){ return m_val;}
+    template <typename T>
+    Argument(T arg) : m_value(arg){}
 
-    Argument& operator=(const T& rhs)
+    Argument(const Argument& arg)
     {
-        m_val = rhs;
+        m_value = arg.getAny();
+    }
+    Argument& operator=(const Argument& rhs)
+    {
+        m_value = rhs.getAny();
         return *this;
     }
-    virtual std::string str()
+
+    std::any getAny() const
     {
-        return "argument()";
-    };
-    protected:
-    T m_val;
+        return m_value;
+    }
+
+    template <typename T>
+    T as()const 
+    {
+        try
+        {
+            T ret = std::any_cast<T>(m_value);
+            return ret;
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << "Error while casting Argument!\n";
+            return T();
+        }
+    }
+
+    std::string get() const 
+    {
+        return std::any_cast<std::string>(m_value);
+    }
+
+    private:
+    std::any m_value;
 };
 } // namespace dppcord
 

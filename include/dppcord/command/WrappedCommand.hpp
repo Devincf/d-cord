@@ -13,29 +13,21 @@
 #define WRAPPEDCOMMAND_HPP
 
 #include "Command.hpp"
-#include "unpack/Placeholder.hpp"
 
 namespace dppcord
 {
-template <typename... Args>
+
 class WrappedCommand : public Command
 {
 public:
     WrappedCommand() = default;
     virtual ~WrappedCommand() = default;
 
-    virtual void proc(Args... args) = 0;
+    virtual void proc(BaseMessage* pMsg, const ArgumentList& cmd){}
 
-    template <std::size_t... Is>
-    void internal_proc(const std::vector<std::shared_ptr<IArgument>> &vec, std::index_sequence<Is...> seq)
+    void internal_proc(BaseMessage* pMsg, const ArgumentList& cmd) override
     {
-        std::function<void(Args...)> x = std::bind(&WrappedCommand::proc, this, placeholder_template<Is>{}...);
-        unpack_arguments<sizeof...(Args)>(x, vec);
-    }
-
-    void internal_proc(const std::vector<std::shared_ptr<IArgument>> &vec)
-    {
-        internal_proc(vec, std::make_index_sequence<sizeof...(Args)>{});
+        proc(pMsg, cmd);
     }
 };
 } // namespace dppcord

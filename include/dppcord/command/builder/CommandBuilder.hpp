@@ -19,9 +19,9 @@ namespace dppcord
 class CommandBuilder
 {
 public:
-    static bool tryBuildCommand(const std::string &cmdStr);
+    static bool tryBuildCommand(BaseMessage* pMsg);
 
-    static std::shared_ptr<Command> findFirstCandidate(const std::vector<std::shared_ptr<Command>> &cmds, int argSize);
+    private:
 };
 } // namespace dppcord
 

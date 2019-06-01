@@ -42,6 +42,11 @@ public:
      * @return std::string 
      */
     std::string content();
+    /**
+     * @brief Returns the channel the message has been posted in
+     * @return std::shared_ptr<BaseChannel> 
+     */
+    std::shared_ptr<BaseChannel> channel();
 
 protected:
     /**

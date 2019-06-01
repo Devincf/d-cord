@@ -12,17 +12,14 @@
 #ifndef PARSEDCOMMAND_HPP
 #define PARSEDCOMMAND_HPP
 
-#include <vector>
-#include <memory>
-
 #include "dppcord/command/CommandName.hpp"
-#include "dppcord/command/argument/IArgument.hpp"
+#include "dppcord/command/argument/ArgumentList.hpp"
 
 namespace dppcord
 {
 struct ParsedCommand
 {
-    std::vector<std::shared_ptr<IArgument>> arguments;
+    ArgumentList argList;
     CommandName name;
 };
 

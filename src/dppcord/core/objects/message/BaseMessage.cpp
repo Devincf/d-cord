@@ -41,4 +41,5 @@ BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::
 BaseMessage::~BaseMessage() {}
 
 std::string BaseMessage::content(){ return m_content; }
+std::shared_ptr<BaseChannel> BaseMessage::channel(){return m_channel;}
 } // namespace dppcord

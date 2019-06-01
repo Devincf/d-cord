@@ -254,6 +254,9 @@ Example_BINARY_DIR:STATIC=/home/lumi/code/cpp/d++cord/example
 //Value Computed by CMake
 Example_SOURCE_DIR:STATIC=/home/lumi/code/cpp/d++cord/example
 
+//The directory containing a CMake configuration file for dppcord.
+dppcord_DIR:PATH=dppcord_DIR-NOTFOUND
+
 
 ########################
 # INTERNAL cache entries

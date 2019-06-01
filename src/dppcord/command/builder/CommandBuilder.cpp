@@ -13,46 +13,30 @@
 #include "dppcord/command/builder/CommandMap.hpp"
 #include "dppcord/command/parser/CommandParser.hpp"
 
+#include "dppcord/core/objects/message/BaseMessage.hpp"
+
 namespace dppcord
 {
-bool CommandBuilder::tryBuildCommand(const std::string &cmdStr)
+
+
+bool CommandBuilder::tryBuildCommand(BaseMessage* pMsg)
 {
-    std::cout << "parsing arguments";
-    auto parsedCommand = CommandParser::parse(cmdStr);
-    std::cout << "searching for command " << parsedCommand.name.name << "...\n";
-    auto arguments = parsedCommand.arguments;
+    //std::cout << "parsing arguments";
+    auto parsedCommand = CommandParser::parse(pMsg->content());
+    //std::cout << "searching for command " << parsedCommand.name.name << "...\n";
+    auto arguments = parsedCommand.argList.getArguments();
 
     auto commands = CommandMap::getCommand(parsedCommand.name.name);
+    
     if (commands.size() == 0)
         return false; // Command doesnt exist.
+    auto command = commands[0];
 
+    if(command == nullptr)
+        return false;
 
-    auto command = findFirstCandidate(commands, arguments.size());
-    if(!command)
-        std::cout << "No command with correct arguments found.\n";
-    if(command != nullptr)
-        std::cout << "calling internal_proc\n";
-
-    
-    for(auto i : arguments)
-    {
-        std::cout << i->str() << '\n';
-    }
-
-    command->internal_proc(arguments);
+    command->internal_proc(pMsg, parsedCommand.argList);
 
     return true;
-}
-
-std::shared_ptr<Command> CommandBuilder::findFirstCandidate(const std::vector<std::shared_ptr<Command>> &cmds, int argSize)
-{
-    for(const auto& cmd : cmds)
-    {
-        if(cmd->getArgumentCount() == argSize)
-        {
-            return cmd;
-        }
-    }
-    return nullptr;
 }
 } // namespace dppcord
