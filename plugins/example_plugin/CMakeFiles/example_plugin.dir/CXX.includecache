@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../include/dppcord/plugin/IPlugin.hpp
+string
+-
+
+/home/lumi/code/cpp/d++cord/plugins/example_plugin/plugin.cpp
+plugin.hpp
+/home/lumi/code/cpp/d++cord/plugins/example_plugin/plugin.hpp
+iostream
+-
+
+/home/lumi/code/cpp/d++cord/plugins/example_plugin/plugin.hpp
+dppcord/plugin/IPlugin.hpp
+/home/lumi/code/cpp/d++cord/plugins/example_plugin/dppcord/plugin/IPlugin.hpp
+

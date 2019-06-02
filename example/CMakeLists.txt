@@ -12,15 +12,10 @@ set(CMAKE_BUILD_TYPE Debug)
 add_executable(Example 
                 bot.cpp)
 
-add_library(dppcord SHARED IMPORTED)
-
-set_target_properties(dppcord PROPERTIES
-IMPORTED_LOCATION "/home/lumi/code/cpp/d++cord/bin/libdppcord.so" 
-INTERFACE_INCLUDE_DIRECTORIES "/home/lumi/code/cpp/d++cord/include/")
-#find_package(dppcord REQUIRED)
-#add_library(dppcord SHARED IMPORTED)
+find_package(dppcord REQUIRED)
+find_package(example_plugin REQUIRED)
 
 
-target_include_directories(Example PRIVATE "../include/" "../submodules/nlohmannjson/single_include/" "../submodules/websocketpp/websocketpp/" "../submodules/curlpp/include/")
+target_include_directories(Example PRIVATE "../" "../include/" "../submodules/nlohmannjson/single_include/" "../submodules/websocketpp/websocketpp/" "../submodules/curlpp/include/")
 
-target_link_libraries(Example PRIVATE dppcord crypto pthread)
+target_link_libraries(Example PRIVATE dppcord example_plugin crypto pthread)

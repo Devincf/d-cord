@@ -12,20 +12,29 @@
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/rest/DiscordEndpoint.hpp"
 
+#include "dppcord/database/SQLiteDatabase.hpp"
+
+
 namespace dppcord
 {
 DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
 {
+    m_database = std::unique_ptr<Database>(new SQLiteDatabase("test.db"));
     DiscordEndpoint::init(token);
-    m_websockethandler.init();
 }
 
 DiscordClient::~DiscordClient()
 {
 }
 
+void DiscordClient::run()
+{
+    m_websockethandler.init();
+}
+
 WebsocketHandler *DiscordClient::getWebsocketHandler() { return &m_websockethandler; }
 GuildsHandler *DiscordClient::getGuildsHandler() { return &m_guildHandler; }
 UsersHandler* DiscordClient::getUsersHandler(){return &m_userHandler; }
 std::string DiscordClient::getToken(){return m_discordtoken;}
+Database* DiscordClient::getDatabase() {return m_database.get();}
 } // namespace dppcord

@@ -12,9 +12,14 @@
 #ifndef DISCORDCLIENT_HPP
 #define DISCORDCLIENT_HPP
 
-#include "dppcord/websocket/WebsocketHandler.hpp"
 #include "dppcord/core/handler/GuildsHandler.hpp"
 #include "dppcord/core/handler/UsersHandler.hpp"
+
+#include "dppcord/database/Database.hpp"
+
+#include "dppcord/plugin/IPlugin.hpp"
+
+#include "dppcord/websocket/WebsocketHandler.hpp"
 
 namespace dppcord
 {
@@ -53,10 +58,25 @@ public:
      */
     WebsocketHandler* getWebsocketHandler();
     /**
+     * @brief Get the database object
+     * @return const SQLiteDatabase& 
+     */
+    Database* getDatabase();
+    /**
      * @brief Returns the token of the bot
      * @return std::string 
      */
     std::string getToken();
+    /**
+     * @brief Starts the bot
+     */
+    void run();
+
+    template <typename T>
+    void loadPlugin()
+    {
+        m_plugins.push_back(std::make_unique<T>(this));
+    }
 
 private:
     /**
@@ -75,6 +95,15 @@ private:
      * @brief Handler that does all the internal Websocket connection related stuff
      */
     WebsocketHandler m_websockethandler; //change to gatewaymanager
+    /**
+     * @brief Database wrapper class 
+     * Todo: use templates for easy switch between different database systems
+     */
+    std::unique_ptr<Database> m_database;
+    /**
+     * @brief Vector containing all the loaded plugins
+     */
+    std::vector<std::unique_ptr<IPlugin>> m_plugins;
 };
 } // namespace dppcord
 

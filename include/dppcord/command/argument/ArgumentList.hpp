@@ -21,12 +21,6 @@ class ArgumentList
 {
 public:
 
-    template <typename ...Args>
-    bool checkArgumentTypes()
-    {
-
-    }
-
     std::vector<Argument> getArguments() const;
     void addArgument(const Argument &any);
 
@@ -34,12 +28,6 @@ public:
 
 private:
     std::vector<Argument> m_arguments;
-
-    template <typename T>
-    bool checkArgument()
-    {
-
-    }
 };
 } // namespace dppcord
 

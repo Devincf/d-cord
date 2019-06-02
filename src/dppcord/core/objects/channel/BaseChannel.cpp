@@ -10,8 +10,8 @@
  */
 
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
+#include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/util/jsonutil.hpp"
-#include "dppcord/rest/DiscordEndpoint.hpp"
 
 namespace dppcord
 {
@@ -28,8 +28,12 @@ BaseChannel::BaseChannel(const nlohmann::json &channeljson)
     m_iconHash = tryGetJson<std::string>("icon",channeljson);
     //timestamp
 }
-void BaseChannel::sendMessage(const std::string& msg)
+std::shared_ptr<BaseMessage> BaseChannel::sendMessage(const std::string& msg)
 {
-    DiscordEndpoint::sendMessage(m_id, msg);
+    /*auto string = DiscordEndpoint::sendMessage(m_id, msg);
+    std::cout << string << '\n';
+    auto json = nlohmann::json::parse(string);
+    std::cout << json.dump(4) << '\n';*/
+    return nullptr;
 }
 } // namespace dppcord

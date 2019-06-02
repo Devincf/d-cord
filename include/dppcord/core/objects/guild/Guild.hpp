@@ -22,7 +22,8 @@ namespace dppcord
 {
 class UsersHandler;
 class BaseChannel;
-class Guild: public IIdentifiableObject, public INamedObject
+class BaseMessage;
+class Guild : public IIdentifiableObject, public INamedObject
 {
 public:
     /**
@@ -52,13 +53,24 @@ public:
      * @param id of the channel
      * @return std::shared_ptr<Channel> , nullptr if it doesnt exist
      */
-    std::shared_ptr<BaseChannel> getChannel(const Snowflake& id);
+    std::shared_ptr<BaseChannel> getChannel(const Snowflake &id);
     /**
      * @brief Constructs and returns a new channel object
      * @param channeldata the channel information as a json object
      * @return std::shared_ptr<BaseChannel> the pointer that belongs to the new channel
      */
-    std::shared_ptr<BaseChannel> addChannel(const nlohmann::json& channeldata);
+    std::shared_ptr<BaseChannel> addChannel(const nlohmann::json &channeldata);
+    /**
+     * @brief Adds a Message into the Message map
+     * @param msg 
+     */
+    void addMessage(const std::shared_ptr<BaseMessage> &msg);
+    /**
+     * @brief Returns the pointer to the message with id if exists, nullptr otherwise
+     * @param id of the message to get
+     * @return std::shared_ptr<BaseMessage> 
+     */
+    std::shared_ptr<BaseMessage> getMessage(const Snowflake &id);
 
 private:
     /**
@@ -179,6 +191,10 @@ private:
      * TODO: switch to Channel* after Channel has been split into different objects
      */
     std::vector<std::shared_ptr<BaseChannel>> m_channels;
+    /**
+     * @brief Map containing all Messages sorted by their id
+     */
+    std::map<Snowflake, std::shared_ptr<BaseMessage>> m_messages;
 
     //presences
     /**

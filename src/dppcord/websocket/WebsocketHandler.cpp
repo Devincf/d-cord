@@ -27,6 +27,7 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("CHANNEL_CREATE", new ChannelCreateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("PRESENCE_UPDATE", new PresenceUpdateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("TYPING_START", new TypingStartEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("MESSAGE_REACTION_ADD", new MessageReactionAdd(pDiscordClient));
 
     m_eventDispatcher.getEvent("READY")->bind(
         [](const nlohmann::json &eventPacket) {

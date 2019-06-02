@@ -37,6 +37,8 @@ public:
      */
     Guild *getGuild();
 
+    std::shared_ptr<BaseMessage> sendMessage(const std::string &msg) override;
+
 protected:
     /**
      * @brief Construct a new Guild Channel object

@@ -30,11 +30,11 @@ namespace dppcord
         json["content"] = content;
         RequestContent rc(json);
 
-        Request::sendGET(
+        auto response = Request::sendGET(
             "https://discordapp.com/api/v6/channels/" + std::to_string(channelId) + "/messages",
             rhl,
             rc
             );
-            return "";
+        return response.get();
     }
 }

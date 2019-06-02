@@ -17,4 +17,6 @@ RequestResponse::RequestResponse(const std::string &responseStr) : m_responseStr
 {
 }
 RequestResponse::~RequestResponse() {}
+
+std::string RequestResponse::get(){return m_responseString;}
 } // namespace dppcord

@@ -22,7 +22,7 @@ class LambdaCommand : public Command
 {
 public:
     LambdaCommand()=default;
-    LambdaCommand(callback f) : fn(f) {}
+    LambdaCommand(const callback& f) : fn(f) {}
     ~LambdaCommand() = default;
 
     void internal_proc(BaseMessage* pClient, const ArgumentList& cmd) override

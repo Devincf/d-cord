@@ -22,6 +22,9 @@ public:
     RequestResponse();
     RequestResponse(const std::string& responseStr);
     ~RequestResponse();
+
+    std::string get();
+
 private:
     std::string m_responseString;
 };

@@ -18,5 +18,6 @@
 #include "ChannelCreateEvent.hpp"
 #include "TypingStartEvent.hpp"
 #include "PresenceUpdateEvent.hpp"
+#include "MessageReactionAdd.hpp"
 
 #endif

@@ -18,6 +18,7 @@
 #include "dppcord/core/objects/channel/GuildVoiceChannel.hpp"
 #include "dppcord/core/objects/channel/GuildTextChannel.hpp"
 #include "dppcord/core/objects/channel/ChannelTypes.hpp"
+#include "dppcord/core/objects/message/BaseMessage.hpp"
 
 #include <string>
 
@@ -200,6 +201,21 @@ std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id)
     }
     //doesnt exist.
     return nullptr;
+}
+
+void Guild::addMessage(const std::shared_ptr<BaseMessage>& msg)
+{
+    m_messages.insert({msg->getId(), msg});
+}
+
+std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake& id)
+{
+    auto msg = m_messages.find(id);
+    if(msg == m_messages.end())
+    {
+        return nullptr;
+    }
+    return msg->second;
 }
 
 std::shared_ptr<BaseChannel> Guild::getChannel(const Snowflake &id)

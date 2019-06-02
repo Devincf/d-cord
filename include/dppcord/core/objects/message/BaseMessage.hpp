@@ -19,6 +19,7 @@
 #include "dppcord/core/objects/IIdentifiableObject.hpp"
 
 #include "dppcord/util/Timestamp.hpp"
+#include <functional>
 
 namespace dppcord
 {
@@ -31,6 +32,10 @@ public:
      * @brief Destroy the Base Message object
      */
     virtual ~BaseMessage();
+    /**
+     * @brief Construct a new Base Message object
+     */
+    BaseMessage();
     /**
      * @brief Construct a new Base Message object
      * @param pChannel Pointer to the channel this message got posted in.
@@ -48,11 +53,17 @@ public:
      */
     std::shared_ptr<BaseChannel> channel();
 
+    void reactionListener(const nlohmann::json& json)
+    {
+        m_reactionListener(this, json);
+    }
+
+    void reactionListener(const std::function<void(BaseMessage* msg, const nlohmann::json& )>& fn)
+    {
+        m_reactionListener = fn;
+    }
+
 protected:
-    /**
-     * @brief Construct a new Base Message object
-     */
-    BaseMessage();
 
 private:
     /**
@@ -113,6 +124,9 @@ reactions?	array of reaction objects	reactions to the message
      * TODO: replace with MessageType enum
      */
     int m_type;
+
+
+    std::function<void(BaseMessage* msg, const nlohmann::json&)> m_reactionListener;
 
 /**
  * TODO: implement

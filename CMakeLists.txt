@@ -37,18 +37,25 @@ src/dppcord/command/builder/CommandBuilder.cpp src/dppcord/command/builder/Comma
 src/dppcord/command/parser/CommandParser.cpp
 src/dppcord/command/Command.cpp src/dppcord/command/CommandName.cpp 
 
+src/dppcord/database/Database.cpp src/dppcord/database/SQLiteDatabase.cpp
+
+src/dppcord/plugin/IPlugin.cpp
+
 src/dppcord/rest/Request.cpp src/dppcord/rest/RequestContent.cpp src/dppcord/rest/RequestHeaderList.cpp src/dppcord/rest/RequestResponse.cpp src/dppcord/rest/DiscordEndpoint.cpp
 
 src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp
 src/dppcord/websocket/api/gateway/events/DispatchDistributor.cpp  src/dppcord/websocket/api/gateway/events/BaseEvent.cpp    
 src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    src/dppcord/websocket/api/gateway/events/GuildCreateEvent.cpp    src/dppcord/websocket/api/gateway/events/MessageCreateEvent.cpp
 src/dppcord/websocket/api/gateway/events/ChannelCreateEvent.cpp src/dppcord/websocket/api/gateway/events/TypingStartEvent.cpp src/dppcord/websocket/api/gateway/events/PresenceUpdateEvent.cpp 
+src/dppcord/websocket/api/gateway/events/MessageReactionAdd.cpp 
 src/dppcord/websocket/api/gateway/Heartbeater.cpp    
 )
 
 
 set_target_properties(dppcord PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(dppcord PROPERTIES SOVERSION 1)
+
+export(PACKAGE dppcord)
 
 target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp
                             )

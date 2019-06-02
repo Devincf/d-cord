@@ -18,6 +18,7 @@ namespace dppcord
 {
 class Guild;
 class User;
+class BaseMessage;
 class BaseChannel : public IIdentifiableObject // TODO: split text/voice/dm channels
 {
 public:
@@ -34,7 +35,7 @@ public:
      * @brief Sends a message in this channel
      * @param msg 
      */
-    void sendMessage(const std::string& msg);
+    virtual std::shared_ptr<BaseMessage> sendMessage(const std::string& msg);
 protected:
     /**
      * @brief Construct a new Channel object

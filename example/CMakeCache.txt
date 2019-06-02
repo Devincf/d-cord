@@ -14,54 +14,6 @@
 # EXTERNAL cache entries
 ########################
 
-//Boost atomic library (debug)
-Boost_ATOMIC_LIBRARY_DEBUG:FILEPATH=/usr/lib/libboost_atomic.so
-
-//Boost atomic library (release)
-Boost_ATOMIC_LIBRARY_RELEASE:FILEPATH=/usr/lib/libboost_atomic.so
-
-//Boost chrono library (debug)
-Boost_CHRONO_LIBRARY_DEBUG:FILEPATH=/usr/lib/libboost_chrono.so
-
-//Boost chrono library (release)
-Boost_CHRONO_LIBRARY_RELEASE:FILEPATH=/usr/lib/libboost_chrono.so
-
-//Boost date_time library (debug)
-Boost_DATE_TIME_LIBRARY_DEBUG:FILEPATH=/usr/lib/libboost_date_time.so
-
-//Boost date_time library (release)
-Boost_DATE_TIME_LIBRARY_RELEASE:FILEPATH=/usr/lib/libboost_date_time.so
-
-//The directory containing a CMake configuration file for Boost.
-Boost_DIR:PATH=Boost_DIR-NOTFOUND
-
-//Boost filesystem library (debug)
-Boost_FILESYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/libboost_filesystem.so
-
-//Boost filesystem library (release)
-Boost_FILESYSTEM_LIBRARY_RELEASE:FILEPATH=/usr/lib/libboost_filesystem.so
-
-//Path to a file.
-Boost_INCLUDE_DIR:PATH=/usr/include
-
-//Boost library directory DEBUG
-Boost_LIBRARY_DIR_DEBUG:PATH=/usr/lib
-
-//Boost library directory RELEASE
-Boost_LIBRARY_DIR_RELEASE:PATH=/usr/lib
-
-//Boost system library (debug)
-Boost_SYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/libboost_system.so
-
-//Boost system library (release)
-Boost_SYSTEM_LIBRARY_RELEASE:FILEPATH=/usr/lib/libboost_system.so
-
-//Boost thread library (debug)
-Boost_THREAD_LIBRARY_DEBUG:FILEPATH=/usr/lib/libboost_thread.so
-
-//Boost thread library (release)
-Boost_THREAD_LIBRARY_RELEASE:FILEPATH=/usr/lib/libboost_thread.so
-
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
@@ -72,16 +24,14 @@ CMAKE_BUILD_TYPE:STRING=
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
-//CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++
+//No help, variable specified on the command line.
+CMAKE_CXX_COMPILER:UNINITIALIZED=clang++
 
-//A wrapper around 'ar' adding the appropriate '--plugin' option
-// for the GCC compiler
-CMAKE_CXX_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar
+//LLVM archiver
+CMAKE_CXX_COMPILER_AR:FILEPATH=CMAKE_CXX_COMPILER_AR-NOTFOUND
 
-//A wrapper around 'ranlib' adding the appropriate '--plugin' option
-// for the GCC compiler
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib
+//Generate index for LLVM archive
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=CMAKE_CXX_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -98,16 +48,14 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 //Flags used by the CXX compiler during RELWITHDEBINFO builds.
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
-//C compiler
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/cc
+//No help, variable specified on the command line.
+CMAKE_C_COMPILER:UNINITIALIZED=clang-8
 
-//A wrapper around 'ar' adding the appropriate '--plugin' option
-// for the GCC compiler
-CMAKE_C_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar
+//LLVM archiver
+CMAKE_C_COMPILER_AR:FILEPATH=CMAKE_C_COMPILER_AR-NOTFOUND
 
-//A wrapper around 'ranlib' adding the appropriate '--plugin' option
-// for the GCC compiler
-CMAKE_C_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib
+//Generate index for LLVM archive
+CMAKE_C_COMPILER_RANLIB:FILEPATH=CMAKE_C_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
@@ -143,7 +91,7 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=OFF
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=/usr/local
+CMAKE_INSTALL_PREFIX:PATH=/usr
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=/usr/bin/ld
@@ -255,45 +203,16 @@ Example_BINARY_DIR:STATIC=/home/lumi/code/cpp/d++cord/example
 Example_SOURCE_DIR:STATIC=/home/lumi/code/cpp/d++cord/example
 
 //The directory containing a CMake configuration file for dppcord.
-dppcord_DIR:PATH=dppcord_DIR-NOTFOUND
+dppcord_DIR:PATH=/home/lumi/code/cpp/d++cord/bin
+
+//The directory containing a CMake configuration file for example_plugin.
+example_plugin_DIR:PATH=/home/lumi/code/cpp/d++cord/plugins/example_plugin
 
 
 ########################
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: Boost_ATOMIC_LIBRARY_DEBUG
-Boost_ATOMIC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_ATOMIC_LIBRARY_RELEASE
-Boost_ATOMIC_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_DEBUG
-Boost_CHRONO_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_RELEASE
-Boost_CHRONO_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_DATE_TIME_LIBRARY_DEBUG
-Boost_DATE_TIME_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_DATE_TIME_LIBRARY_RELEASE
-Boost_DATE_TIME_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_DIR
-Boost_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_DEBUG
-Boost_FILESYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_RELEASE
-Boost_FILESYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_INCLUDE_DIR
-Boost_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_LIBRARY_DIR_DEBUG
-Boost_LIBRARY_DIR_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_LIBRARY_DIR_RELEASE
-Boost_LIBRARY_DIR_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_DEBUG
-Boost_SYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_RELEASE
-Boost_SYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_THREAD_LIBRARY_DEBUG
-Boost_THREAD_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_THREAD_LIBRARY_RELEASE
-Boost_THREAD_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -303,7 +222,7 @@ CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
 CMAKE_CACHE_MINOR_VERSION:INTERNAL=14
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=4
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=5
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
 CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.
@@ -370,14 +289,6 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
-//Have symbol pthread_create
-CMAKE_HAVE_LIBC_CREATE:INTERNAL=
-//Have library pthreads
-CMAKE_HAVE_PTHREADS_CREATE:INTERNAL=
-//Have library pthread
-CMAKE_HAVE_PTHREAD_CREATE:INTERNAL=1
-//Have include pthread.h
-CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/home/lumi/code/cpp/d++cord/example
@@ -441,20 +352,4 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//Details about finding Threads
-FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-//Result of TRY_COMPILE
-THREADS_HAVE_PTHREAD_ARG:INTERNAL=TRUE
-//Components requested for this build tree.
-_Boost_COMPONENTS_SEARCHED:INTERNAL=atomic;chrono;date_time;filesystem;system;thread
-//Last used Boost_INCLUDE_DIR value.
-_Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
-//Last used Boost_LIBRARY_DIR_DEBUG value.
-_Boost_LIBRARY_DIR_DEBUG_LAST:INTERNAL=/usr/lib
-//Last used Boost_LIBRARY_DIR_RELEASE value.
-_Boost_LIBRARY_DIR_RELEASE_LAST:INTERNAL=/usr/lib
-//Last used Boost_NAMESPACE value.
-_Boost_NAMESPACE_LAST:INTERNAL=boost
-//Last used Boost_USE_MULTITHREADED value.
-_Boost_USE_MULTITHREADED_LAST:INTERNAL=TRUE
 
