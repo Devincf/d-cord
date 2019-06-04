@@ -18,7 +18,7 @@
 namespace dppcord
 {
 GuildChannel::GuildChannel() {}
-GuildChannel::GuildChannel(Guild *pGuild, const Document &channeljson) : BaseChannel(channeljson)
+GuildChannel::GuildChannel(Guild *pGuild, const nlohmann::json &channeljson) : BaseChannel(channeljson)
 {
     m_guild = pGuild;
     m_name = tryGetJson<std::string>("name", channeljson);
@@ -32,7 +32,7 @@ Guild *GuildChannel::getGuild() { return m_guild; }
 std::shared_ptr<BaseMessage> GuildChannel::sendMessage(const std::string &msg)
 {
     auto string = DiscordEndpoint::sendMessage(m_id, msg);
-    auto json = Document::parse(string);
+    auto json = nlohmann::json::parse(string);
     std::shared_ptr<BaseMessage> m = std::make_shared<BaseMessage>(std::shared_ptr<BaseChannel>(this), json);
     m_guild->addMessage(m);
     return m;

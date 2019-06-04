@@ -14,7 +14,7 @@
 
 #include <boost/function.hpp>
 
-#include "rapidjson/document.h"
+#include "nlohmann/json.hpp"
 
 namespace dppcord
 {
@@ -27,22 +27,22 @@ public:
      * thid should generally never be called by itself. The overwritten member functions should be called.
      * @param json data containing information about the event
      */
-    virtual void proc(const Document &eventPacket);
+    virtual void proc(const nlohmann::json &eventPacket);
     /**
      * @brief base proc which calls the inherited proc and user defined proc if exists
      * @param json data containing information about the event
      */
-    void baseproc(const Document &eventPacket);
+    void baseproc(const nlohmann::json &eventPacket);
     /**
      * @brief Binds a userdefined function to the event
      * @param rvalue reference function pointer to be bound
      */
-    void bind(boost::function<void(const Document &)> &&funcptr);
+    void bind(boost::function<void(const nlohmann::json &)> &&funcptr);
     /**
      * @brief Binds a userdefined function to the event
      * @param reference to function pointer to be bound
      */
-    void bind(boost::function<void(const Document &)> &funcptr);
+    void bind(boost::function<void(const nlohmann::json &)> &funcptr);
     /**
      * @brief Construct a new Base Event object
      * @param pointer to the DiscordClient object
@@ -67,7 +67,7 @@ private:
     /**
      * @brief User defined function pointer to be called after default proc.
      */
-    boost::function<void(const Document &)> m_userFunc;
+    boost::function<void(const nlohmann::json &)> m_userFunc;
 };
 } // namespace dppcord
 

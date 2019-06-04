@@ -63,12 +63,12 @@ public:
      * @brief Get whether the heartbeat ack boolean is currently set
      * @return boolean whether heartbeat ack was received
      */
-    bool getHeartbeatACK();
+    const bool getHeartbeatACK() const;
     /**
      * @brief Get the last sequence
      * @return int last sequence
      */
-    int getLastSequence();
+    const int getLastSequence() const;
     /**
      * @brief Get the gateway connection
      * @return WebsocketConnection* Pointer to the websocket connection object
@@ -87,7 +87,7 @@ private:
      * @brief Processes a Gateway Message
      * @param json containing the message
      */
-    void processWebsocketMessage(const Document &json);
+    void processWebsocketMessage(const nlohmann::json &json);
     /**
      * @brief 
      */

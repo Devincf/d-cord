@@ -17,7 +17,7 @@ namespace dppcord
 GuildTextChannel::GuildTextChannel() {}
 GuildTextChannel::~GuildTextChannel() {}
 
-GuildTextChannel::GuildTextChannel(Guild *pGuild, const Document &channeljson) : GuildChannel(pGuild, channeljson)
+GuildTextChannel::GuildTextChannel(Guild *pGuild, const nlohmann::json &channeljson) : GuildChannel(pGuild, channeljson)
 {
     m_topic = tryGetJson<std::string>("topic", channeljson);
     m_rateLimitPerUser = tryGetJson<int>("rate_limit_per_user",channeljson);

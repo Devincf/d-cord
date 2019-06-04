@@ -49,9 +49,10 @@ void DiscordClient::run()
     }while(running);
 }
 
-WebsocketHandler *DiscordClient::getWebsocketHandler() { return &m_websockethandler; }
-GuildsHandler *DiscordClient::getGuildsHandler() { return &m_guildHandler; }
-UsersHandler* DiscordClient::getUsersHandler(){return &m_userHandler; }
+WebsocketHandler &DiscordClient::getWebsocketHandler() { return m_websockethandler; }
+GuildsHandler &DiscordClient::getGuildsHandler() { return m_guildHandler; }
+UsersHandler& DiscordClient::getUsersHandler(){return m_userHandler; }
 std::string DiscordClient::getToken(){return m_discordtoken;}
 Database* DiscordClient::getDatabase() {return m_database.get();}
+BotUser& DiscordClient::getBotUser() { return m_botUser; }
 } // namespace dppcord

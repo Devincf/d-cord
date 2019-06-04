@@ -24,7 +24,7 @@ public:
      * @brief Constructs a User object with given json data
      * @param json data to construct the user form
      */
-    User(const Document &userjson);
+    User(const nlohmann::json &userjson);
     /**
      * @brief Destroy the User object
      */

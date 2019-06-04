@@ -36,7 +36,7 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("RESUMED", new ResumeEvent(pDiscordClient));
 
     m_eventDispatcher.getEvent("READY")->bind(
-        [](const Document &eventPacket) {
+        [](const nlohmann::json &eventPacket) {
             //std::cout << "user defined ready proc\n";
         });
 }
@@ -45,7 +45,7 @@ WebsocketHandler::~WebsocketHandler()
 {
 }
 
-void WebsocketHandler::processWebsocketMessage(const Document &json)
+void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
 {
     const int opcode = json["op"].get<int>();
 
@@ -119,7 +119,7 @@ void WebsocketHandler::processWebsocketMessage(const Document &json)
         auto res = m_pClient->getDatabase()->query("SELECT session_id, last_sequence FROM bot_info").at(0);
 
         m_connectionStatus = WEBSOCKET_RECONNECTING;
-        Document payload;
+        nlohmann::json payload;
         payload["op"] = GATEWAYOP_RESUME;
         payload["d"]["token"] = m_token;
         payload["d"]["session_id"] = res["session_id"];
@@ -149,7 +149,7 @@ void WebsocketHandler::newConnection()
     m_connectionStatus = WEBSOCKET_AUTHENTICATING;
     std::cout << "sending identify\n";
     //Send identify packet
-    Document payload;
+    nlohmann::json payload;
     payload["op"] = GATEWAYOP_IDENTIFY;
     payload["d"]["token"] = m_token;
     payload["d"]["properties"]["$os"] = "linux";
@@ -188,7 +188,7 @@ void WebsocketHandler::shutdown()
         m_heartbeater.stop();
         m_connection->shutdown();
 
-        std::string q = "UPDATE bot_info SET last_sequence=" + std::to_string(m_lastSequence);
+        std::string q = "UPDATE bot_info SET last_sequence=" + std::to_string(m_lastSequence) + ", session_id=\"" + m_pClient->getBotUser().getSessionId() + '\"';
         m_pClient->getDatabase()->query(q);
         m_websocketConnectionThread.join();
         std::cout << "shutdown complete";
@@ -215,8 +215,8 @@ void WebsocketHandler::receiveHeartbeatACK()
 }
 void WebsocketHandler::resetHeartbeatACK() { m_heartbeatACK = false; }
 
-int WebsocketHandler::getLastSequence() { return m_lastSequence; }
-bool WebsocketHandler::getHeartbeatACK() { return m_heartbeatACK; }
+const int WebsocketHandler::getLastSequence() const { return m_lastSequence; }
+const bool WebsocketHandler::getHeartbeatACK() const { return m_heartbeatACK; }
 WebsocketConnection *WebsocketHandler::getConnection() { return m_connection.get(); }
 WebsocketConnectionStatus WebsocketHandler::getConnectionStatus() { return m_connectionStatus; }
 

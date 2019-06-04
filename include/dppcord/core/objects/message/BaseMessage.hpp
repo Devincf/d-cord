@@ -13,7 +13,7 @@
 #define BASEMESSAGE_HPP
 #include <memory>
 
-#include "rapidjson/document.h"
+#include "nlohmann/json.hpp"
 
 
 #include "dppcord/core/objects/IIdentifiableObject.hpp"
@@ -41,7 +41,7 @@ public:
      * @param pChannel Pointer to the channel this message got posted in.
      * @param msgjson json data of the message
      */
-    BaseMessage(std::shared_ptr<BaseChannel> pChannel, const rapidjson::Document& msgjson);
+    BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::json& msgjson);
     /**
      * @brief Returns the content of the message
      * @return std::string 
@@ -53,12 +53,12 @@ public:
      */
     std::shared_ptr<BaseChannel> channel();
 
-    void reactionListener(const rapidjson::Document& json)
+    void reactionListener(const nlohmann::json& json)
     {
         m_reactionListener(this, json);
     }
 
-    void reactionListener(const std::function<void(BaseMessage* msg, const rapidjson::Document& )>& fn)
+    void reactionListener(const std::function<void(BaseMessage* msg, const nlohmann::json& )>& fn)
     {
         m_reactionListener = fn;
     }
@@ -126,7 +126,7 @@ reactions?	array of reaction objects	reactions to the message
     int m_type;
 
 
-    std::function<void(BaseMessage* msg, const rapidjson::Document&)> m_reactionListener;
+    std::function<void(BaseMessage* msg, const nlohmann::json&)> m_reactionListener;
 
 /**
  * TODO: implement

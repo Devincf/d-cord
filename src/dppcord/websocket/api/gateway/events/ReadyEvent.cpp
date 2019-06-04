@@ -11,15 +11,16 @@
 
 #include "dppcord/websocket/api/gateway/events/ReadyEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
+#include "dppcord/core/objects/user/BotUser.hpp"
 #include <iostream>
 
 namespace dppcord
 {
-    void ReadyEvent::proc(const rapidjson::Document& eventPacket)
+    void ReadyEvent::proc(const nlohmann::json& eventPacket)
     {
         std::cout << "ReadyEvent proc\n";
-        std::cout << eventPacket.dump(4);
-        m_pDiscordClient->getWebsocketHandler()->setReady();
-        m_pDiscordClient->getDatabase()->query("UPDATE bot_info SET session_id=\"" + eventPacket["session_id"].get<std::string>() + "\",last_sequence=0");
+        m_pDiscordClient->getWebsocketHandler().setReady();
+        m_pDiscordClient->getBotUser() = BotUser(eventPacket);
+        //m_pDiscordClient->getDatabase()->query("UPDATE bot_info SET session_id=\"" + eventPacket["session_id"].get<std::string>() + "\",last_sequence=0");
     }
 }

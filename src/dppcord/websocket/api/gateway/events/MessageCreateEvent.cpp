@@ -21,7 +21,7 @@
 
 namespace dppcord
 {
-void MessageCreateEvent::proc(const Document &eventPacket)
+void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
 {
     std::cout << "MessageCreateEvent proc\n";
     if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
@@ -30,7 +30,7 @@ void MessageCreateEvent::proc(const Document &eventPacket)
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
-        auto channel = m_pDiscordClient->getGuildsHandler()->getGuild(tryGetSnowflake("guild_id", eventPacket))->getChannel(tryGetSnowflake("channel_id", eventPacket));
+        auto channel = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket))->getChannel(tryGetSnowflake("channel_id", eventPacket));
         BaseMessage m(channel, eventPacket);
         dppcord::CommandBuilder::tryBuildCommand(&m);
     }

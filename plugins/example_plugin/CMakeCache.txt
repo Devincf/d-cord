@@ -99,7 +99,7 @@ CMAKE_INSTALL_DATADIR:PATH=
 //Read-only architecture-independent data root (share)
 CMAKE_INSTALL_DATAROOTDIR:PATH=share
 
-//Documentation root (DATAROOTDIR/doc/PROJECT_NAME)
+//nlohmann::jsonation root (DATAROOTDIR/doc/PROJECT_NAME)
 CMAKE_INSTALL_DOCDIR:PATH=
 
 //C header files (include)

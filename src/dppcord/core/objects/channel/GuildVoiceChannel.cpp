@@ -17,7 +17,7 @@ namespace dppcord
     GuildVoiceChannel::GuildVoiceChannel(){}
     GuildVoiceChannel::~GuildVoiceChannel(){}
 
-    GuildVoiceChannel::GuildVoiceChannel(Guild* pGuild, const rapidjson::Document& channeljson):GuildChannel(pGuild, channeljson)
+    GuildVoiceChannel::GuildVoiceChannel(Guild* pGuild, const nlohmann::json& channeljson):GuildChannel(pGuild, channeljson)
     {
         m_bitrate = tryGetJson<int>("bitrate",channeljson);
         m_userLimit = tryGetJson<int>("user_limit",channeljson);

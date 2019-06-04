@@ -6,8 +6,7 @@
 
 #include "plugins/example_plugin/plugin.hpp"
 
-#include "rapidjson/document.h"
-using rapidjson::Document&;
+#include "nlohmann/json.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -26,7 +25,7 @@ int main(int argc, char *argv[])
 
     dppcord::CommandMap::addCommand("!ping", [](dppcord::BaseMessage *msg, const dppcord::ArgumentList &args) {
         msg->channel()->sendMessage("pong")->reactionListener(
-            [](dppcord::BaseMessage *msg, const Document &json) {
+            [](dppcord::BaseMessage *msg, const nlohmann::json &json) {
                 std::cout << msg->content() << '\n';
                 msg->channel()->sendMessage("reacted to pong!");
             });
@@ -38,7 +37,11 @@ int main(int argc, char *argv[])
     for(;;)
     {
         std::cin >> input;
-        if(input == "exit")
+        if(input== "random")
+        {   
+            std::cout << e.getBotUser().getName();
+        }
+        else if(input == "exit")
         {
             std::cout << "Received Exit\n";
             e.shutdown();
@@ -49,10 +52,11 @@ int main(int argc, char *argv[])
             e.restart();
         }else if(input == "force_dc")
         {
-            Document json;
+            nlohmann::json json;
             json["op"] = 2;
-            e.getWebsocketHandler()->getConnection()->sendPayload(json);
+            e.getWebsocketHandler().getConnection()->sendPayload(json);
         }
+        
     }
     run.join();
 

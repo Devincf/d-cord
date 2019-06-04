@@ -19,7 +19,7 @@
 #include <websocketpp/client.hpp>
 #include <websocketpp/config/asio_client.hpp>
 
-#include "rapidjson/document.h"
+#include "nlohmann/json.hpp"
 
 using websocketpp::connection_hdl;
 
@@ -40,7 +40,7 @@ public:
      /**
      * @brief Construct a new Websocket Connection object
      */
-     WebsocketConnection(boost::function<void(const Document &)> msg_proc);
+     WebsocketConnection(boost::function<void(const nlohmann::json &)> msg_proc);
      /**
      * @brief Destroy the Websocket Connection object
      */
@@ -55,7 +55,7 @@ public:
      * @brief Sends payload through the gateway
      * @param json payload to send
      */
-     void sendPayload(const Document &json);
+     void sendPayload(const nlohmann::json &json);
 
      void shutdown();
 
@@ -100,7 +100,7 @@ private:
      /**
       * @brief Callback function to the websocket handler message processor
       */
-     boost::function<void(const Document &)> m_msgProc;
+     boost::function<void(const nlohmann::json &)> m_msgProc;
 
      bool m_running;
 };

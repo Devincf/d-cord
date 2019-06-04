@@ -27,7 +27,7 @@ namespace dppcord
 Guild::Guild() {}
 Guild::~Guild() {}
 
-Guild::Guild(const Document &guildjson, UsersHandler *pUserHandler)
+Guild::Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler)
 {
     m_afkChannel = nullptr;
     m_systemChannel = nullptr;
@@ -74,7 +74,7 @@ Guild::Guild(const Document &guildjson, UsersHandler *pUserHandler)
     m_unavailable = tryGetJson<bool>("unavailable", guildjson);
     m_memberCount = tryGetJson<int>("member_count", guildjson);
     //voice states
-    //std::cout << "loading members\n";
+    /*std::cout << "loading members\n";
     if (pUserHandler == nullptr)
     {
         //implement users locally
@@ -90,20 +90,20 @@ Guild::Guild(const Document &guildjson, UsersHandler *pUserHandler)
     }
     else
     {
-        for (auto it = guildjson["members"].begin(); it != guildjson["members"].end(); it++)
+    }*/
+    for (auto it = guildjson["members"].begin(); it != guildjson["members"].end(); it++)
+    {
+        auto userptr = pUserHandler.findUser(tryGetSnowflake("id", (*it)["user"]));
+        if (userptr == nullptr)
         {
-            auto userptr = pUserHandler->findUser(tryGetSnowflake("id", (*it)["user"]));
-            if (userptr == nullptr)
-            {
-                userptr = std::shared_ptr<User>(new GuildUser(this, *it));
-                pUserHandler->addUser(userptr->getId(), userptr);
-            }
-            m_members.push_back(userptr);
+            userptr = std::shared_ptr<User>(new GuildUser(this, *it));
+            pUserHandler.addUser(userptr->getId(), userptr);
+        }
+        m_members.push_back(userptr);
 
-            if (userptr->getId() == tryGetSnowflake("owner_id", guildjson))
-            {
-                m_ownerPtr = userptr;
-            }
+        if (userptr->getId() == tryGetSnowflake("owner_id", guildjson))
+        {
+            m_ownerPtr = userptr;
         }
     }
 
@@ -152,7 +152,7 @@ Guild::Guild(const Document &guildjson, UsersHandler *pUserHandler)
         std::cout << "owner id: " << std::to_string(m_ownerPtr->getId()) << '\n';*/
 }
 
-std::shared_ptr<BaseChannel> Guild::addChannel(const Document &channeldata)
+std::shared_ptr<BaseChannel> Guild::addChannel(const nlohmann::json &channeldata)
 {
     int type = tryGetJson<int>("type", channeldata);
     switch (type)
@@ -203,15 +203,15 @@ std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id)
     return nullptr;
 }
 
-void Guild::addMessage(const std::shared_ptr<BaseMessage>& msg)
+void Guild::addMessage(const std::shared_ptr<BaseMessage> &msg)
 {
     m_messages.insert({msg->getId(), msg});
 }
 
-std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake& id)
+std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake &id)
 {
     auto msg = m_messages.find(id);
-    if(msg == m_messages.end())
+    if (msg == m_messages.end())
     {
         return nullptr;
     }

@@ -27,7 +27,7 @@ src/dppcord/core/task/BaseTask.cpp
 
 src/dppcord/core/objects/guild/Guild.cpp  
 src/dppcord/core/objects/channel/BaseChannel.cpp src/dppcord/core/objects/channel/GuildChannel.cpp src/dppcord/core/objects/channel/DmChannel.cpp src/dppcord/core/objects/channel/GuildVoiceChannel.cpp src/dppcord/core/objects/channel/GuildTextChannel.cpp 
-src/dppcord/core/objects/user/User.cpp  src/dppcord/core/objects/user/GuildUser.cpp 
+src/dppcord/core/objects/user/User.cpp  src/dppcord/core/objects/user/GuildUser.cpp src/dppcord/core/objects/user/BotUser.cpp 
 src/dppcord/core/objects/Role.cpp 
 src/dppcord/core/objects/Emoji.cpp 
 src/dppcord/core/objects/message/BaseMessage.cpp

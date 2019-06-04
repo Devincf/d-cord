@@ -3,7 +3,7 @@
 namespace dppcord
 {
 
-WebsocketConnection::WebsocketConnection(boost::function<void(const Document &)> msg_proc) : m_msgProc(msg_proc)
+WebsocketConnection::WebsocketConnection(boost::function<void(const nlohmann::json &)> msg_proc) : m_msgProc(msg_proc)
 {
     m_clientEndpoint.set_access_channels(websocketpp::log::alevel::none);
     m_clientEndpoint.set_error_channels(websocketpp::log::alevel::all);
@@ -50,7 +50,7 @@ void WebsocketConnection::shutdown()
     }
 }
 
-void WebsocketConnection::sendPayload(const Document &payload)
+void WebsocketConnection::sendPayload(const nlohmann::json &payload)
 {
     if (m_running) //TODO: if connected
     {
@@ -109,7 +109,7 @@ void WebsocketConnection::on_open(const connection_hdl &hdl)
 void WebsocketConnection::on_message(const connection_hdl &hdl, const message_ptr &msgptr)
 {
     //pass to websockethandler
-    Document msg = Document::parse(msgptr->get_payload());
+    nlohmann::json msg = nlohmann::json::parse(msgptr->get_payload());
     m_msgProc(msg);
 }
 

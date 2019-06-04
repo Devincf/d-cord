@@ -14,6 +14,7 @@
 
 #include "dppcord/core/handler/GuildsHandler.hpp"
 #include "dppcord/core/handler/UsersHandler.hpp"
+#include "dppcord/core/objects/user/BotUser.hpp"
 
 #include "dppcord/database/Database.hpp"
 
@@ -46,17 +47,23 @@ public:
      * @brief Get the Users Handler object
      * @return Pointer to the UsersHandler object
      */
-    UsersHandler* getUsersHandler();
+    UsersHandler& getUsersHandler();
     /**
      * @brief Get the Guilds Handler object
      * @return Pointer to the GuildsHandler object
      */
-    GuildsHandler* getGuildsHandler();
+    GuildsHandler& getGuildsHandler();
     /**
      * @brief Get the Websocket Handler object
      * @return Pointer to the WebsocketHandler object
      */
-    WebsocketHandler* getWebsocketHandler();
+    WebsocketHandler& getWebsocketHandler();
+    /**
+     * @brief Get the Bot User object
+     * 
+     * @return BotUser& 
+     */
+    BotUser& getBotUser();
     /**
      * @brief Get the database object
      * @return const SQLiteDatabase& 
@@ -114,6 +121,10 @@ private:
      * @brief Vector containing all the loaded plugins
      */
     std::vector<std::unique_ptr<IPlugin>> m_plugins;
+    /**
+     * @brief The bot user object
+     */
+    BotUser m_botUser;
 };
 } // namespace dppcord
 

@@ -16,7 +16,7 @@ namespace dppcord
 
 RequestContent::RequestContent() {}
 RequestContent::~RequestContent() {}
-RequestContent::RequestContent(const Document &content):m_content(content)
+RequestContent::RequestContent(const nlohmann::json &content):m_content(content)
 {
 }
 

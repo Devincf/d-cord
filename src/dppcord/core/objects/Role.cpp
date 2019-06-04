@@ -17,7 +17,7 @@ namespace dppcord
     Role::Role(){}
     Role::~Role(){}
 
-    Role::Role(Guild* pGuild, const rapidjson::Document& rolejson)
+    Role::Role(Guild* pGuild, const nlohmann::json& rolejson)
     {
         m_guild = pGuild;
         

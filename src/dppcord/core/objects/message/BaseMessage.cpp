@@ -19,7 +19,7 @@ namespace dppcord
 {
 BaseMessage::BaseMessage() {}
 
-BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const Document &msgjson):m_channel(pChannel)
+BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::json &msgjson):m_channel(pChannel)
 {
     auto channel = std::dynamic_pointer_cast<GuildChannel>(pChannel);
     m_id = tryGetSnowflake("id", msgjson);

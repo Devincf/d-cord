@@ -12,7 +12,7 @@
 #ifndef REQUESTCONTENT_HPP
 #define REQUESTCONTENT_HPP
 
-#include "rapidjson/document.h"
+#include "nlohmann/json.hpp"
 
 namespace dppcord
 {
@@ -21,11 +21,11 @@ class RequestContent
 public:
     RequestContent();
     ~RequestContent();
-    RequestContent(const rapidjson::Document& content);
+    RequestContent(const nlohmann::json& content);
     int size() const;
     std::string get() const;
 private:
-    Document m_content;
+    nlohmann::json m_content;
 };
 } // namespace dppcord
 

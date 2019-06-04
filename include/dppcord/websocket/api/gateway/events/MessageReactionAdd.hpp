@@ -26,7 +26,7 @@ public:
      * @brief Called when the client receives a MESSAGE_CREATE dispatch event
      * @param json data containing information about the event
      */
-    void proc(const Document &eventPacket);
+    void proc(const nlohmann::json &eventPacket);
 };
 } // namespace dppcord
 
