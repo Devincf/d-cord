@@ -16,7 +16,7 @@
 
 namespace dppcord
 {
-    void TypingStartEvent::proc(const nlohmann::json& eventPacket)
+    void TypingStartEvent::proc(const rapidjson::Document& eventPacket)
     {
         std::cout << "TypingStart proc\n";
     }

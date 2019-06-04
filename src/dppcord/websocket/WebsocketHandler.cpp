@@ -36,7 +36,7 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("RESUMED", new ResumeEvent(pDiscordClient));
 
     m_eventDispatcher.getEvent("READY")->bind(
-        [](const nlohmann::json &eventPacket) {
+        [](const Document &eventPacket) {
             //std::cout << "user defined ready proc\n";
         });
 }
@@ -45,7 +45,7 @@ WebsocketHandler::~WebsocketHandler()
 {
 }
 
-void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
+void WebsocketHandler::processWebsocketMessage(const Document &json)
 {
     const int opcode = json["op"].get<int>();
 
@@ -119,7 +119,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
         auto res = m_pClient->getDatabase()->query("SELECT session_id, last_sequence FROM bot_info").at(0);
 
         m_connectionStatus = WEBSOCKET_RECONNECTING;
-        nlohmann::json payload;
+        Document payload;
         payload["op"] = GATEWAYOP_RESUME;
         payload["d"]["token"] = m_token;
         payload["d"]["session_id"] = res["session_id"];
@@ -149,7 +149,7 @@ void WebsocketHandler::newConnection()
     m_connectionStatus = WEBSOCKET_AUTHENTICATING;
     std::cout << "sending identify\n";
     //Send identify packet
-    nlohmann::json payload;
+    Document payload;
     payload["op"] = GATEWAYOP_IDENTIFY;
     payload["d"]["token"] = m_token;
     payload["d"]["properties"]["$os"] = "linux";

@@ -25,7 +25,7 @@ public:
      * @brief Called when the client receives a READY dispatch event
      * @param eventPacket json information about the event
      */
-    void proc(const nlohmann::json &eventPacket);
+    void proc(const Document &eventPacket);
 };
 } // namespace dppcord
 

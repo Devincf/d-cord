@@ -1,7 +1,7 @@
 #ifndef JSONUTILS_HPP
 #define JSONUTILS_HPP
 
-#include "nlohmann/json.hpp"
+#include "rapidjson/document.h"
 #include <string>
 #include <iostream>
 
@@ -12,13 +12,13 @@ namespace dppcord{
 
 
 
-inline bool jsonIsSet(const std::string& key, const nlohmann::json& json)
+inline bool jsonIsSet(const std::string& key, const rapidjson::Document& json)
 {
     return (json.find(key) != json.end() && !json[key].is_null());
 }
 
 template <typename T>
-inline T tryGetJson(const std::string& key, const nlohmann::json& json, const T& default_val){
+inline T tryGetJson(const std::string& key, const rapidjson::Document& json, const T& default_val){
     if(jsonIsSet(key,json))
         return json[key].get<T>();
     //std::cout << "Couldng load " << key << " loading default value instead\n";
@@ -26,11 +26,11 @@ inline T tryGetJson(const std::string& key, const nlohmann::json& json, const T&
 }
 
 template <typename T>
-inline T tryGetJson(const std::string& key, const nlohmann::json& json){
+inline T tryGetJson(const std::string& key, const rapidjson::Document& json){
     return tryGetJson<T>(key,json,T());
 }
 
-inline Snowflake tryGetSnowflake(const std::string& key, const nlohmann::json& json){
+inline Snowflake tryGetSnowflake(const std::string& key, const rapidjson::Document& json){
     return Snowflake(tryGetJson<std::string>(key,json));
 }
 

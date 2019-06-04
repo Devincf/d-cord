@@ -25,7 +25,7 @@ public:
      * @brief Called when the client receives a CHANNEL_CREATE dispatch event
      * @param json data containing information about the event
      */
-    void proc(const nlohmann::json &eventPacket);
+    void proc(const Document &eventPacket);
 };
 } // namespace dppcord
 

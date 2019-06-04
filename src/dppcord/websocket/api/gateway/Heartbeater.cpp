@@ -11,7 +11,7 @@
 
 #include "dppcord/websocket/api/gateway/Heartbeater.hpp"
 
-#include "nlohmann/json.hpp"
+#include "rapidjson/document.h"
 
 #include "dppcord/websocket/WebsocketHandler.hpp"
 #include "dppcord/websocket/api/gateway/GatewayOpCodes.hpp"
@@ -34,7 +34,7 @@ void Heartbeater::proc()
             std::cout << "[ERROR]Heartbeat ACK not received.\n";
         }
         std::cout << "done";
-        nlohmann::json payload;
+        Document payload;
         payload["op"] = GATEWAYOP_HEARTBEAT;
         payload["d"] = m_websocketHandler->getLastSequence();
         m_websocketHandler->getConnection()->sendPayload(payload);

@@ -33,7 +33,7 @@ public:
      * @param pGuild pointer to the Guild this channel belongs to
      * @param channeljson json data used to construct the channel
      */
-    GuildTextChannel(Guild* pGuild, const nlohmann::json& channeljson);
+    GuildTextChannel(Guild* pGuild, const rapidjson::Document& channeljson);
 
 protected:
 private:

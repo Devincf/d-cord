@@ -30,7 +30,7 @@ public:
      * @brief Construct a new Guild User object 
      * @param guserjson 
      */
-    GuildUser(Guild* pGuild,const nlohmann::json &guserjson);
+    GuildUser(Guild* pGuild,const Document &guserjson);
 
     /**
      * @brief Destroy the Guild User object

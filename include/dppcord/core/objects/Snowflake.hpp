@@ -15,7 +15,7 @@
 #include <cstdint>
 #include <string>
 
-#include "nlohmann/json.hpp"
+#include "rapidjson/document.h"
 
 namespace dppcord
 {
@@ -34,7 +34,7 @@ public:
      * @brief Construct a new Snowflake object using a json payload
      * @param payload json that contains the snowflake
      */
-  Snowflake(const nlohmann::json &payload) { m_snowflake = (payload == nullptr) ? 0 : std::stoul(payload.get<std::string>()); }
+  Snowflake(const Document &payload) { m_snowflake = (payload == nullptr) ? 0 : std::stoul(payload.get<std::string>()); }
   /**
      * @brief Construct a new Snowflake object using a string
      * @param snowflake string that contains the snowflake

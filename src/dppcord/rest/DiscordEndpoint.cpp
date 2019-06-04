@@ -26,7 +26,7 @@ namespace dppcord
     {
         RequestHeaderList rhl;
         rhl.setContent(REQUESTCONTENT_MULTIPART_FORMDATA).addHeader("Authorization: Bot " + token);
-        nlohmann::json json;
+        Document json;
         json["content"] = content;
         RequestContent rc(json);
 

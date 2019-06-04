@@ -18,7 +18,7 @@ namespace dppcord
 BaseChannel::BaseChannel() {}
 BaseChannel::~BaseChannel() {}
 
-BaseChannel::BaseChannel(const nlohmann::json &channeljson)
+BaseChannel::BaseChannel(const Document &channeljson)
 {
     m_id = tryGetSnowflake("id", channeljson);
     m_type = tryGetJson<int>("type",channeljson);
@@ -32,7 +32,7 @@ std::shared_ptr<BaseMessage> BaseChannel::sendMessage(const std::string& msg)
 {
     /*auto string = DiscordEndpoint::sendMessage(m_id, msg);
     std::cout << string << '\n';
-    auto json = nlohmann::json::parse(string);
+    auto json = Document::parse(string);
     std::cout << json.dump(4) << '\n';*/
     return nullptr;
 }

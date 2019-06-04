@@ -21,7 +21,7 @@
 
 namespace dppcord
 {
-void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
+void MessageCreateEvent::proc(const Document &eventPacket)
 {
     std::cout << "MessageCreateEvent proc\n";
     if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)

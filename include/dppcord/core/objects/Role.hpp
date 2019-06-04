@@ -25,7 +25,7 @@ public:
      * @brief Construct a new Role object with given json data 
      * @param json data to construct the role object with
      */
-    Role(Guild* pGuild,const nlohmann::json &rolejson);
+    Role(Guild* pGuild,const Document &rolejson);
     /**
      * @brief Destroy the Role object
      */

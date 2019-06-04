@@ -18,7 +18,7 @@ DispatchDistributor::DispatchDistributor()
 }
 DispatchDistributor::~DispatchDistributor() {}
 
-bool DispatchDistributor::distributeEvent(const std::string &eventName, const nlohmann::json &eventPacket)
+bool DispatchDistributor::distributeEvent(const std::string &eventName, const Document &eventPacket)
 {
     auto it = m_eventMap.find(eventName);
     if (it == m_eventMap.end())

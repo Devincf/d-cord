@@ -87,7 +87,7 @@ private:
      * @brief Processes a Gateway Message
      * @param json containing the message
      */
-    void processWebsocketMessage(const nlohmann::json &json);
+    void processWebsocketMessage(const Document &json);
     /**
      * @brief 
      */

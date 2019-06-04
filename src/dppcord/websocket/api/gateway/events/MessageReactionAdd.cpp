@@ -18,7 +18,7 @@
 
 namespace dppcord
 {
-void MessageReactionAdd::proc(const nlohmann::json &eventPacket)
+void MessageReactionAdd::proc(const Document &eventPacket)
 {
     //get message
     //if not nullptr procEvent.

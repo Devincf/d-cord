@@ -37,7 +37,7 @@ public:
      * @param json data about the event
      * @return Whether the event was found or not
      */
-    bool distributeEvent(const std::string &eventName, const nlohmann::json &eventPacket);
+    bool distributeEvent(const std::string &eventName, const Document &eventPacket);
     /**
      * @brief Adds an event into the dispatch event map
      * @param name of the event to be added

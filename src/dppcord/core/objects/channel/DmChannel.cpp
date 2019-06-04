@@ -13,7 +13,7 @@
 
 namespace dppcord
 {
-    DmChannel::DmChannel(const nlohmann::json& channeljson):BaseChannel(channeljson)
+    DmChannel::DmChannel(const rapidjson::Document& channeljson):BaseChannel(channeljson)
     {
 
     }

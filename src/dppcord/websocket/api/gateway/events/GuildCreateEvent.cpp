@@ -15,7 +15,7 @@
 
 namespace dppcord
 {
-    void GuildCreateEvent::proc(const nlohmann::json& eventPacket)
+    void GuildCreateEvent::proc(const rapidjson::Document& eventPacket)
     {
         std::cout << "GuildEvent proc\n";
         m_pDiscordClient->getGuildsHandler()->addGuild(new Guild(eventPacket, m_pDiscordClient->getUsersHandler()));

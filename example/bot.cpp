@@ -6,6 +6,9 @@
 
 #include "plugins/example_plugin/plugin.hpp"
 
+#include "rapidjson/document.h"
+using rapidjson::Document&;
+
 int main(int argc, char *argv[])
 {
     std::ifstream t("token.txt");
@@ -23,7 +26,7 @@ int main(int argc, char *argv[])
 
     dppcord::CommandMap::addCommand("!ping", [](dppcord::BaseMessage *msg, const dppcord::ArgumentList &args) {
         msg->channel()->sendMessage("pong")->reactionListener(
-            [](dppcord::BaseMessage *msg, const nlohmann::json &json) {
+            [](dppcord::BaseMessage *msg, const Document &json) {
                 std::cout << msg->content() << '\n';
                 msg->channel()->sendMessage("reacted to pong!");
             });
@@ -46,7 +49,7 @@ int main(int argc, char *argv[])
             e.restart();
         }else if(input == "force_dc")
         {
-            nlohmann::json json;
+            Document json;
             json["op"] = 2;
             e.getWebsocketHandler()->getConnection()->sendPayload(json);
         }

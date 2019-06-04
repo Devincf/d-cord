@@ -15,7 +15,7 @@
 
 namespace dppcord
 {
-    void PresenceUpdateEvent::proc(const nlohmann::json& eventPacket)
+    void PresenceUpdateEvent::proc(const rapidjson::Document& eventPacket)
     {
         //std::cout << "PresenceUpdateEvent proc\n";
     }

@@ -17,7 +17,7 @@ namespace dppcord
 {
 User::User() {}
 User::~User() {}
-User::User(const nlohmann::json &userjson)
+User::User(const Document &userjson)
 {
     m_id = tryGetSnowflake("id",userjson);
     m_name = tryGetJson<std::string>("username",userjson);

@@ -27,7 +27,7 @@ namespace dppcord
 Guild::Guild() {}
 Guild::~Guild() {}
 
-Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
+Guild::Guild(const Document &guildjson, UsersHandler *pUserHandler)
 {
     m_afkChannel = nullptr;
     m_systemChannel = nullptr;
@@ -152,7 +152,7 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler)
         std::cout << "owner id: " << std::to_string(m_ownerPtr->getId()) << '\n';*/
 }
 
-std::shared_ptr<BaseChannel> Guild::addChannel(const nlohmann::json &channeldata)
+std::shared_ptr<BaseChannel> Guild::addChannel(const Document &channeldata)
 {
     int type = tryGetJson<int>("type", channeldata);
     switch (type)

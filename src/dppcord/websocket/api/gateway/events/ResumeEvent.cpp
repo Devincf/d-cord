@@ -14,7 +14,7 @@
 
 namespace dppcord
 {
-    void ResumeEvent::proc(const nlohmann::json& eventPacket)
+    void ResumeEvent::proc(const rapidjson::Document& eventPacket)
     {
         std::cout << "ResumeEvent proc\n";
         std::cout << eventPacket.dump(4) << '\n';

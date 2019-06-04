@@ -23,7 +23,7 @@ public:
      * @brief Construct a new Dm Channel object
      * @param channeljson 
      */
-    DmChannel(const nlohmann::json &channeljson);
+    DmChannel(const Document &channeljson);
     /**
      * @brief Destroy the Dm Channel object
      */

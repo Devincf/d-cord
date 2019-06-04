@@ -32,7 +32,7 @@ public:
      * @param pGuild Pointer to the guild this channel belongs to
      * @param channeljson json to use for the channel
      */
-    GuildVoiceChannel(Guild *pGuild, const nlohmann::json &channeljson);
+    GuildVoiceChannel(Guild *pGuild, const Document &channeljson);
 
 private:
     /**

@@ -15,7 +15,7 @@
 
 namespace dppcord
 {
-    void ReadyEvent::proc(const nlohmann::json& eventPacket)
+    void ReadyEvent::proc(const rapidjson::Document& eventPacket)
     {
         std::cout << "ReadyEvent proc\n";
         std::cout << eventPacket.dump(4);

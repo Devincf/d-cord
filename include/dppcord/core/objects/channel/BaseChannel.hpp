@@ -26,7 +26,7 @@ public:
      * @brief Construct a new Channel object with given json data
      * @param json data to construct the Channel object from
      */
-    BaseChannel(const nlohmann::json& channeljson);
+    BaseChannel(const rapidjson::Document& channeljson);
     /**
      * @brief Destroy the Channel object
      */

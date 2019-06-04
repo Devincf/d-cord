@@ -31,7 +31,7 @@ public:
      * @param guildjson the json object to construct the guild from
      * @param pUserHandler pointer to Userhandler if you want to use global userlists
      */
-    Guild(const nlohmann::json &guildjson, UsersHandler *pUserHandler = nullptr);
+    Guild(const Document &guildjson, UsersHandler *pUserHandler = nullptr);
     /**
      * @brief Destroy the Guild object
      */
@@ -59,7 +59,7 @@ public:
      * @param channeldata the channel information as a json object
      * @return std::shared_ptr<BaseChannel> the pointer that belongs to the new channel
      */
-    std::shared_ptr<BaseChannel> addChannel(const nlohmann::json &channeldata);
+    std::shared_ptr<BaseChannel> addChannel(const Document &channeldata);
     /**
      * @brief Adds a Message into the Message map
      * @param msg 

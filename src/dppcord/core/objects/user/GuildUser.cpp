@@ -19,7 +19,7 @@ namespace dppcord
 {
 GuildUser::GuildUser() {}
 GuildUser::~GuildUser() {}
-GuildUser::GuildUser(Guild* pGuild, const nlohmann::json &guserjson):User(guserjson["user"])
+GuildUser::GuildUser(Guild* pGuild, const Document &guserjson):User(guserjson["user"])
 {
     m_guild = pGuild;
     m_nickname = tryGetJson<std::string>("nick", guserjson);

@@ -21,7 +21,7 @@
 
 namespace dppcord
 {
-    void ChannelCreateEvent::proc(const nlohmann::json& eventPacket)
+    void ChannelCreateEvent::proc(const rapidjson::Document& eventPacket)
     {
         std::cout << "ChannelCreateEvent proc\n";
         if(!jsonIsSet("guild_id", eventPacket))

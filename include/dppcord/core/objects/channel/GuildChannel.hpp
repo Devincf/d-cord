@@ -25,7 +25,7 @@ public:
      * @param pGuild pointer to the Guild object of this channel
      * @param channeljson data used to construct the channel
      */
-    GuildChannel(Guild* pGuild, const nlohmann::json& channeljson);
+    GuildChannel(Guild* pGuild, const rapidjson::Document& channeljson);
     /**
      * @brief Destroy the Guild Channel object
      */
