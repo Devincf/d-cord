@@ -49,7 +49,10 @@ void BaseTask::start(boost::asio::io_service &pio)
 
 void BaseTask::stop()
 {
-    pthread_cancel(m_thread.native_handle());
+    //pthread_cancel(m_thread.native_handle());
+    m_taskTimer->cancel();
+    m_thread.interrupt();
+    std::cout << "Task with interval "<< m_interval.count()<<"stopped\n";
 }
 
 void BaseTask::setInterval(const int interval)

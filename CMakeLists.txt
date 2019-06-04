@@ -47,8 +47,9 @@ src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/Websoc
 src/dppcord/websocket/api/gateway/events/DispatchDistributor.cpp  src/dppcord/websocket/api/gateway/events/BaseEvent.cpp    
 src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    src/dppcord/websocket/api/gateway/events/GuildCreateEvent.cpp    src/dppcord/websocket/api/gateway/events/MessageCreateEvent.cpp
 src/dppcord/websocket/api/gateway/events/ChannelCreateEvent.cpp src/dppcord/websocket/api/gateway/events/TypingStartEvent.cpp src/dppcord/websocket/api/gateway/events/PresenceUpdateEvent.cpp 
-src/dppcord/websocket/api/gateway/events/MessageReactionAdd.cpp 
+src/dppcord/websocket/api/gateway/events/MessageReactionAdd.cpp src/dppcord/websocket/api/gateway/events/ResumeEvent.cpp
 src/dppcord/websocket/api/gateway/Heartbeater.cpp    
+
 )
 
 
@@ -57,7 +58,7 @@ set_target_properties(dppcord PROPERTIES SOVERSION 1)
 
 export(PACKAGE dppcord)
 
-target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp
+target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp submodules/rapidjson/include
                             )
 
 target_link_libraries(dppcord Threads::Threads crypto ssl curl curlpp sqlite3 Boost::thread pthread)

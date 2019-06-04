@@ -71,12 +71,22 @@ public:
      * @brief Starts the bot
      */
     void run();
+    /**
+     * @brief Shuts the bot down 
+     */
+    void shutdown();
+    /**
+     * @brief Restarts the Bot
+     */
+    void restart();
 
     template <typename T>
     void loadPlugin()
     {
         m_plugins.push_back(std::make_unique<T>(this));
     }
+
+    bool running;
 
 private:
     /**

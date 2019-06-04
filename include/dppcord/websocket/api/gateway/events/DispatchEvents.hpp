@@ -19,5 +19,6 @@
 #include "TypingStartEvent.hpp"
 #include "PresenceUpdateEvent.hpp"
 #include "MessageReactionAdd.hpp"
+#include "ResumeEvent.hpp"
 
 #endif

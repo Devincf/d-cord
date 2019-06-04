@@ -44,6 +44,10 @@ public:
      */
     bool init();
     /**
+     * @brief Shuts the Websocket Connection down
+     */
+    void shutdown();
+    /**
      * @brief Used to notify the websocket handler that the gateway connection is now ready
      */
     void setReady();
@@ -76,12 +80,19 @@ public:
      */
     WebsocketConnectionStatus getConnectionStatus();
 
+    void wait();
+
 private:
     /**
      * @brief Processes a Gateway Message
      * @param json containing the message
      */
     void processWebsocketMessage(const nlohmann::json &json);
+    /**
+     * @brief 
+     */
+    void newConnection();
+
     /**
      * @brief Last Sequence received by discord
      */
@@ -126,7 +137,12 @@ private:
      * @brief pointer to the discord api gatewayconnection
      */
     //std::unique_ptr<WebsocketConnection> m_connection;
-    WebsocketConnection *m_connection;
+    std::unique_ptr<WebsocketConnection> m_connection;
+
+    /**
+     * @brief Pointer to the DiscordClient.
+     */
+    DiscordClient* m_pClient;
 };
 } // namespace dppcord
 

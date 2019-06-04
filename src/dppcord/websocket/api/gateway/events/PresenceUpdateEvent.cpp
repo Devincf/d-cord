@@ -17,6 +17,6 @@ namespace dppcord
 {
     void PresenceUpdateEvent::proc(const nlohmann::json& eventPacket)
     {
-        std::cout << "PresenceUpdateEvent proc\n";
+        //std::cout << "PresenceUpdateEvent proc\n";
     }
 }

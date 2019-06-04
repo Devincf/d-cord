@@ -14,7 +14,6 @@
 
 #include "dppcord/database/SQLiteDatabase.hpp"
 
-
 namespace dppcord
 {
 DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
@@ -27,9 +26,27 @@ DiscordClient::~DiscordClient()
 {
 }
 
+void DiscordClient::restart()
+{
+    m_websockethandler.shutdown();
+}
+
+void DiscordClient::shutdown()
+{
+    running = false;
+    m_websockethandler.shutdown();
+}
+
 void DiscordClient::run()
 {
-    m_websockethandler.init();
+    running = true;
+    do{
+        std::cout << "initializing\n";
+        m_websockethandler.init();
+        m_websockethandler.wait();
+        std::cout << "wait done\n";
+        m_websockethandler.shutdown();
+    }while(running);
 }
 
 WebsocketHandler *DiscordClient::getWebsocketHandler() { return &m_websockethandler; }

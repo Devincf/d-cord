@@ -18,6 +18,8 @@ namespace dppcord
     void ReadyEvent::proc(const nlohmann::json& eventPacket)
     {
         std::cout << "ReadyEvent proc\n";
+        std::cout << eventPacket.dump(4);
         m_pDiscordClient->getWebsocketHandler()->setReady();
+        m_pDiscordClient->getDatabase()->query("UPDATE bot_info SET session_id=\"" + eventPacket["session_id"].get<std::string>() + "\",last_sequence=0");
     }
 }

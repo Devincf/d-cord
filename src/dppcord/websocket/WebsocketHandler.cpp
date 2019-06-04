@@ -15,11 +15,16 @@
 
 #include "dppcord/websocket/api/gateway/events/DispatchEvents.hpp"
 
+#include "dppcord/core/client/DiscordClient.hpp"
+#include "dppcord/database/SQLiteDatabase.hpp"
+
+#include "dppcord/util/jsonutil.hpp"
+
 namespace dppcord
 {
 WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDiscordClient) : m_lastSequence(0), m_token(token), m_heartbeater(this, 0)
 {
-    m_connection = new WebsocketConnection(boost::bind(&WebsocketHandler::processWebsocketMessage, this, boost::placeholders::_1));
+    m_pClient = pDiscordClient;
 
     m_eventDispatcher.addEvent("READY", new ReadyEvent(pDiscordClient));
     m_eventDispatcher.addEvent("GUILD_CREATE", new GuildCreateEvent(pDiscordClient));
@@ -28,25 +33,29 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("PRESENCE_UPDATE", new PresenceUpdateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("TYPING_START", new TypingStartEvent(pDiscordClient));
     m_eventDispatcher.addEvent("MESSAGE_REACTION_ADD", new MessageReactionAdd(pDiscordClient));
+    m_eventDispatcher.addEvent("RESUMED", new ResumeEvent(pDiscordClient));
 
     m_eventDispatcher.getEvent("READY")->bind(
         [](const nlohmann::json &eventPacket) {
-            std::cout << "user defined ready proc\n";
+            //std::cout << "user defined ready proc\n";
         });
 }
 
 WebsocketHandler::~WebsocketHandler()
 {
-    std::cout << "Waiting for gateway connection to close\n";
-    m_websocketConnectionThread.join();
-    delete m_connection;
 }
 
 void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
 {
     const int opcode = json["op"].get<int>();
-    //std::cout << json.dump(2) << "\n";
-    //std::cout << json.dump();
+
+    //std::cout << json.dump(2) << '\n';
+
+    if (jsonIsSet("s", json))
+    {
+        m_lastSequence = json["s"].get<int>();
+    }
+
     switch (opcode)
     {
     case GATEWAYOP_DISPATCH:
@@ -74,11 +83,12 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     case GATEWAYOP_VOICE_STATE_UPDATE:
     {
         break;
-    }
+    }*/
     case GATEWAYOP_RESUME:
     {
+        std::cout << json.dump(2) << '\n';
         break;
-    }*/
+    }
     case GATEWAYOP_RECONNECT:
     {
         break;
@@ -89,6 +99,13 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     }*/
     case GATEWAYOP_INVALID_SESSION:
     {
+        if (m_connectionStatus == WEBSOCKET_RECONNECTING)
+        {
+            int randomNumber = (rand() % 5) + 1;
+            std::cout << "Resume failed, sending fresh Identify after " + std::to_string(randomNumber) + " seconds\n";
+            std::this_thread::sleep_for(std::chrono::seconds(randomNumber));
+            newConnection();
+        }
         break;
     }
     case GATEWAYOP_HELLO:
@@ -98,24 +115,17 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
         std::cout << "heartbeat interval received as  " << heartbeat_interval << "\n";
         m_heartbeater.setInterval(heartbeat_interval);
         m_heartbeater.start(m_ioservice);
-        m_connectionStatus = WEBSOCKET_AUTHENTICATING;
 
-        std::cout << "sending identify\n";
-        //Send identify packet
+        auto res = m_pClient->getDatabase()->query("SELECT session_id, last_sequence FROM bot_info").at(0);
+
+        m_connectionStatus = WEBSOCKET_RECONNECTING;
         nlohmann::json payload;
-        payload["op"] = GATEWAYOP_IDENTIFY;
+        payload["op"] = GATEWAYOP_RESUME;
         payload["d"]["token"] = m_token;
-        payload["d"]["properties"]["$os"] = "linux";
-        payload["d"]["properties"]["$browser"] = "dppcord";
-        payload["d"]["properties"]["$device"] = "dppcord";
-        payload["d"]["compress"] = false;
-        payload["d"]["large_threshold"] = 250;
-        payload["d"]["shard"] = {0, 1};
-        payload["d"]["presence"]["game"] = nullptr;
-        payload["d"]["presence"]["status"] = "online";
-        payload["d"]["presence"]["since"] = nullptr;
-        payload["d"]["presence"]["afk"] = false;
+        payload["d"]["session_id"] = res["session_id"];
+        payload["d"]["seq"] = std::stoi(res["last_sequence"]);
         m_connection->sendPayload(payload);
+        std::cout << payload.dump(4);
 
         break;
     }
@@ -134,25 +144,66 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     }
 }
 
+void WebsocketHandler::newConnection()
+{
+    m_connectionStatus = WEBSOCKET_AUTHENTICATING;
+    std::cout << "sending identify\n";
+    //Send identify packet
+    nlohmann::json payload;
+    payload["op"] = GATEWAYOP_IDENTIFY;
+    payload["d"]["token"] = m_token;
+    payload["d"]["properties"]["$os"] = "linux";
+    payload["d"]["properties"]["$browser"] = "dppcord";
+    payload["d"]["properties"]["$device"] = "dppcord";
+    payload["d"]["compress"] = false;
+    payload["d"]["large_threshold"] = 250;
+    payload["d"]["shard"] = {0, 1};
+    payload["d"]["presence"]["game"] = nullptr;
+    payload["d"]["presence"]["status"] = "online";
+    payload["d"]["presence"]["since"] = nullptr;
+    payload["d"]["presence"]["afk"] = false;
+    m_connection->sendPayload(payload);
+}
+
 bool WebsocketHandler::init()
 {
     //connect to websocket.
     m_connectionStatus = WEBSOCKET_CONNECTING;
     std::cout << "Starting Websocket Thread..";
-    m_websocketConnectionThread = boost::thread(boost::bind(&WebsocketConnection::connect, m_connection));
+    //resetHeartbeatACK();
+    m_connection = std::make_unique<WebsocketConnection>(boost::bind(&WebsocketHandler::processWebsocketMessage, this, boost::placeholders::_1));
+    m_websocketConnectionThread = boost::thread(&WebsocketConnection::connect, m_connection.get(), &m_initializationcv);
     m_connectionStatus = WEBSOCKET_AWAITING_HELLO;
     //wait for identify to be completed.
     std::cout << "Waiting for Websocket Thread to finish identifying..";
-    std::unique_lock<std::mutex> lock(m_mutex);
-    m_initializationcv.wait(lock);
     std::cout << "done\n";
     return true; //TODO: return if initialized correctly
+}
+
+void WebsocketHandler::shutdown()
+{
+    if (m_connectionStatus != WEBSOCKET_DISCONNECTED)
+    {
+        m_connectionStatus = WEBSOCKET_DISCONNECTED;
+        m_heartbeater.stop();
+        m_connection->shutdown();
+
+        std::string q = "UPDATE bot_info SET last_sequence=" + std::to_string(m_lastSequence);
+        m_pClient->getDatabase()->query(q);
+        m_websocketConnectionThread.join();
+        std::cout << "shutdown complete";
+    }
+}
+
+void WebsocketHandler::wait()
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    m_initializationcv.wait(lock);
 }
 
 void WebsocketHandler::setReady()
 {
     m_connectionStatus = WEBSOCKET_CONNTECTED;
-    m_initializationcv.notify_all();
 }
 
 void WebsocketHandler::receiveHeartbeatACK()
@@ -166,7 +217,7 @@ void WebsocketHandler::resetHeartbeatACK() { m_heartbeatACK = false; }
 
 int WebsocketHandler::getLastSequence() { return m_lastSequence; }
 bool WebsocketHandler::getHeartbeatACK() { return m_heartbeatACK; }
-WebsocketConnection *WebsocketHandler::getConnection() { return m_connection; }
+WebsocketConnection *WebsocketHandler::getConnection() { return m_connection.get(); }
 WebsocketConnectionStatus WebsocketHandler::getConnectionStatus() { return m_connectionStatus; }
 
 } // namespace dppcord

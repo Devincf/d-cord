@@ -49,7 +49,7 @@ public:
      /**
      * @brief Connects to the Gateway
      */
-     void connect();
+     void connect(std::condition_variable *cv);
 
      /**
      * @brief Sends payload through the gateway
@@ -57,7 +57,10 @@ public:
      */
      void sendPayload(const nlohmann::json &json);
 
+     void shutdown();
+
 private:
+     void on_close(const connection_hdl &hdl);
      /**
      * @brief Called on socket initialization by websocketpp
      * @param hdl for connection
@@ -98,6 +101,8 @@ private:
       * @brief Callback function to the websocket handler message processor
       */
      boost::function<void(const nlohmann::json &)> m_msgProc;
+
+     bool m_running;
 };
 } // namespace dppcord
 

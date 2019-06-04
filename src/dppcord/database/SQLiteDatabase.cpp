@@ -39,7 +39,6 @@ QueryResult SQLiteDatabase::query(const std::string &queryStr)
         return {};
     }
     QueryResult result;
-
     while((ec = sqlite3_step(stmt)) == SQLITE_ROW)
     {
         std::map<std::string,std::string> row;

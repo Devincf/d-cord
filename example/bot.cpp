@@ -29,10 +29,29 @@ int main(int argc, char *argv[])
             });
     });
 
-    //dppcord::CommandBuilder::tryBuild("!test hello true 3001 false 3.01");
-    //std::cout << cmd->get() << '\n';
-
     e.loadPlugin<ExamplePlugin>();
-    e.run();
+    std::thread run(&Example::run, &e);
+    std::string input;
+    for(;;)
+    {
+        std::cin >> input;
+        if(input == "exit")
+        {
+            std::cout << "Received Exit\n";
+            e.shutdown();
+            break;
+        }else if(input == "retry")
+        {
+            std::cout << "Reconnecting.\n";
+            e.restart();
+        }else if(input == "force_dc")
+        {
+            nlohmann::json json;
+            json["op"] = 2;
+            e.getWebsocketHandler()->getConnection()->sendPayload(json);
+        }
+    }
+    run.join();
+
     return 0;
 }
