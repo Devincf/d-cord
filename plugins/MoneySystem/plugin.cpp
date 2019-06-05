@@ -73,7 +73,7 @@ void MoneySystem::init()
 
     m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")->bind([&](const nlohmann::json &json) {
         //std::cout << json.dump(2) << '\n';
-        if (tryGetSnowflake("guild_id", json) != 439065048628068363) // Todo: remove later
+        if (tryGetSnowflake("guild_id", json) != 439065048628068363 || tryGetSnowflake("id", json["author"]) == 444648378199048214) // Todo: remove first part later(keep bot msg check)
             return;
         if (++m_messagesSinceDrop >= messagesUntilDrop)
         {
@@ -88,7 +88,6 @@ void MoneySystem::init()
             embed["description"] = "w-would u like a drink master?";
             embed["image"]["url"] = "https://cdn.discordapp.com/attachments/439065048628068365/576535445123629064/20190510_172533.jpg";
             drop_json["embed"] = embed;
-
             auto dropMessage = msg->channel()->sendMessageExtended(drop_json);
             dropMessage->react(emoji::coffee);
             dropMessage->reactionListener(

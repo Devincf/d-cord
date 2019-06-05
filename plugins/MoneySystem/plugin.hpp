@@ -16,7 +16,7 @@
 namespace dppcord::plugins::moneysystem
 {
 
-const static int messagesUntilDrop = 10;
+const static int messagesUntilDrop = 7;
 
 typedef std::map<Snowflake, int> MoneyMap;
 
