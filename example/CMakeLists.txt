@@ -14,8 +14,9 @@ add_executable(Example
 
 find_package(dppcord REQUIRED)
 find_package(example_plugin REQUIRED)
+find_package(dppmoney REQUIRED)
 
 
 target_include_directories(Example PRIVATE "../" "../include/" "../submodules/nlohmannjson/single_include/" "../submodules/websocketpp/websocketpp/" "../submodules/curlpp/include/")
 
-target_link_libraries(Example PRIVATE dppcord example_plugin crypto pthread)
+target_link_libraries(Example PRIVATE dppcord dppmoney example_plugin crypto pthread)

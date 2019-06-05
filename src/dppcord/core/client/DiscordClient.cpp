@@ -49,6 +49,18 @@ void DiscordClient::run()
     }while(running);
 }
 
+const bool DiscordClient::isPluginLoaded(const std::string& pluginName)
+{
+    for(auto i = 0;i< m_plugins.size();i++)
+    {
+        if(m_plugins[i]->getName() == pluginName)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 WebsocketHandler &DiscordClient::getWebsocketHandler() { return m_websockethandler; }
 GuildsHandler &DiscordClient::getGuildsHandler() { return m_guildHandler; }
 UsersHandler& DiscordClient::getUsersHandler(){return m_userHandler; }

@@ -29,6 +29,7 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("READY", new ReadyEvent(pDiscordClient));
     m_eventDispatcher.addEvent("GUILD_CREATE", new GuildCreateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("MESSAGE_CREATE", new MessageCreateEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("MESSAGE_DELETE", new MessageDeleteEvent(pDiscordClient));
     m_eventDispatcher.addEvent("CHANNEL_CREATE", new ChannelCreateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("PRESENCE_UPDATE", new PresenceUpdateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("TYPING_START", new TypingStartEvent(pDiscordClient));
@@ -104,7 +105,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
             int randomNumber = (rand() % 5) + 1;
             std::cout << "Resume failed, sending fresh Identify after " + std::to_string(randomNumber) + " seconds\n";
             std::this_thread::sleep_for(std::chrono::seconds(randomNumber));
-            newConnection();
+            sendIdentify();
         }
         break;
     }
@@ -125,7 +126,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
         payload["d"]["session_id"] = res["session_id"];
         payload["d"]["seq"] = std::stoi(res["last_sequence"]);
         m_connection->sendPayload(payload);
-        std::cout << payload.dump(4);
+        //std::cout << payload.dump(4);
 
         break;
     }
@@ -144,7 +145,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
     }
 }
 
-void WebsocketHandler::newConnection()
+void WebsocketHandler::sendIdentify()
 {
     m_connectionStatus = WEBSOCKET_AUTHENTICATING;
     std::cout << "sending identify\n";
@@ -215,6 +216,7 @@ void WebsocketHandler::receiveHeartbeatACK()
 }
 void WebsocketHandler::resetHeartbeatACK() { m_heartbeatACK = false; }
 
+DispatchDistributor& WebsocketHandler::getDispatcher() { return m_eventDispatcher; }
 const int WebsocketHandler::getLastSequence() const { return m_lastSequence; }
 const bool WebsocketHandler::getHeartbeatACK() const { return m_heartbeatACK; }
 WebsocketConnection *WebsocketHandler::getConnection() { return m_connection.get(); }

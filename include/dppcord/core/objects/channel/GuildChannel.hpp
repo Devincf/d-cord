@@ -37,7 +37,19 @@ public:
      */
     Guild *getGuild();
 
+    /**
+     * @brief Sends a message and returns the newly created message object
+     * @param msg 
+     * @return std::shared_ptr<BaseMessage> 
+     */
     std::shared_ptr<BaseMessage> sendMessage(const std::string &msg) override;
+
+    /**
+     * @brief Sends a message and returns the newly created message object
+     * @param json 
+     * @return std::shared_ptr<BaseMessage> 
+     */
+    std::shared_ptr<BaseMessage> sendMessageExtended(const nlohmann::json& json) override;
 
 protected:
     /**

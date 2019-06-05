@@ -79,6 +79,11 @@ public:
      * @return WebsocketConnectionStatus connection status of the gateway
      */
     WebsocketConnectionStatus getConnectionStatus();
+    /**
+     * @brief Get the Dispatcher object
+     * @return const DispatchDistributor& 
+     */
+    DispatchDistributor& getDispatcher();
 
     void wait();
 
@@ -91,7 +96,7 @@ private:
     /**
      * @brief 
      */
-    void newConnection();
+    void sendIdentify();
 
     /**
      * @brief Last Sequence received by discord

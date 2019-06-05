@@ -33,10 +33,21 @@ void WebsocketConnection::connect(std::condition_variable *cv)
         m_clientEndpoint.get_alog().write(websocketpp::log::alevel::app, ec.message());
         return;
     }
-    m_clientEndpoint.connect(conn_ptr);
+    try
+    {
+        m_clientEndpoint.connect(conn_ptr);
 
-    m_running = true;
-    m_clientEndpoint.run();
+        m_running = true;
+        m_clientEndpoint.run();
+    }
+    catch (const websocketpp::exception &e)
+    {
+        std::cout << "websocketpp::exception(WebsocketConnecction::connect): "<<e.what() << '\n';
+    }catch(const std::exception& e)
+    {
+        std::cout << "std::exception(WebsocketConnecction::connect): " <<e.what() << '\n';
+    }
+
     m_running = false;
     cv->notify_all();
 }

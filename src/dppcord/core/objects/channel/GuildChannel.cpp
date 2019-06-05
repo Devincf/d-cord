@@ -37,4 +37,14 @@ std::shared_ptr<BaseMessage> GuildChannel::sendMessage(const std::string &msg)
     m_guild->addMessage(m);
     return m;
 }
+
+std::shared_ptr<BaseMessage> GuildChannel::sendMessageExtended(const nlohmann::json& json)
+{
+    auto string = DiscordEndpoint::sendMessageExtended(m_id, json);
+    auto newmsgjson = nlohmann::json::parse(string);
+    std::shared_ptr<BaseMessage> m = std::make_shared<BaseMessage>(std::shared_ptr<BaseChannel>(this), newmsgjson);
+    m_guild->addMessage(m);
+    return m;
+}
+
 } // namespace dppcord

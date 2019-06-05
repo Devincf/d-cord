@@ -11,8 +11,8 @@
 
 #ifndef EMOJI_HPP
 #define EMOJI_HPP
-#include "IIdentifiableObject.hpp"
-#include "INamedObject.hpp"
+#include "dppcord/core/objects/IIdentifiableObject.hpp"
+#include "dppcord/core/objects/INamedObject.hpp"
 
 namespace dppcord
 {

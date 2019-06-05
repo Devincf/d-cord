@@ -205,6 +205,9 @@ Example_SOURCE_DIR:STATIC=/home/lumi/code/cpp/d++cord/example
 //The directory containing a CMake configuration file for dppcord.
 dppcord_DIR:PATH=/home/lumi/code/cpp/d++cord/bin
 
+//The directory containing a CMake configuration file for dppmoney.
+dppmoney_DIR:PATH=/home/lumi/code/cpp/d++cord/plugins/MoneySystem
+
 //The directory containing a CMake configuration file for example_plugin.
 example_plugin_DIR:PATH=/home/lumi/code/cpp/d++cord/plugins/example_plugin
 

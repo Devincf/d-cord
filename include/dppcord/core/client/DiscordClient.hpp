@@ -91,7 +91,10 @@ public:
     void loadPlugin()
     {
         m_plugins.push_back(std::make_unique<T>(this));
+        m_plugins.back()->init();
     }
+
+    const bool isPluginLoaded(const std::string& pluginName);
 
     bool running;
 

@@ -5,6 +5,7 @@
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
 
 #include "plugins/example_plugin/plugin.hpp"
+#include "plugins/MoneySystem/plugin.hpp"
 
 #include "nlohmann/json.hpp"
 
@@ -32,6 +33,7 @@ int main(int argc, char *argv[])
     });
 
     e.loadPlugin<ExamplePlugin>();
+    e.loadPlugin<dppcord::plugins::moneysystem::MoneySystem>();
     std::thread run(&Example::run, &e);
     std::string input;
     for(;;)
@@ -55,6 +57,14 @@ int main(int argc, char *argv[])
             nlohmann::json json;
             json["op"] = 2;
             e.getWebsocketHandler().getConnection()->sendPayload(json);
+        }else if(input == "fakekill")
+        {
+            //not working yet lol segfaults next run because it cant parse resumed events from a new bot state
+            nlohmann::json json;
+            json["op"] = 2;
+            e.getWebsocketHandler().getConnection()->sendPayload(json);
+            e.shutdown();
+            break;
         }
         
     }

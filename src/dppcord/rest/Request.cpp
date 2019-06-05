@@ -22,7 +22,7 @@ using namespace curlpp::options;
 
 namespace dppcord
 {
-RequestResponse Request::sendGET(const std::string &url, const RequestHeaderList &headerList, const RequestContent &content)
+RequestResponse Request::sendPOST(const std::string &url, const RequestHeaderList &headerList, const RequestContent &content)
 {
     try
     {
@@ -47,4 +47,55 @@ RequestResponse Request::sendGET(const std::string &url, const RequestHeaderList
     }
     return RequestResponse("");
 }
+
+RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderList &headerList)
+{
+    try
+    {
+        curlpp::Cleanup myCleanup;
+        std::stringstream ss;
+
+        // Our request to be sent.
+        curlpp::Easy myRequest;
+        myRequest.setOpt<Url>(url);
+        myRequest.setOpt<HttpHeader>(headerList.get());
+        myRequest.setOpt<CustomRequest>("DELETE");
+        myRequest.setOpt<WriteStream>(&ss);
+
+        // Send request and get a result.
+        myRequest.perform();
+        return RequestResponse{ss.str()};
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    return RequestResponse("");
+}
+
+RequestResponse Request::sendPUT(const std::string& url, const RequestHeaderList& headerList)
+{
+    try
+    {
+        curlpp::Cleanup myCleanup;
+        std::stringstream ss;
+
+        // Our request to be sent.
+        curlpp::Easy myRequest;
+        myRequest.setOpt<Url>(url);
+        myRequest.setOpt<HttpHeader>(headerList.get());
+        myRequest.setOpt<CustomRequest>("PUT");
+        myRequest.setOpt<WriteStream>(&ss);
+
+        // Send request and get a result.
+        myRequest.perform();
+        return RequestResponse{ss.str()};
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    return RequestResponse("");
+}
+
 } // namespace dppcord

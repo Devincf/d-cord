@@ -41,7 +41,7 @@ public:
      * @param pChannel Pointer to the channel this message got posted in.
      * @param msgjson json data of the message
      */
-    BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::json& msgjson);
+    BaseMessage(const std::shared_ptr<BaseChannel>& pChannel, const nlohmann::json& msgjson);
     /**
      * @brief Returns the content of the message
      * @return std::string 
@@ -52,6 +52,17 @@ public:
      * @return std::shared_ptr<BaseChannel> 
      */
     std::shared_ptr<BaseChannel> channel();
+    /**
+     * @brief Removes the message
+     * @return std::string 
+     */
+    std::string remove();
+    /**
+     * @brief React to this message with a given emoji
+     * @param emoji to be used for reaction
+     * @return std::string 
+     */
+    std::string react(const std::string& emoji);
 
     void reactionListener(const nlohmann::json& json)
     {

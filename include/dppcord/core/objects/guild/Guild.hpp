@@ -13,7 +13,7 @@
 #define GUILD_HPP
 
 #include "dppcord/core/objects/user/GuildUser.hpp"
-#include "dppcord/core/objects/Emoji.hpp"
+#include "dppcord/core/objects/emoji/Emoji.hpp"
 #include "dppcord/core/objects/Role.hpp"
 #include "dppcord/core/objects/IIdentifiableObject.hpp"
 #include "dppcord/core/objects/INamedObject.hpp"
@@ -71,6 +71,11 @@ public:
      * @return std::shared_ptr<BaseMessage> 
      */
     std::shared_ptr<BaseMessage> getMessage(const Snowflake &id);
+    /**
+     * @brief Removes a Message 
+     * @param id 
+     */
+    void removeMessage(const Snowflake& id);
 
 private:
     /**

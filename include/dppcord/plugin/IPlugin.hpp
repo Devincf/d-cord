@@ -24,11 +24,10 @@ public:
 
     virtual void init();
     virtual void shutdown();
+    const std::string& getName() const;
 
 protected:
     IPlugin(DiscordClient *pClient, const std::string &name);
-
-private:
     std::string m_name;
     DiscordClient *m_pClient;
 };

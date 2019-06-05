@@ -27,10 +27,13 @@ void BaseEvent::proc(const nlohmann::json &eventPacket)
 
 void BaseEvent::baseproc(const nlohmann::json &eventPacket)
 {
+    //std::cout << "calling base proc()\n";
     proc(eventPacket);
     //call user defined func ptr
-    if(!m_userFunc.empty())
+    if(!m_userFunc.empty()){
+        //std::cout << "calling user-defined proc()\n";
         m_userFunc(eventPacket);
+    }
 }
 void BaseEvent::bind(boost::function<void(const nlohmann::json &)> &funcptr)
 {

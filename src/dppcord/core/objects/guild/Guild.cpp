@@ -159,20 +159,19 @@ std::shared_ptr<BaseChannel> Guild::addChannel(const nlohmann::json &channeldata
     {
     case CHANNELTYPE_GUILD_TEXT:
     {
-        auto ptr = std::shared_ptr<BaseChannel>(new GuildTextChannel(this, channeldata));
+        auto ptr = std::make_shared<GuildTextChannel>(this, channeldata);
         m_channels.push_back(ptr);
         return ptr;
     }
     case CHANNELTYPE_GUILD_CATEGORY:
     {
-        auto ptr = std::shared_ptr<BaseChannel>(new GuildChannel(this, channeldata));
+        auto ptr = std::make_shared<GuildChannel>(this, channeldata);
         m_channels.push_back(ptr);
         return ptr;
     }
     case CHANNELTYPE_GUILD_VOICE:
     {
-        auto ptr = std::shared_ptr<BaseChannel>(new GuildVoiceChannel(this, channeldata));
-        return ptr;
+        return std::make_shared<GuildVoiceChannel>(this, channeldata);
     }
     default:
         std::cout << "[ERROR] Channel with type " << type << "passed to Guild::addChannel id: " << tryGetSnowflake("id", channeldata) << " this should never happen \n";
@@ -205,7 +204,16 @@ std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id)
 
 void Guild::addMessage(const std::shared_ptr<BaseMessage> &msg)
 {
-    m_messages.insert({msg->getId(), msg});
+    std::cout << "adding message with id " << msg->getId() << '\n'; 
+    m_messages.insert({msg->getId(), msg}); 
+}
+
+void Guild::removeMessage(const Snowflake& id)
+{
+    /*if(m_messages.erase(id) == 0)Todo: fix bug with shared_ptr not being copied correctly(?)
+    {
+        std::cout << "Tried deleting message with id " << id << " but it didnt exist. \n";
+    }*/
 }
 
 std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake &id)
@@ -213,6 +221,7 @@ std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake &id)
     auto msg = m_messages.find(id);
     if (msg == m_messages.end())
     {
+        std::cout << "message with id " << id << " was not found\n";
         return nullptr;
     }
     return msg->second;

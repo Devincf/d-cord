@@ -36,4 +36,10 @@ std::shared_ptr<BaseMessage> BaseChannel::sendMessage(const std::string& msg)
     std::cout << json.dump(4) << '\n';*/
     return nullptr;
 }
+
+std::shared_ptr<BaseMessage> BaseChannel::sendMessageExtended(const nlohmann::json& json)
+{
+    return nullptr;
+}
+
 } // namespace dppcord

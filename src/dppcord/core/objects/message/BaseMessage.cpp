@@ -13,13 +13,15 @@
 #include "dppcord/core/objects/channel/GuildChannel.hpp"
 #include "dppcord/core/objects/guild/Guild.hpp"
 
+#include "dppcord/rest/DiscordEndpoint.hpp"
+
 #include "dppcord/util/jsonutil.hpp"
 
 namespace dppcord
 {
 BaseMessage::BaseMessage() {}
 
-BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::json &msgjson):m_channel(pChannel)
+BaseMessage::BaseMessage(const std::shared_ptr<BaseChannel>& pChannel, const nlohmann::json &msgjson):m_channel(pChannel)
 {
     auto channel = std::dynamic_pointer_cast<GuildChannel>(pChannel);
     m_id = tryGetSnowflake("id", msgjson);
@@ -38,8 +40,24 @@ BaseMessage::BaseMessage(std::shared_ptr<BaseChannel> pChannel, const nlohmann::
     std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel " << channel->getName() << " : " << m_content << '\n';
 }
 
-BaseMessage::~BaseMessage() {}
+BaseMessage::~BaseMessage() 
+{
+    std::cout << "base destr with channel count " << m_channel.use_count() << '\n';
+}
+
+std::string BaseMessage::remove()
+{
+    auto ret = DiscordEndpoint::deleteMessage(std::to_string(m_channel->getId()), std::to_string(m_id));
+    //std::dynamic_pointer_cast<GuildChannel>(m_channel)->getGuild()->removeMessage(m_id);
+    return ret;
+}
+
+std::string BaseMessage::react(const std::string& emoji)
+{
+    //emoji takes the form of name:id for custom guild emoji,
+    return DiscordEndpoint::createReaction(std::to_string(m_channel->getId()), std::to_string(m_id), emoji);
+}
 
 std::string BaseMessage::content(){ return m_content; }
-std::shared_ptr<BaseChannel> BaseMessage::channel(){return m_channel;}
+std::shared_ptr<BaseChannel> BaseMessage::channel(){std::cout << "getchannel()\n"; return m_channel;}
 } // namespace dppcord

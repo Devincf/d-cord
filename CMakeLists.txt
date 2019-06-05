@@ -17,6 +17,7 @@ link_directories(... ${Boost_LIBRARY_DIRS})
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
+
 add_library(dppcord SHARED
 src/dppcord/core/client/DiscordClient.cpp  
 
@@ -29,7 +30,7 @@ src/dppcord/core/objects/guild/Guild.cpp
 src/dppcord/core/objects/channel/BaseChannel.cpp src/dppcord/core/objects/channel/GuildChannel.cpp src/dppcord/core/objects/channel/DmChannel.cpp src/dppcord/core/objects/channel/GuildVoiceChannel.cpp src/dppcord/core/objects/channel/GuildTextChannel.cpp 
 src/dppcord/core/objects/user/User.cpp  src/dppcord/core/objects/user/GuildUser.cpp src/dppcord/core/objects/user/BotUser.cpp 
 src/dppcord/core/objects/Role.cpp 
-src/dppcord/core/objects/Emoji.cpp 
+src/dppcord/core/objects/emoji/Emoji.cpp 
 src/dppcord/core/objects/message/BaseMessage.cpp
 
 src/dppcord/command/argument/ArgumentList.cpp
@@ -45,7 +46,8 @@ src/dppcord/rest/Request.cpp src/dppcord/rest/RequestContent.cpp src/dppcord/res
 
 src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp
 src/dppcord/websocket/api/gateway/events/DispatchDistributor.cpp  src/dppcord/websocket/api/gateway/events/BaseEvent.cpp    
-src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    src/dppcord/websocket/api/gateway/events/GuildCreateEvent.cpp    src/dppcord/websocket/api/gateway/events/MessageCreateEvent.cpp
+src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    src/dppcord/websocket/api/gateway/events/GuildCreateEvent.cpp    
+src/dppcord/websocket/api/gateway/events/MessageCreateEvent.cpp src/dppcord/websocket/api/gateway/events/MessageDeleteEvent.cpp
 src/dppcord/websocket/api/gateway/events/ChannelCreateEvent.cpp src/dppcord/websocket/api/gateway/events/TypingStartEvent.cpp src/dppcord/websocket/api/gateway/events/PresenceUpdateEvent.cpp 
 src/dppcord/websocket/api/gateway/events/MessageReactionAdd.cpp src/dppcord/websocket/api/gateway/events/ResumeEvent.cpp
 src/dppcord/websocket/api/gateway/Heartbeater.cpp    
@@ -58,7 +60,7 @@ set_target_properties(dppcord PROPERTIES SOVERSION 1)
 
 export(PACKAGE dppcord)
 
-target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp submodules/rapidjson/include
+target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp
                             )
 
 target_link_libraries(dppcord Threads::Threads crypto ssl curl curlpp sqlite3 Boost::thread pthread)

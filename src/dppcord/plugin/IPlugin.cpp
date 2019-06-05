@@ -13,11 +13,12 @@
 
 namespace dppcord
 {
-    IPlugin::IPlugin(DiscordClient* pClient, const std::string& name):  m_name(name),m_pClient(pClient)
+    IPlugin::IPlugin(DiscordClient* pClient, const std::string& name):  m_name(name)
     {
-        (void)m_pClient;
+        m_pClient = pClient;
     }
     IPlugin::IPlugin(): m_name(""), m_pClient(nullptr){}
     void IPlugin::init(){}
     void IPlugin::shutdown(){}
+    const std::string& IPlugin::getName()const {return m_name;}
 }

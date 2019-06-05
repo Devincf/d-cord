@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/core/objects/Emoji.hpp"
+#include "dppcord/core/objects/emoji/Emoji.hpp"
 #include "dppcord/core/objects/user/GuildUser.hpp"
 #include "dppcord/util/jsonutil.hpp"
 
