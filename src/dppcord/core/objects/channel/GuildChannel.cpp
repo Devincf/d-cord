@@ -28,22 +28,22 @@ GuildChannel::GuildChannel(Guild *pGuild, const nlohmann::json &channeljson) : B
 GuildChannel::~GuildChannel() {}
 
 
-std::shared_ptr<BaseMessage> GuildChannel::sendMessage(const std::string &msg)
+BaseMessage& GuildChannel::sendMessage(const std::string &msg)
 {
     auto string = DiscordEndpoint::sendMessage(m_id, msg);
     auto json = nlohmann::json::parse(string);
-    std::shared_ptr<BaseMessage> m = std::make_shared<BaseMessage>(std::shared_ptr<BaseChannel>(this), json);
+    BaseMessage* m = new BaseMessage(*this, json);
     m_guild->addMessage(m);
-    return m;
+    return *m;
 }
 
-std::shared_ptr<BaseMessage> GuildChannel::sendMessageExtended(const nlohmann::json& json)
+BaseMessage& GuildChannel::sendMessageExtended(const nlohmann::json& json)
 {
     auto string = DiscordEndpoint::sendMessageExtended(m_id, json);
     auto newmsgjson = nlohmann::json::parse(string);
-    std::shared_ptr<BaseMessage> m = std::make_shared<BaseMessage>(std::shared_ptr<BaseChannel>(this), newmsgjson);
+    BaseMessage* m = new BaseMessage(*this, newmsgjson);
     m_guild->addMessage(m);
-    return m;
+    return *m;
 }
 
 Guild *GuildChannel::getGuild() const{ return m_guild; }

@@ -29,6 +29,9 @@ public:
      */
     ~DmChannel();
 
+    BaseMessage &sendMessage(const std::string &content)override;
+    BaseMessage &sendMessageExtended(const nlohmann::json &json)override;
+
 protected:
 private:
     //TODO: recipients

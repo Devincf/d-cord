@@ -53,7 +53,7 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler)
 
     for (auto it = guildjson["roles"].begin(); it != guildjson["roles"].end(); it++)
     {
-        m_roles.insert({(*it)["id"], std::shared_ptr<Role>(new Role(this, *it))});
+        m_roles.insert({(*it)["id"], std::make_unique<Role>(this, *it)});
     }
     for (auto it = guildjson["emojis"].begin(); it != guildjson["emojis"].end(); it++)
     {
@@ -93,42 +93,46 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler)
     }*/
     for (auto it = guildjson["members"].begin(); it != guildjson["members"].end(); it++)
     {
-        auto userptr = pUserHandler.findUser(tryGetSnowflake("id", (*it)["user"]));
-        if (userptr == nullptr)
+        Snowflake userid = tryGetSnowflake("id", (*it)["user"]);
+        User* user;
+        if(!pUserHandler.userExists(userid))
         {
-            userptr = std::shared_ptr<User>(new GuildUser(this, *it));
-            pUserHandler.addUser(userptr->getId(), userptr);
+            user = new GuildUser(this, *it);
+            pUserHandler.addUser(user);
+        }else
+        {
+            user = &pUserHandler.findUser(userid);
         }
-        m_members.push_back(userptr);
+        m_members.push_back(user);
 
-        if (userptr->getId() == tryGetSnowflake("owner_id", guildjson))
+        if (user->getId() == tryGetSnowflake("owner_id", guildjson))
         {
-            m_ownerPtr = userptr;
+            m_ownerPtr = user;
         }
     }
 
     //std::cout << "loading channels\n";
     for (auto it = guildjson["channels"].begin(); it != guildjson["channels"].end(); it++)
     {
-        auto channelptr = addChannel(*it);
-        if (channelptr->getId() == tryGetSnowflake("afk_channel_id", guildjson))
+        auto& channelptr = addChannel(*it);
+        if (channelptr.getId() == tryGetSnowflake("afk_channel_id", guildjson))
         {
-            m_afkChannel = channelptr.get();
+            m_afkChannel = &channelptr;
             continue;
         }
-        else if (channelptr->getId() == tryGetSnowflake("embed_channel_id", guildjson))
+        else if (channelptr.getId() == tryGetSnowflake("embed_channel_id", guildjson))
         {
-            m_embedChannel = channelptr.get();
+            m_embedChannel = &channelptr;
             continue;
         }
-        else if (channelptr->getId() == tryGetSnowflake("widget_channel_id", guildjson))
+        else if (channelptr.getId() == tryGetSnowflake("widget_channel_id", guildjson))
         {
-            m_widgetChannel = channelptr.get();
+            m_widgetChannel = &channelptr;
             continue;
         }
-        else if (channelptr->getId() == tryGetSnowflake("system_channel_id", guildjson))
+        else if (channelptr.getId() == tryGetSnowflake("system_channel_id", guildjson))
         {
-            m_systemChannel = channelptr.get();
+            m_systemChannel = &channelptr;
             continue;
         }
     }
@@ -152,60 +156,60 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler)
         std::cout << "owner id: " << std::to_string(m_ownerPtr->getId()) << '\n';*/
 }
 
-std::shared_ptr<BaseChannel> Guild::addChannel(const nlohmann::json &channeldata)
+BaseChannel& Guild::addChannel(const nlohmann::json &channeldata)
 {
     int type = tryGetJson<int>("type", channeldata);
     switch (type)
     {
     case CHANNELTYPE_GUILD_TEXT:
     {
-        auto ptr = std::make_shared<GuildTextChannel>(this, channeldata);
-        m_channels.push_back(ptr);
-        return ptr;
+        GuildTextChannel* channel = new GuildTextChannel(this, channeldata);
+        return *m_channels.emplace_back(channel);
     }
     case CHANNELTYPE_GUILD_CATEGORY:
     {
-        auto ptr = std::make_shared<GuildChannel>(this, channeldata);
-        m_channels.push_back(ptr);
-        return ptr;
+        GuildChannel* channel = new GuildChannel(this, channeldata);
+        return *m_channels.emplace_back(channel);
     }
     case CHANNELTYPE_GUILD_VOICE:
     {
-        return std::make_shared<GuildVoiceChannel>(this, channeldata);
+        return *std::make_unique<GuildVoiceChannel>(this, channeldata);
     }
     default:
-        std::cout << "[ERROR] Channel with type " << type << "passed to Guild::addChannel id: " << tryGetSnowflake("id", channeldata) << " this should never happen \n";
-        return nullptr;
+        throw std::runtime_error("[ERROR] Channel with type " + std::to_string(type) + "passed to Guild::addChannel id: " + std::to_string(tryGetSnowflake("id", channeldata)) + " this should never happen \n");
     }
 }
 
-std::shared_ptr<Role> Guild::getRole(const Snowflake &id) const
+Role& Guild::getRole(const Snowflake &id) const
 {
     auto roleptr = m_roles.find(id);
-    if (roleptr == m_roles.end())
-    {
-        return nullptr;
-    }
-    return roleptr->second;
+    if (roleptr == m_roles.end()) throw std::runtime_error("Role with id " + std::to_string(id) + " wasn't found");
+    if(!roleptr->second) throw std::runtime_error("Role is nullptr");
+    return *roleptr->second;
 }
 
-std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id) const
+User& Guild::getUserFromId(const Snowflake &id) const
 {
     for (const auto &it : m_members)
     {
         if (it->getId() == id)
         {
-            return it;
+            return *it;
         }
     }
     //doesnt exist.
-    return nullptr;
+    throw std::runtime_error("User doesnt exist in guild map");
 }
 
-void Guild::addMessage(const std::shared_ptr<BaseMessage> &msg)
+void Guild::addMessage(BaseMessage* const msg)
 {
-    std::cout << "adding message with id " << msg->getId() << '\n'; 
-    m_messages.insert({msg->getId(), msg}); 
+    //std::cout << "adding message with id " << msg->getId(); 
+    auto res = m_messages.insert({msg->getId(), std::unique_ptr<BaseMessage>(msg)}); 
+    if(!res.second)
+    {
+        std::cout << "..error adding msg";
+    }
+    std::cout << '\n';
 }
 
 void Guild::removeMessage(const Snowflake& id)
@@ -216,28 +220,26 @@ void Guild::removeMessage(const Snowflake& id)
     }*/
 }
 
-std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake &id)const
+BaseMessage& Guild::getMessage(const Snowflake &id)const
 {
     auto msg = m_messages.find(id);
     if (msg == m_messages.end())
     {
-        std::cout << "message with id " << id << " was not found\n";
-        return nullptr;
+        throw std::runtime_error("message with id " + std::to_string(id)+ " was not found\n");
     }
-    return msg->second;
+    return *msg->second;
 }
 
-std::shared_ptr<BaseChannel> Guild::getChannel(const Snowflake &id) const
+BaseChannel& Guild::getChannel(const Snowflake &id) const
 {
     for (const auto &i : m_channels)
     {
         if (i->getId() == id)
         {
-            return i;
+            return *i;
         }
     }
-    //doesnt exist
-    return nullptr;
+    throw std::runtime_error("Channel with id " + std::to_string(id) + " not found or is nullptr");
 }
 
 } // namespace dppcord

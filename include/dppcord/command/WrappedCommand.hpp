@@ -23,9 +23,9 @@ public:
     WrappedCommand() = default;
     virtual ~WrappedCommand() = default;
 
-    virtual void proc(BaseMessage* pMsg, const ArgumentList& cmd){}
+    virtual void proc(const BaseMessage& pMsg, const ArgumentList& cmd){}
 
-    void internal_proc(BaseMessage* pMsg, const ArgumentList& cmd) override
+    void internal_proc(const BaseMessage& pMsg, const ArgumentList& cmd) override
     {
         proc(pMsg, cmd);
     }

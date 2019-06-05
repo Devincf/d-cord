@@ -28,18 +28,19 @@ BaseChannel::BaseChannel(const nlohmann::json &channeljson)
     m_iconHash = tryGetJson<std::string>("icon",channeljson);
     //timestamp
 }
-std::shared_ptr<BaseMessage> BaseChannel::sendMessage(const std::string& msg)
+/*
+BaseMessage& BaseChannel::sendMessage(const std::string& msg)
 {
-    /*auto string = DiscordEndpoint::sendMessage(m_id, msg);
+    auto string = DiscordEndpoint::sendMessage(m_id, msg);
     std::cout << string << '\n';
     auto json = nlohmann::json::parse(string);
-    std::cout << json.dump(4) << '\n';*/
-    return nullptr;
+    std::cout << json.dump(4) << '\n';
+    return std::ref({});
 }
 
-std::shared_ptr<BaseMessage> BaseChannel::sendMessageExtended(const nlohmann::json& json)
+BaseMessage& BaseChannel::sendMessageExtended(const nlohmann::json& json)
 {
-    return nullptr;
-}
+    return {};
+}*/
 
 } // namespace dppcord

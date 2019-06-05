@@ -25,7 +25,7 @@ GuildUser::GuildUser(Guild* pGuild, const nlohmann::json &guserjson):User(guserj
     m_nickname = tryGetJson<std::string>("nick", guserjson);
     for(auto it = guserjson["roles"].begin();it!= guserjson["roles"].end();it++)
     {
-        m_roles.push_back(m_guild->getRole(*it));
+        m_roles.push_back(&m_guild->getRole(*it));
     }
     m_joinedAt = util::Timestamp(tryGetJson<std::string>("joined_at", guserjson));
     m_deaf = tryGetJson<bool>("deaf", guserjson);

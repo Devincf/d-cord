@@ -41,36 +41,36 @@ public:
      * @param id of the role
      * @return std::shared_ptr<Role> 
      */
-    std::shared_ptr<Role> getRole(const Snowflake &id) const;
+    Role& getRole(const Snowflake &id) const;
     /**
      * @brief Returns a pointer to a user object with a given id inside the guild
      * @param id of the user
      * @return std::shared_ptr<User> , nullptr if it doesnt exist
      */
-    std::shared_ptr<User> getUserFromId(const Snowflake &id) const;
+    User& getUserFromId(const Snowflake &id) const;
     /**
      * @brief Returns a pointer to a channel object with a given id inside the guild
      * @param id of the channel
      * @return std::shared_ptr<Channel> , nullptr if it doesnt exist
      */
-    std::shared_ptr<BaseChannel> getChannel(const Snowflake &id) const ;
+    BaseChannel& getChannel(const Snowflake &id) const ;
     /**
      * @brief Constructs and returns a new channel object
      * @param channeldata the channel information as a json object
      * @return std::shared_ptr<BaseChannel> the pointer that belongs to the new channel
      */
-    std::shared_ptr<BaseChannel> addChannel(const nlohmann::json &channeldata);
+    BaseChannel& addChannel(const nlohmann::json &channeldata);
     /**
      * @brief Adds a Message into the Message map
      * @param msg 
      */
-    void addMessage(const std::shared_ptr<BaseMessage> &msg);
+    void addMessage(BaseMessage* const msg);
     /**
      * @brief Returns the pointer to the message with id if exists, nullptr otherwise
      * @param id of the message to get
      * @return std::shared_ptr<BaseMessage> 
      */
-    std::shared_ptr<BaseMessage> getMessage(const Snowflake &id) const;
+    BaseMessage& getMessage(const Snowflake &id) const;
     /**
      * @brief Removes a Message 
      * @param id 
@@ -97,7 +97,7 @@ private:
     /**
      * @brief Pointer to the owner user object
      */
-    std::shared_ptr<User> m_ownerPtr;
+    User* m_ownerPtr;
     /**
      * @brief Total permission for the user in the guild
      */
@@ -136,9 +136,9 @@ private:
      */
     int m_explicitContentFilter;
     /**
-     * @brief Vector ccontaining all guild specific roles
+     * @brief Vector containing all guild specific roles
      */
-    std::map<Snowflake, std::shared_ptr<Role>> m_roles;
+    std::map<Snowflake, std::unique_ptr<Role>> m_roles;
     /**
      * @brief Vector containing all guild specific emojis
      */
@@ -190,16 +190,16 @@ private:
     /**
      * @brief Vector containing all guild members
      */
-    std::vector<std::shared_ptr<User>> m_members;
+    std::vector<User*> m_members;
     /**
      * @brief Vector containing all guild channels
      * TODO: switch to Channel* after Channel has been split into different objects
      */
-    std::vector<std::shared_ptr<BaseChannel>> m_channels;
+    std::vector<std::unique_ptr<BaseChannel>> m_channels;
     /**
      * @brief Map containing all Messages sorted by their id
      */
-    std::map<Snowflake, std::shared_ptr<BaseMessage>> m_messages;
+    std::map<Snowflake, std::unique_ptr<BaseMessage>> m_messages;
 
     //presences
     /**

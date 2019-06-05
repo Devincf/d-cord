@@ -24,11 +24,11 @@ int main(int argc, char *argv[])
             std::cout << k << "-" << v << '\n';
     }*/
 
-    dppcord::CommandMap::addCommand("!ping", [](dppcord::BaseMessage *msg, const dppcord::ArgumentList &args) {
-        msg->channel()->sendMessage("pong")->reactionListener(
-            [](dppcord::BaseMessage *msg, const nlohmann::json &json) {
-                std::cout << msg->content() << '\n';
-                msg->channel()->sendMessage("reacted to pong!");
+    dppcord::CommandMap::addCommand("!ping", [](const dppcord::BaseMessage& msg, const dppcord::ArgumentList &args) {
+        msg.channel().sendMessage("pong").reactionListener(
+            [](dppcord::BaseMessage &msg, const nlohmann::json &json) {
+                std::cout << msg.content() << '\n';
+                msg.channel().sendMessage("reacted to pong!");
             });
     });
 

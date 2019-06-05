@@ -16,14 +16,9 @@ namespace dppcord
 UsersHandler::UsersHandler() {}
 UsersHandler::~UsersHandler() {}
 
-const bool UsersHandler::addUser(User *pUser)
+const bool UsersHandler::addUser(User * const pUser)
 {
-    return addUser(pUser->getId(), std::shared_ptr<User>(pUser));
-}
-
-const bool UsersHandler::addUser(const Snowflake &id, const std::shared_ptr<User>& pUser)
-{
-    auto res = m_userMap.insert({id, pUser});
+    auto res = m_userMap.insert({pUser->getId(), std::unique_ptr<User>(pUser)});
     if (!res.second)
     {
         //already existed
@@ -37,13 +32,16 @@ const int UsersHandler::globalAmount() const
     return m_userMap.size();
 }
 
-std::shared_ptr<User> UsersHandler::findUser(const Snowflake &id) const
+const bool UsersHandler::userExists(const Snowflake& id) const
+{
+    return m_userMap.find(id) != m_userMap.end();
+}
+
+User& UsersHandler::findUser(const Snowflake &id) const
 {
     auto it = m_userMap.find(id);
-    if (it == m_userMap.end())
-    {
-        return nullptr;
-    }
-    return it->second;
+    if (it == m_userMap.end()) throw std::runtime_error("User not found");
+    if (!it->second) throw std::runtime_error("User is nullptr");
+    return *it->second;
 }
 } // namespace dppcord

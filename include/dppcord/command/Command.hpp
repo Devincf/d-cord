@@ -26,7 +26,7 @@ namespace dppcord
         Command(const std::string& name);
         virtual ~Command() = default;
 
-        virtual void internal_proc(BaseMessage* pMsg, const ArgumentList& argList);
+        virtual void internal_proc(const BaseMessage& pMsg, const ArgumentList& argList);
 
         private:
         CommandName m_cmdName;

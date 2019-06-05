@@ -39,7 +39,7 @@ void MoneySystem::init()
 {
     std::cout << "money init\n";
     CommandMap::addCommand("!leaderboard",
-                           [=](BaseMessage *msg, const ArgumentList &argList) {
+                           [=](const BaseMessage &msg, const ArgumentList &argList) {
                                //auto leaderboard = Singleton<MoneyManager>::get()->getLeaderboard(10);
                                auto leaderboard = m_pClient->getDatabase().query("SELECT id,money FROM users ORDER BY money DESC LIMIT 10");
                                std::stringstream ss;
@@ -47,15 +47,8 @@ void MoneySystem::init()
                                for (auto i : leaderboard)
                                {
                                    //auto userptr = Singleton<UserManager>::get()->findUser(current.first);
-                                   auto userptr = m_pClient->getUsersHandler().findUser(i["id"]);
-                                   if (userptr != nullptr)
-                                   {
-                                       ss << emoji::rankingEmojis.at(incrementer++) << " **" << userptr->getName() << "**      ( " << i["money"] << " )\n\n";
-                                   }
-                                   else
-                                   {
-                                       std::cout << "Couldnt find user with userid " << i["id"] << '\n';
-                                   }
+                                    auto userptr = m_pClient->getUsersHandler().findUser(i["id"]);
+                                    ss << emoji::rankingEmojis.at(incrementer++) << " **" << userptr.getName() << "**      ( " << i["money"] << " )\n\n";
                                }
                                nlohmann::json json;
                                //https://news.bitcoin.com/wp-content/uploads/2018/07/ranking-300x237.jpg
@@ -68,7 +61,7 @@ void MoneySystem::init()
 
                                json["embed"] = embed;
 
-                               msg->channel()->sendMessageExtended(json);
+                               msg.channel().sendMessageExtended(json);
                            });
 
     m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")->bind([&](const nlohmann::json &json) {
@@ -78,31 +71,33 @@ void MoneySystem::init()
         if (++m_messagesSinceDrop >= messagesUntilDrop)
         {
             //drop()
-            auto guild = m_pClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", json));
-            auto msg = guild->getMessage(tryGetSnowflake("id", json));
-
+            Guild& guild = m_pClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", json));
+            std::cout << guild.getName() << '\n';
+            auto& msg = guild.getMessage(tryGetSnowflake("id", json));
             nlohmann::json drop_json;
             nlohmann::json embed;
-            embed["title"] = "Coin drop";
+            embed["title"] = "       Coin drop";
             embed["color"] = 10824234;
             embed["description"] = "w-would u like a drink master?";
             embed["image"]["url"] = "https://cdn.discordapp.com/attachments/439065048628068365/576535445123629064/20190510_172533.jpg";
             drop_json["embed"] = embed;
-            auto dropMessage = msg->channel()->sendMessageExtended(drop_json);
-            dropMessage->react(emoji::coffee);
-            dropMessage->reactionListener(
-                [=](BaseMessage *msg, const nlohmann::json &json) {
+            auto& dropMessage = msg.channel().sendMessageExtended(drop_json);
+            std::cout << "yeah\n";
+            dropMessage.react(emoji::coffee);
+            std::cout << "yeah\n";
+            dropMessage.reactionListener(
+                [=](BaseMessage &msg, const nlohmann::json &json) {
                     auto userptr = m_pClient->getUsersHandler().findUser(tryGetSnowflake("user_id", json));
-                    if (tryGetJson<std::string>("name", json["emoji"]) == emoji::coffee && userptr->getId() != m_pClient->getBotUser().getId())
+                    if (tryGetJson<std::string>("name", json["emoji"]) == emoji::coffee && userptr.getId() != m_pClient->getBotUser().getId())
                     {
                         //claim money.
                         //std::cout << json.dump(2) << '\n';
                         //Todo: think about whether I want to localize this or not
                         //m_globalMoneyMap.find(tryGetSnowflake("user_id", json))->second += 100; //Todo: replace with configurable moneyvalue
                         //updata data in database
-                        m_pClient->getDatabase().query("UPDATE users SET money=money+100 WHERE id=" + std::to_string(userptr->getId()));
-                        msg->remove();
-                        msg->channel()->sendMessage(userptr->getName() + " claimed 100 coins!");
+                        m_pClient->getDatabase().query("UPDATE users SET money=money+100 WHERE id=" + std::to_string(userptr.getId()));
+                        msg.remove();
+                        msg.channel().sendMessage(userptr.getName() + " claimed 100 coins!");
                     }
                 });
             m_messagesSinceDrop = 0;

@@ -26,8 +26,8 @@ namespace dppcord
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
-        auto guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
-        guild->removeMessage(tryGetSnowflake("id", eventPacket));
+        Guild& guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
+        guild.removeMessage(tryGetSnowflake("id", eventPacket));
     }
     else
     {

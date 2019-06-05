@@ -16,7 +16,7 @@ namespace dppcord
 {
 Command::Command(const std::string &name) : m_cmdName(name) {}
 
-void Command::internal_proc(BaseMessage* pClient, const ArgumentList& args)
+void Command::internal_proc(const BaseMessage& pClient, const ArgumentList& args)
 {
     std::cout << "command::internal_proc()\n";
 }

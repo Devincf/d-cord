@@ -23,9 +23,8 @@ void MessageReactionAdd::proc(const nlohmann::json &eventPacket)
     //get message
     //if not nullptr procEvent.
 
-    auto msg = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket))->getMessage(tryGetSnowflake("message_id", eventPacket));
-    if(msg != nullptr)
-        msg->reactionListener(eventPacket);
+    auto& msg = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).getMessage(tryGetSnowflake("message_id", eventPacket));
+    msg.reactionListener(eventPacket);
 
 }
 

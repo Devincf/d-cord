@@ -32,20 +32,19 @@ public:
      * @param pointer to the User object that should be inserted.
      * @return Whether the User didnt exist in the map before
      */
-    const bool addUser(User *pUser);
-    /**
-     * @brief Adds a user into the global User map
-     * @param user id
-     * @param shared_ptr to the user 
-     * @return Whether the User didnt exist in the map before
-     */
-    const bool addUser(const Snowflake& id, const std::shared_ptr<User>& pUser);
+    const bool addUser(User * const pUser);
     /**
      * @brief Checks whether a User id exists in the global user map
      * @param id to look for
      * @return std::shared_ptr<User> of the user. nullptr if no user was found
      */
-    std::shared_ptr<User> findUser(const Snowflake& id) const;
+    User& findUser(const Snowflake& id) const;
+    /**
+     * @brief Checks whether a User exists or not
+     * @param id of the user
+     * @return bool true if user exists
+     */
+    const bool userExists(const Snowflake& id) const;
     /**
      * @brief Returns the total amount of global Users
      * @return const int 
@@ -56,7 +55,7 @@ private:
     /**
      * @brief Map containing all global users 
      */
-    std::map<Snowflake, std::shared_ptr<User>> m_userMap;
+    std::map<Snowflake, std::unique_ptr<User>> m_userMap;
 };
 } // namespace dppcord
 

@@ -23,7 +23,7 @@ namespace dppcord
 DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
 {
     m_database = std::unique_ptr<Database>(new SQLiteDatabase("test.db"));
-    CommandMap::addCommand("!about", [&](BaseMessage *msg, const ArgumentList &argList) {
+    CommandMap::addCommand("!about", [&](const BaseMessage &msg, const ArgumentList &argList) {
         nlohmann::json json2{
             {"embed",
              {
@@ -38,7 +38,7 @@ DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), 
 
              }} // namespace dppcord
         };
-        msg->channel()->sendMessageExtended(json2);
+        msg.channel().sendMessageExtended(json2);
     });
     DiscordEndpoint::init(token);
 }

@@ -13,10 +13,19 @@
 
 namespace dppcord
 {
-    DmChannel::DmChannel(const nlohmann::json& channeljson):BaseChannel(channeljson)
-    {
-
-    }
-
-    DmChannel::~DmChannel(){}
+DmChannel::DmChannel(const nlohmann::json &channeljson) : BaseChannel(channeljson)
+{
 }
+
+DmChannel::~DmChannel() {}
+
+BaseMessage &DmChannel::sendMessage(const std::string &msg)
+{
+    throw std::runtime_error("not implemented");
+}
+
+BaseMessage &DmChannel::sendMessageExtended(const nlohmann::json &json)
+{
+    throw std::runtime_error("not implemented");
+}
+} // namespace dppcord

@@ -35,13 +35,13 @@ public:
      * @brief Sends a message in this channel
      * @param msg 
      */
-    virtual std::shared_ptr<BaseMessage> sendMessage(const std::string& msg);
+    virtual BaseMessage& sendMessage(const std::string& msg) = 0;
     /**
      * @brief Sends a message in this channel from a json object
      * @param json 
      * @return std::shared_ptr<BaseMessage> 
      */
-    virtual std::shared_ptr<BaseMessage> sendMessageExtended(const nlohmann::json& json);
+    virtual BaseMessage& sendMessageExtended(const nlohmann::json& json) = 0;
 protected:
     /**
      * @brief Construct a new Channel object

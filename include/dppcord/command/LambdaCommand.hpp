@@ -25,7 +25,7 @@ public:
     LambdaCommand(const callback& f) : fn(f) {}
     ~LambdaCommand() = default;
 
-    void internal_proc(BaseMessage* pClient, const ArgumentList& cmd) override
+    void internal_proc(const BaseMessage& pClient, const ArgumentList& cmd) override
     {
         fn(pClient, cmd);
     }

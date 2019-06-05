@@ -18,7 +18,7 @@ namespace dppcord
 {
 class BaseMessage;
 class ArgumentList;
-using callback = std::function<void(BaseMessage*, const ArgumentList&)>;
+using callback = std::function<void(const BaseMessage&, const ArgumentList&)>;
 }
 
 #endif

@@ -36,12 +36,13 @@ public:
      * @brief Construct a new Base Message object
      */
     BaseMessage();
+    BaseMessage(const BaseMessage& rhs) = default;
     /**
      * @brief Construct a new Base Message object
      * @param pChannel Pointer to the channel this message got posted in.
      * @param msgjson json data of the message
      */
-    BaseMessage(const std::shared_ptr<BaseChannel>& pChannel, const nlohmann::json& msgjson);
+    BaseMessage(BaseChannel& pChannel, const nlohmann::json& msgjson);
     /**
      * @brief Returns the content of the message
      * @return std::string 
@@ -51,7 +52,7 @@ public:
      * @brief Returns the channel the message has been posted in
      * @return std::shared_ptr<BaseChannel> 
      */
-    std::shared_ptr<BaseChannel> channel() const;
+    BaseChannel& channel() const;
     /**
      * @brief Removes the message
      * @return std::string 
@@ -66,10 +67,10 @@ public:
 
     void reactionListener(const nlohmann::json& json)
     {
-        m_reactionListener(this, json);
+        m_reactionListener(*this, json);
     }
 
-    void reactionListener(const std::function<void(BaseMessage* msg, const nlohmann::json& )>& fn)
+    void reactionListener(const std::function<void(BaseMessage& msg, const nlohmann::json& )>& fn)
     {
         m_reactionListener = fn;
     }
@@ -80,11 +81,11 @@ private:
     /**
      * @brief Pointer to the Channel this message was posted in
      */
-    std::shared_ptr<BaseChannel> m_channel;
+    BaseChannel* m_channel;
     /**
      * @brief Pointer to the User that created this message
      */
-    std::shared_ptr<User> m_author;
+    User* m_author;
     /**
      * @brief Content of the Message
      */
@@ -137,7 +138,7 @@ reactions?	array of reaction objects	reactions to the message
     int m_type;
 
 
-    std::function<void(BaseMessage* msg, const nlohmann::json&)> m_reactionListener;
+    std::function<void(BaseMessage& msg, const nlohmann::json&)> m_reactionListener;
 
 /**
  * TODO: implement

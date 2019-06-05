@@ -34,14 +34,14 @@ public:
      * @param rGuild Guild to be added
      * @return whether the guild didnt exist in the map before or not
      */
-    const bool addGuild(Guild *rGuild);
+    const bool addGuild(Guild * const rGuild);
 
     /**
      * @brief Returns a pointer to the guild with a given id
      * @param id of the guild
      * @return Guild* , nullptr if no guild was found
      */
-    std::shared_ptr<Guild> getGuild(const Snowflake& id) const;
+    Guild& getGuild(const Snowflake& id) const;
     /**
      * @brief Returns the Amount of Guilds
      * @return const int 
@@ -52,7 +52,7 @@ private:
     /**
      * @brief Map containing every Guild the bot is in
      */
-    std::map<Snowflake, std::shared_ptr<Guild>> m_guildMap;
+    std::map<Snowflake, std::unique_ptr<Guild>> m_guildMap;
 };
 } // namespace dppcord
 

@@ -18,10 +18,11 @@ namespace dppcord
 Emoji::Emoji() {}
 Emoji::~Emoji() {}
 
-Emoji::Emoji(const nlohmann::json& emojijson): Emoji(nullptr, emojijson){}
+Emoji::Emoji(const nlohmann::json& emojijson){}
 
-Emoji::Emoji(const std::shared_ptr<User>& pUser, const nlohmann::json &emojijson): m_user(pUser)
+Emoji::Emoji(User& pUser, const nlohmann::json &emojijson)
 {
+    m_user = &pUser;
     m_id = tryGetSnowflake("id", emojijson);
     m_name = tryGetJson<std::string>("name", emojijson);
     //user

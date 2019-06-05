@@ -30,11 +30,11 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
-        auto guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
-        auto channel = guild->getChannel(tryGetSnowflake("channel_id", eventPacket));
+        Guild& guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
+        BaseChannel& channel = guild.getChannel(tryGetSnowflake("channel_id", eventPacket));
         BaseMessage* message = new BaseMessage(channel, eventPacket);
-        dppcord::CommandBuilder::tryBuildCommand(message);
-        guild->addMessage(std::shared_ptr<BaseMessage>(message));
+        dppcord::CommandBuilder::tryBuildCommand(*message);
+        guild.addMessage(message);
     }
     else
     {

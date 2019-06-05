@@ -15,9 +15,9 @@ namespace dppcord
 {
 GuildsHandler::GuildsHandler() {}
 GuildsHandler::~GuildsHandler() {}
-const bool GuildsHandler::addGuild(Guild* rGuild)
+const bool GuildsHandler::addGuild(Guild* const rGuild)
 {
-    auto res = m_guildMap.insert({rGuild->getId(), std::shared_ptr<Guild>(rGuild)});
+    auto res = m_guildMap.insert({rGuild->getId(), std::unique_ptr<Guild>(rGuild)});
     if(!res.second)
     {
         //already existed.
@@ -31,13 +31,13 @@ const int GuildsHandler::amount() const
     return m_guildMap.size();
 }
 
-std::shared_ptr<Guild> GuildsHandler::getGuild(const Snowflake& id) const
+Guild& GuildsHandler::getGuild(const Snowflake& id) const
 {
     auto ptr = m_guildMap.find(id);
-    if(ptr == m_guildMap.end())
-    {
-        return nullptr;
-    }
-    return ptr->second;
+
+    if(ptr == m_guildMap.end()) throw std::runtime_error("Guild not found"); 
+    if(!ptr->second) throw std::runtime_error("Guild is nullptr");
+
+    return *ptr->second.get();
 }
 } // namespace dppcord

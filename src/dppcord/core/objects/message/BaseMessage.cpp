@@ -21,13 +21,14 @@ namespace dppcord
 {
 BaseMessage::BaseMessage() {}
 
-BaseMessage::BaseMessage(const std::shared_ptr<BaseChannel>& pChannel, const nlohmann::json &msgjson):m_channel(pChannel)
+BaseMessage::BaseMessage(BaseChannel& pChannel, const nlohmann::json &msgjson)
 {
-    auto channel = std::dynamic_pointer_cast<GuildChannel>(pChannel);
+    m_channel = &pChannel;
+    GuildChannel& channel = reinterpret_cast<GuildChannel&>(pChannel);
     m_id = tryGetSnowflake("id", msgjson);
     //std::cout << msgjson.dump(1) << '\n';
     Snowflake test = tryGetSnowflake("id", msgjson["author"]);
-    m_author = channel->getGuild()->getUserFromId(test);
+    m_author = &channel.getGuild()->getUserFromId(test);
     m_content = tryGetJson<std::string>("content", msgjson);
     m_timestamp = util::Timestamp(tryGetJson<std::string>("timestamp", msgjson));
     m_tts = tryGetJson<bool>("tts", msgjson);
@@ -37,12 +38,11 @@ BaseMessage::BaseMessage(const std::shared_ptr<BaseChannel>& pChannel, const nlo
     m_webhookId = tryGetSnowflake("webhook_id",msgjson);
     m_type = tryGetJson<int>("type",msgjson);
 
-    std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel " << channel->getName() << " : " << m_content << '\n';
+    std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel " << channel.getName() << " : " << m_content << '\n';
 }
 
 BaseMessage::~BaseMessage() 
 {
-    std::cout << "base destr with channel count " << m_channel.use_count() << '\n';
 }
 
 std::string BaseMessage::remove()
@@ -59,5 +59,5 @@ std::string BaseMessage::react(const std::string& emoji)
 }
 
 const std::string& BaseMessage::content() const { return m_content; }
-std::shared_ptr<BaseChannel> BaseMessage::channel()const {std::cout << "getchannel()\n"; return m_channel;}
+BaseChannel& BaseMessage::channel()const {return *m_channel;}
 } // namespace dppcord

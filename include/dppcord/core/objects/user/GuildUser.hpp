@@ -48,7 +48,7 @@ private:
     /**
      * @brief Vector containing pointers to all of the roles the user currently has
      */
-    std::vector<std::shared_ptr<Role>> m_roles;
+    std::vector<Role*> m_roles;
     /**
      * @brief Timestamp of when the user joined the guild
      */

@@ -19,7 +19,7 @@ namespace dppcord
 class CommandBuilder
 {
 public:
-    static bool tryBuildCommand(BaseMessage* pMsg);
+    static bool tryBuildCommand(const BaseMessage& pMsg);
 
     private:
 };
