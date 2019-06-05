@@ -33,7 +33,7 @@ public:
      * @brief Construct a new Websocket Handler object
      * @param token for communication with the discordapi
      */
-    WebsocketHandler(const std::string &token, DiscordClient* pDiscordClient);
+    WebsocketHandler(const std::string &token, DiscordClient* const pDiscordClient);
     /**
      * @brief Destroy the Websocket Handler object
      */
@@ -42,7 +42,7 @@ public:
      * @brief Initialize WebsocketHandler
      * @return true if everything worked out
      */
-    bool init();
+    const bool init();
     /**
      * @brief Shuts the Websocket Connection down
      */
@@ -73,12 +73,12 @@ public:
      * @brief Get the gateway connection
      * @return WebsocketConnection* Pointer to the websocket connection object
      */
-    WebsocketConnection *getConnection();
+    WebsocketConnection *getConnection() const;
     /**
      * @brief Get thec onnection status
      * @return WebsocketConnectionStatus connection status of the gateway
      */
-    WebsocketConnectionStatus getConnectionStatus();
+    const WebsocketConnectionStatus getConnectionStatus() const;
     /**
      * @brief Get the Dispatcher object
      * @return const DispatchDistributor& 

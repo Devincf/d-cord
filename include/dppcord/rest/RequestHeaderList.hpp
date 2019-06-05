@@ -25,7 +25,7 @@ namespace dppcord
     {
         public:
         RequestHeaderList& addHeader(const std::string& header);
-        std::list<std::string> get() const;
+        const std::list<std::string>& get() const;
         RequestHeaderList& setContent(RequestContentType rct);
         private:
         std::list<std::string> m_headers;

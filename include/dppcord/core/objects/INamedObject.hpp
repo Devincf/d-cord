@@ -23,7 +23,7 @@ public:
      * @brief Returns the name of the object
      * @return std::string 
      */
-    std::string getName() { return m_name; }
+    const std::string& getName() const { return m_name; }
     /**
      * @brief Sets the name of the object
      * 

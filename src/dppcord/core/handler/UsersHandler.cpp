@@ -16,12 +16,12 @@ namespace dppcord
 UsersHandler::UsersHandler() {}
 UsersHandler::~UsersHandler() {}
 
-bool UsersHandler::addUser(User *pUser)
+const bool UsersHandler::addUser(User *pUser)
 {
     return addUser(pUser->getId(), std::shared_ptr<User>(pUser));
 }
 
-bool UsersHandler::addUser(Snowflake id, std::shared_ptr<User> pUser)
+const bool UsersHandler::addUser(const Snowflake &id, const std::shared_ptr<User>& pUser)
 {
     auto res = m_userMap.insert({id, pUser});
     if (!res.second)
@@ -31,7 +31,7 @@ bool UsersHandler::addUser(Snowflake id, std::shared_ptr<User> pUser)
     }
     return true;
 }
-std::shared_ptr<User> UsersHandler::findUser(Snowflake id)
+std::shared_ptr<User> UsersHandler::findUser(const Snowflake &id) const
 {
     auto it = m_userMap.find(id);
     if (it == m_userMap.end())

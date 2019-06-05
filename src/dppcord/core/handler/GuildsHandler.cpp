@@ -15,7 +15,7 @@ namespace dppcord
 {
 GuildsHandler::GuildsHandler() {}
 GuildsHandler::~GuildsHandler() {}
-bool GuildsHandler::addGuild(Guild* rGuild)
+const bool GuildsHandler::addGuild(Guild* rGuild)
 {
     auto res = m_guildMap.insert({rGuild->getId(), std::shared_ptr<Guild>(rGuild)});
     if(!res.second)
@@ -25,7 +25,7 @@ bool GuildsHandler::addGuild(Guild* rGuild)
     }
     return true;
 }
-std::shared_ptr<Guild> GuildsHandler::getGuild(const Snowflake& id)
+std::shared_ptr<Guild> GuildsHandler::getGuild(const Snowflake& id) const
 {
     auto ptr = m_guildMap.find(id);
     if(ptr == m_guildMap.end())

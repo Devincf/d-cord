@@ -40,20 +40,21 @@ void DiscordClient::shutdown()
 void DiscordClient::run()
 {
     running = true;
-    do{
+    do
+    {
         std::cout << "initializing\n";
         m_websockethandler.init();
         m_websockethandler.wait();
         std::cout << "wait done\n";
         m_websockethandler.shutdown();
-    }while(running);
+    } while (running);
 }
 
-const bool DiscordClient::isPluginLoaded(const std::string& pluginName)
+const bool DiscordClient::isPluginLoaded(const std::string &pluginName) const
 {
-    for(auto i = 0;i< m_plugins.size();i++)
+    for (auto i = 0; i < m_plugins.size(); i++)
     {
-        if(m_plugins[i]->getName() == pluginName)
+        if (m_plugins[i]->getName() == pluginName)
         {
             return true;
         }
@@ -63,8 +64,8 @@ const bool DiscordClient::isPluginLoaded(const std::string& pluginName)
 
 WebsocketHandler &DiscordClient::getWebsocketHandler() { return m_websockethandler; }
 GuildsHandler &DiscordClient::getGuildsHandler() { return m_guildHandler; }
-UsersHandler& DiscordClient::getUsersHandler(){return m_userHandler; }
-std::string DiscordClient::getToken(){return m_discordtoken;}
-Database* DiscordClient::getDatabase() {return m_database.get();}
-BotUser& DiscordClient::getBotUser() { return m_botUser; }
+UsersHandler &DiscordClient::getUsersHandler() { return m_userHandler; }
+std::string DiscordClient::getToken() const { return m_discordtoken; }
+Database &DiscordClient::getDatabase() { return *m_database; }
+BotUser &DiscordClient::getBotUser() { return m_botUser; }
 } // namespace dppcord

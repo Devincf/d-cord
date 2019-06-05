@@ -20,5 +20,5 @@ namespace dppcord
     IPlugin::IPlugin(): m_name(""), m_pClient(nullptr){}
     void IPlugin::init(){}
     void IPlugin::shutdown(){}
-    const std::string& IPlugin::getName()const {return m_name;}
+    const std::string& IPlugin::getName() const {return m_name;}
 }

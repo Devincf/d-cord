@@ -23,7 +23,7 @@ public:
     RequestResponse(const std::string& responseStr);
     ~RequestResponse();
 
-    std::string get();
+    const std::string& get() const;
 
 private:
     std::string m_responseString;

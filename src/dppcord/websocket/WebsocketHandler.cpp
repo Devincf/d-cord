@@ -117,7 +117,7 @@ void WebsocketHandler::processWebsocketMessage(const nlohmann::json &json)
         m_heartbeater.setInterval(heartbeat_interval);
         m_heartbeater.start(m_ioservice);
 
-        auto res = m_pClient->getDatabase()->query("SELECT session_id, last_sequence FROM bot_info").at(0);
+        auto res = m_pClient->getDatabase().query("SELECT session_id, last_sequence FROM bot_info").at(0);
 
         m_connectionStatus = WEBSOCKET_RECONNECTING;
         nlohmann::json payload;
@@ -166,7 +166,7 @@ void WebsocketHandler::sendIdentify()
     m_connection->sendPayload(payload);
 }
 
-bool WebsocketHandler::init()
+const bool WebsocketHandler::init()
 {
     //connect to websocket.
     m_connectionStatus = WEBSOCKET_CONNECTING;
@@ -190,7 +190,7 @@ void WebsocketHandler::shutdown()
         m_connection->shutdown();
 
         std::string q = "UPDATE bot_info SET last_sequence=" + std::to_string(m_lastSequence) + ", session_id=\"" + m_pClient->getBotUser().getSessionId() + '\"';
-        m_pClient->getDatabase()->query(q);
+        m_pClient->getDatabase().query(q);
         m_websocketConnectionThread.join();
         std::cout << "shutdown complete";
     }
@@ -216,10 +216,10 @@ void WebsocketHandler::receiveHeartbeatACK()
 }
 void WebsocketHandler::resetHeartbeatACK() { m_heartbeatACK = false; }
 
-DispatchDistributor& WebsocketHandler::getDispatcher() { return m_eventDispatcher; }
+DispatchDistributor &WebsocketHandler::getDispatcher() { return m_eventDispatcher; }
 const int WebsocketHandler::getLastSequence() const { return m_lastSequence; }
 const bool WebsocketHandler::getHeartbeatACK() const { return m_heartbeatACK; }
-WebsocketConnection *WebsocketHandler::getConnection() { return m_connection.get(); }
-WebsocketConnectionStatus WebsocketHandler::getConnectionStatus() { return m_connectionStatus; }
+WebsocketConnection *WebsocketHandler::getConnection() const { return m_connection.get(); }
+const WebsocketConnectionStatus WebsocketHandler::getConnectionStatus() const { return m_connectionStatus; }
 
 } // namespace dppcord

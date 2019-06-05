@@ -179,7 +179,7 @@ std::shared_ptr<BaseChannel> Guild::addChannel(const nlohmann::json &channeldata
     }
 }
 
-std::shared_ptr<Role> Guild::getRole(const Snowflake &id)
+std::shared_ptr<Role> Guild::getRole(const Snowflake &id) const
 {
     auto roleptr = m_roles.find(id);
     if (roleptr == m_roles.end())
@@ -189,7 +189,7 @@ std::shared_ptr<Role> Guild::getRole(const Snowflake &id)
     return roleptr->second;
 }
 
-std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id)
+std::shared_ptr<User> Guild::getUserFromId(const Snowflake &id) const
 {
     for (const auto &it : m_members)
     {
@@ -216,7 +216,7 @@ void Guild::removeMessage(const Snowflake& id)
     }*/
 }
 
-std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake &id)
+std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake &id)const
 {
     auto msg = m_messages.find(id);
     if (msg == m_messages.end())
@@ -227,7 +227,7 @@ std::shared_ptr<BaseMessage> Guild::getMessage(const Snowflake &id)
     return msg->second;
 }
 
-std::shared_ptr<BaseChannel> Guild::getChannel(const Snowflake &id)
+std::shared_ptr<BaseChannel> Guild::getChannel(const Snowflake &id) const
 {
     for (const auto &i : m_channels)
     {

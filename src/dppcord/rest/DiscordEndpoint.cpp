@@ -24,12 +24,12 @@ void DiscordEndpoint::init(const std::string &itoken)
     token = itoken;
 }
 
-std::string DiscordEndpoint::sendMessage(const Snowflake &channelId, const std::string &content)
+const std::string& DiscordEndpoint::sendMessage(const Snowflake &channelId, const std::string &content)
 {
     return sendMessageExtended(channelId, {{"content", content}});
 }
 
-std::string DiscordEndpoint::sendMessageExtended(const Snowflake& channelId, const nlohmann::json& json)
+const std::string& DiscordEndpoint::sendMessageExtended(const Snowflake& channelId, const nlohmann::json& json)
 {
     RequestHeaderList rhl;
     rhl.setContent(REQUESTCONTENT_MULTIPART_FORMDATA).addHeader("Authorization: Bot " + token);
@@ -42,7 +42,7 @@ std::string DiscordEndpoint::sendMessageExtended(const Snowflake& channelId, con
     return response.get();
 }
 
-std::string DiscordEndpoint::deleteMessage(const std::string &channel, const std::string &id)
+const std::string& DiscordEndpoint::deleteMessage(const std::string &channel, const std::string &id)
 {
     RequestHeaderList rhl;
     rhl.setContent(REQUESTCONTENT_MULTIPART_FORMDATA).addHeader("Authorization: Bot " + token);
@@ -54,7 +54,7 @@ std::string DiscordEndpoint::deleteMessage(const std::string &channel, const std
     return response.get();
 }
 
-std::string DiscordEndpoint::createReaction(const std::string& channelId, const std::string& msgId, const std::string& emojiNameId)
+const std::string& DiscordEndpoint::createReaction(const std::string& channelId, const std::string& msgId, const std::string& emojiNameId)
 {
     //PUT/channels/{channel.id}/messages/{message.id}/reactions/{emoji}/@me
     RequestHeaderList rhl;

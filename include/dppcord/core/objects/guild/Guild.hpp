@@ -41,19 +41,19 @@ public:
      * @param id of the role
      * @return std::shared_ptr<Role> 
      */
-    std::shared_ptr<Role> getRole(const Snowflake &id);
+    std::shared_ptr<Role> getRole(const Snowflake &id) const;
     /**
      * @brief Returns a pointer to a user object with a given id inside the guild
      * @param id of the user
      * @return std::shared_ptr<User> , nullptr if it doesnt exist
      */
-    std::shared_ptr<User> getUserFromId(const Snowflake &id);
+    std::shared_ptr<User> getUserFromId(const Snowflake &id) const;
     /**
      * @brief Returns a pointer to a channel object with a given id inside the guild
      * @param id of the channel
      * @return std::shared_ptr<Channel> , nullptr if it doesnt exist
      */
-    std::shared_ptr<BaseChannel> getChannel(const Snowflake &id);
+    std::shared_ptr<BaseChannel> getChannel(const Snowflake &id) const ;
     /**
      * @brief Constructs and returns a new channel object
      * @param channeldata the channel information as a json object
@@ -70,7 +70,7 @@ public:
      * @param id of the message to get
      * @return std::shared_ptr<BaseMessage> 
      */
-    std::shared_ptr<BaseMessage> getMessage(const Snowflake &id);
+    std::shared_ptr<BaseMessage> getMessage(const Snowflake &id) const;
     /**
      * @brief Removes a Message 
      * @param id 

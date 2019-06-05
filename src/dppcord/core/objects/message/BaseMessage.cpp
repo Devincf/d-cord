@@ -58,6 +58,6 @@ std::string BaseMessage::react(const std::string& emoji)
     return DiscordEndpoint::createReaction(std::to_string(m_channel->getId()), std::to_string(m_id), emoji);
 }
 
-std::string BaseMessage::content(){ return m_content; }
-std::shared_ptr<BaseChannel> BaseMessage::channel(){std::cout << "getchannel()\n"; return m_channel;}
+const std::string& BaseMessage::content() const { return m_content; }
+std::shared_ptr<BaseChannel> BaseMessage::channel()const {std::cout << "getchannel()\n"; return m_channel;}
 } // namespace dppcord

@@ -57,7 +57,7 @@ public:
      * @brief Get the Timestamp object
      * @return const time_t returns the time saved in the timestamp
      */
-    const time_t getTimestamp() const { return _timestamp; }
+    const time_t& getTimestamp() const { return _timestamp; }
     /**
      * @brief Returns the timestamp in an iso timestamp string
      * @return const std::string containing the timestamp

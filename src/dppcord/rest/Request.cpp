@@ -22,7 +22,7 @@ using namespace curlpp::options;
 
 namespace dppcord
 {
-RequestResponse Request::sendPOST(const std::string &url, const RequestHeaderList &headerList, const RequestContent &content)
+const RequestResponse Request::sendPOST(const std::string &url, const RequestHeaderList &headerList, const RequestContent &content)
 {
     try
     {
@@ -48,7 +48,7 @@ RequestResponse Request::sendPOST(const std::string &url, const RequestHeaderLis
     return RequestResponse("");
 }
 
-RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderList &headerList)
+const RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderList &headerList)
 {
     try
     {
@@ -73,7 +73,7 @@ RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderL
     return RequestResponse("");
 }
 
-RequestResponse Request::sendPUT(const std::string& url, const RequestHeaderList& headerList)
+const RequestResponse Request::sendPUT(const std::string& url, const RequestHeaderList& headerList)
 {
     try
     {

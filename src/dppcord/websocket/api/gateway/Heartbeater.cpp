@@ -18,7 +18,7 @@
 
 namespace dppcord
 {
-Heartbeater::Heartbeater(WebsocketHandler *websockethandlerptr, const int interval) : BaseTask(interval, true)
+Heartbeater::Heartbeater(WebsocketHandler * const websockethandlerptr, const int interval) : BaseTask(interval, true)
 {
     m_websocketHandler = websockethandlerptr;
 }

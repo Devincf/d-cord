@@ -46,12 +46,12 @@ public:
      * @brief Returns the content of the message
      * @return std::string 
      */
-    std::string content();
+    const std::string& content() const;
     /**
      * @brief Returns the channel the message has been posted in
      * @return std::shared_ptr<BaseChannel> 
      */
-    std::shared_ptr<BaseChannel> channel();
+    std::shared_ptr<BaseChannel> channel() const;
     /**
      * @brief Removes the message
      * @return std::string 

@@ -26,7 +26,7 @@ public:
      * @param websockethandlerptr pointer to the websocket handler
      * @param interval Heartbeat interval
      */
-    Heartbeater(WebsocketHandler *websockethandlerptr, const int interval);
+    Heartbeater(WebsocketHandler * const websockethandlerptr, const int interval);
 
 private:
     /**

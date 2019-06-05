@@ -32,20 +32,20 @@ public:
      * @param pointer to the User object that should be inserted.
      * @return Whether the User didnt exist in the map before
      */
-    bool addUser(User *pUser);
+    const bool addUser(User *pUser);
     /**
      * @brief Adds a user into the global User map
      * @param user id
      * @param shared_ptr to the user 
      * @return Whether the User didnt exist in the map before
      */
-    bool addUser(Snowflake id, std::shared_ptr<User> pUser);
+    const bool addUser(const Snowflake& id, const std::shared_ptr<User>& pUser);
     /**
      * @brief Checks whether a User id exists in the global user map
      * @param id to look for
      * @return std::shared_ptr<User> of the user. nullptr if no user was found
      */
-    std::shared_ptr<User> findUser(Snowflake id);
+    std::shared_ptr<User> findUser(const Snowflake& id) const;
 
 private:
     /**

@@ -34,14 +34,14 @@ public:
      * @param rGuild Guild to be added
      * @return whether the guild didnt exist in the map before or not
      */
-    bool addGuild(Guild *rGuild);
+    const bool addGuild(Guild *rGuild);
 
     /**
      * @brief Returns a pointer to the guild with a given id
      * @param id of the guild
      * @return Guild* , nullptr if no guild was found
      */
-    std::shared_ptr<Guild> getGuild(const Snowflake& id);
+    std::shared_ptr<Guild> getGuild(const Snowflake& id) const;
 
 private:
     /**

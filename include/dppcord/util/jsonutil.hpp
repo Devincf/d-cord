@@ -12,7 +12,7 @@ namespace dppcord{
 
 
 
-inline bool jsonIsSet(const std::string& key, const nlohmann::json& json)
+inline bool jsonIsSet(const std::string& key, const nlohmann::json& json) 
 {
     return (json.find(key) != json.end() && !json[key].is_null());
 }

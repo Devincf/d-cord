@@ -28,7 +28,7 @@ public:
      * @brief Construct a new Emoji object with given json data
      * @param json data to construct the emoji from
      */
-    Emoji(std::shared_ptr<User> pUser, const nlohmann::json &emojijson);
+    Emoji(const std::shared_ptr<User>& pUser, const nlohmann::json &emojijson);
     /**
      * @brief Destroy the Emoji object
      */

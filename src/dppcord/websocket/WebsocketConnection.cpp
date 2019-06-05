@@ -3,7 +3,7 @@
 namespace dppcord
 {
 
-WebsocketConnection::WebsocketConnection(boost::function<void(const nlohmann::json &)> msg_proc) : m_msgProc(msg_proc)
+WebsocketConnection::WebsocketConnection(const boost::function<void(const nlohmann::json &)>& msg_proc) : m_msgProc(msg_proc)
 {
     m_clientEndpoint.set_access_channels(websocketpp::log::alevel::none);
     m_clientEndpoint.set_error_channels(websocketpp::log::alevel::all);
@@ -22,7 +22,7 @@ WebsocketConnection::~WebsocketConnection()
 {
 }
 
-void WebsocketConnection::connect(std::condition_variable *cv)
+void WebsocketConnection::connect(std::condition_variable * const cv)
 {
     websocketpp::lib::error_code ec;
     const std::string endpoint = "wss://gateway.discord.gg/?v=6&encoding=json";

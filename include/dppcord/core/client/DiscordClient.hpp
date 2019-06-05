@@ -34,12 +34,10 @@ public:
     DiscordClient() = delete;
     /**
      * @brief Destroy the Discord Client object
-     * 
      */
     virtual ~DiscordClient();
     /**
      * @brief Construct a new Discord Client object
-     * 
      * @param token - discord api token
      */
     DiscordClient(const std::string &token);
@@ -60,7 +58,6 @@ public:
     WebsocketHandler& getWebsocketHandler();
     /**
      * @brief Get the Bot User object
-     * 
      * @return BotUser& 
      */
     BotUser& getBotUser();
@@ -68,12 +65,12 @@ public:
      * @brief Get the database object
      * @return const SQLiteDatabase& 
      */
-    Database* getDatabase();
+    Database& getDatabase();
     /**
      * @brief Returns the token of the bot
      * @return std::string 
      */
-    std::string getToken();
+    std::string getToken() const;
     /**
      * @brief Starts the bot
      */
@@ -94,7 +91,7 @@ public:
         m_plugins.back()->init();
     }
 
-    const bool isPluginLoaded(const std::string& pluginName);
+    const bool isPluginLoaded(const std::string& pluginName) const;
 
     bool running;
 

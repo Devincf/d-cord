@@ -23,7 +23,7 @@ public:
      * @brief Returns the id of the object
      * @return Snowflake 
      */
-    Snowflake getId() { return m_id; }
+    const Snowflake& getId() const { return m_id; }
     /**
      * @brief Sets the id of the object 
      * @param id 

@@ -27,7 +27,6 @@ GuildChannel::GuildChannel(Guild *pGuild, const nlohmann::json &channeljson) : B
 }
 GuildChannel::~GuildChannel() {}
 
-Guild *GuildChannel::getGuild() { return m_guild; }
 
 std::shared_ptr<BaseMessage> GuildChannel::sendMessage(const std::string &msg)
 {
@@ -47,4 +46,5 @@ std::shared_ptr<BaseMessage> GuildChannel::sendMessageExtended(const nlohmann::j
     return m;
 }
 
+Guild *GuildChannel::getGuild() const{ return m_guild; }
 } // namespace dppcord

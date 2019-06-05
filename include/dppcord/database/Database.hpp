@@ -23,7 +23,7 @@ class Database
 {
 public:
     virtual ~Database();
-    virtual QueryResult query(const std::string &queryStr);
+    virtual const QueryResult query(const std::string &queryStr);
 };
 
 } // namespace dppcord

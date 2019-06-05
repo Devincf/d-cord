@@ -29,7 +29,7 @@ SQLiteDatabase::SQLiteDatabase(const std::string &dbname)
     m_db.db = db;
 }
 
-QueryResult SQLiteDatabase::query(const std::string &queryStr)
+const QueryResult SQLiteDatabase::query(const std::string &queryStr)
 {
     sqlite3_stmt* stmt;
     auto ec = sqlite3_prepare_v2(m_db.db, queryStr.c_str(), -1, &stmt, NULL);

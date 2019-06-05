@@ -39,7 +39,7 @@ SQLiteDatabase() = default;
 
 SQLiteDatabase(const std::string& dbname);
 
-QueryResult query(const std::string& queryStr);
+const QueryResult query(const std::string& queryStr) override;
 
 private:
 SQLiteWrapper m_db;

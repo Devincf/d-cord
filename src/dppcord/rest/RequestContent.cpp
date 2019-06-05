@@ -20,12 +20,12 @@ RequestContent::RequestContent(const nlohmann::json &content):m_content(content)
 {
 }
 
-std::string RequestContent::get() const
+const std::string RequestContent::get() const
 {
     return m_content.dump();
 }
 
-int RequestContent::size() const
+const int RequestContent::size() const
 {
     return m_content.dump().size();
 }

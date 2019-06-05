@@ -41,7 +41,7 @@ void MoneySystem::init()
     CommandMap::addCommand("!leaderboard",
                            [=](BaseMessage *msg, const ArgumentList &argList) {
                                //auto leaderboard = Singleton<MoneyManager>::get()->getLeaderboard(10);
-                               auto leaderboard = m_pClient->getDatabase()->query("SELECT id,money FROM users ORDER BY money DESC LIMIT 10");
+                               auto leaderboard = m_pClient->getDatabase().query("SELECT id,money FROM users ORDER BY money DESC LIMIT 10");
                                std::stringstream ss;
                                int incrementer = 1;
                                for (auto i : leaderboard)
@@ -101,7 +101,7 @@ void MoneySystem::init()
                         //Todo: think about whether I want to localize this or not
                         //m_globalMoneyMap.find(tryGetSnowflake("user_id", json))->second += 100; //Todo: replace with configurable moneyvalue
                         //updata data in database
-                        m_pClient->getDatabase()->query("UPDATE users SET money=money+100 WHERE id=" + std::to_string(userptr->getId()));
+                        m_pClient->getDatabase().query("UPDATE users SET money=money+100 WHERE id=" + std::to_string(userptr->getId()));
                         msg->remove();
                         msg->channel()->sendMessage(userptr->getName() + " claimed 100 coins!");
                     }

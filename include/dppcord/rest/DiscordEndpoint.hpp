@@ -28,10 +28,10 @@ public:
 
     static void init(const std::string &itoken);
 
-    static std::string sendMessage(const Snowflake &channelId, const std::string &msg);
-    static std::string sendMessageExtended(const Snowflake& channelId, const nlohmann::json& json);
-    static std::string deleteMessage(const std::string &channel, const std::string &id);
-    static std::string createReaction(const std::string& channelId, const std::string& msgId, const std::string& emojiNameId);
+    static const std::string& sendMessage(const Snowflake &channelId, const std::string &msg);
+    static const std::string& sendMessageExtended(const Snowflake& channelId, const nlohmann::json& json);
+    static const std::string& deleteMessage(const std::string &channel, const std::string &id);
+    static const std::string& createReaction(const std::string& channelId, const std::string& msgId, const std::string& emojiNameId);
 };
 } // namespace dppcord
 

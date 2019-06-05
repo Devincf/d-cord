@@ -19,7 +19,7 @@ RequestHeaderList &RequestHeaderList::addHeader(const std::string &header)
     return *this;
 }
 
-std::list<std::string> RequestHeaderList::get() const
+const std::list<std::string>& RequestHeaderList::get() const
 {
     return m_headers;
 }

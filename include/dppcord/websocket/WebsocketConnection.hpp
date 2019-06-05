@@ -40,7 +40,7 @@ public:
      /**
      * @brief Construct a new Websocket Connection object
      */
-     WebsocketConnection(boost::function<void(const nlohmann::json &)> msg_proc);
+     WebsocketConnection(const boost::function<void(const nlohmann::json &)>& msg_proc);
      /**
      * @brief Destroy the Websocket Connection object
      */
@@ -49,7 +49,7 @@ public:
      /**
      * @brief Connects to the Gateway
      */
-     void connect(std::condition_variable *cv);
+     void connect(std::condition_variable * const cv);
 
      /**
      * @brief Sends payload through the gateway

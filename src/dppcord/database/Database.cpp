@@ -15,5 +15,5 @@ namespace dppcord
 {
     Database::~Database(){}
 
-    QueryResult Database::query(const std::string& qStr){ return {};}
+    const QueryResult Database::query(const std::string& qStr){ return {};}
 }
