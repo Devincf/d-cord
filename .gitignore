@@ -3,4 +3,6 @@ bin/
 example/token.txt
 example/Makefile
 example/CMakeFiles/
+plugins/example_plugin/CMakeFiles/
+plugins/MoneySystem/CMakeFiles/
 build.sh

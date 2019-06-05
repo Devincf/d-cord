@@ -1,7 +1,0 @@
-/home/lumi/code/cpp/d++cord/plugins/MoneySystem/CMakeFiles/install/strip.dir
-/home/lumi/code/cpp/d++cord/plugins/MoneySystem/CMakeFiles/edit_cache.dir
-/home/lumi/code/cpp/d++cord/plugins/MoneySystem/CMakeFiles/rebuild_cache.dir
-/home/lumi/code/cpp/d++cord/plugins/MoneySystem/CMakeFiles/dppmoney.dir
-/home/lumi/code/cpp/d++cord/plugins/MoneySystem/CMakeFiles/list_install_components.dir
-/home/lumi/code/cpp/d++cord/plugins/MoneySystem/CMakeFiles/install/local.dir
-/home/lumi/code/cpp/d++cord/plugins/MoneySystem/CMakeFiles/install.dir

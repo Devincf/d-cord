@@ -1,7 +1,0 @@
-/home/lumi/code/cpp/d++cord/plugins/example_plugin/CMakeFiles/install/strip.dir
-/home/lumi/code/cpp/d++cord/plugins/example_plugin/CMakeFiles/edit_cache.dir
-/home/lumi/code/cpp/d++cord/plugins/example_plugin/CMakeFiles/example_plugin.dir
-/home/lumi/code/cpp/d++cord/plugins/example_plugin/CMakeFiles/rebuild_cache.dir
-/home/lumi/code/cpp/d++cord/plugins/example_plugin/CMakeFiles/list_install_components.dir
-/home/lumi/code/cpp/d++cord/plugins/example_plugin/CMakeFiles/install/local.dir
-/home/lumi/code/cpp/d++cord/plugins/example_plugin/CMakeFiles/install.dir

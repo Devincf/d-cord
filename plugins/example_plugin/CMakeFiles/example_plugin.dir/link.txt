@@ -1,1 +1,0 @@
-/usr/bin/clang++ -fPIC  -Wall -Werror -g  -shared -Wl,-soname,libexample_plugin.so.1 -o libexample_plugin.so.1.0.0 CMakeFiles/example_plugin.dir/plugin.cpp.o 
