@@ -42,6 +42,11 @@ public:
      * @return Guild* , nullptr if no guild was found
      */
     std::shared_ptr<Guild> getGuild(const Snowflake& id) const;
+    /**
+     * @brief Returns the Amount of Guilds
+     * @return const int 
+     */
+    const int amount() const;
 
 private:
     /**

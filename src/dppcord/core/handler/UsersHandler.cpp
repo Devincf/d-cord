@@ -31,6 +31,12 @@ const bool UsersHandler::addUser(const Snowflake &id, const std::shared_ptr<User
     }
     return true;
 }
+
+const int UsersHandler::globalAmount() const
+{
+    return m_userMap.size();
+}
+
 std::shared_ptr<User> UsersHandler::findUser(const Snowflake &id) const
 {
     auto it = m_userMap.find(id);

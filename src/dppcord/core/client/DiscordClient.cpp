@@ -12,6 +12,10 @@
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/rest/DiscordEndpoint.hpp"
 
+#include "dppcord/command/builder/CommandMap.hpp"
+#include "dppcord/core/objects/message/BaseMessage.hpp"
+#include "dppcord/core/objects/channel/BaseChannel.hpp"
+
 #include "dppcord/database/SQLiteDatabase.hpp"
 
 namespace dppcord
@@ -19,6 +23,23 @@ namespace dppcord
 DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
 {
     m_database = std::unique_ptr<Database>(new SQLiteDatabase("test.db"));
+    CommandMap::addCommand("!about", [&](BaseMessage *msg, const ArgumentList &argList) {
+        nlohmann::json json2{
+            {"embed",
+             {
+                 {"color", 15794175},
+                 {"title", ":gem:  About "},
+                 {"description", "• Developer : <@!142733073262444545>「**Luminous#6996**」\n"
+                                 "• Invite Link : To be added \n"
+                                 "• Current Version : Beta 1.0.0\n"
+                                 "• Developed in **C++** using [**d++cord**](https://github.com/Devincf/d-cord)\n"
+                                 "• Active in : **" +
+                                     std::to_string(m_guildHandler.amount()) + "** servers with a total of **" + std::to_string(m_userHandler.globalAmount()) + "** users"},
+
+             }} // namespace dppcord
+        };
+        msg->channel()->sendMessageExtended(json2);
+    });
     DiscordEndpoint::init(token);
 }
 

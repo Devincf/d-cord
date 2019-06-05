@@ -46,6 +46,11 @@ public:
      * @return std::shared_ptr<User> of the user. nullptr if no user was found
      */
     std::shared_ptr<User> findUser(const Snowflake& id) const;
+    /**
+     * @brief Returns the total amount of global Users
+     * @return const int 
+     */
+    const int globalAmount() const;
 
 private:
     /**
