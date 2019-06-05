@@ -82,9 +82,7 @@ void MoneySystem::init()
             embed["image"]["url"] = "https://cdn.discordapp.com/attachments/439065048628068365/576535445123629064/20190510_172533.jpg";
             drop_json["embed"] = embed;
             auto& dropMessage = msg.channel().sendMessageExtended(drop_json);
-            std::cout << "yeah\n";
             dropMessage.react(emoji::coffee);
-            std::cout << "yeah\n";
             dropMessage.reactionListener(
                 [=](BaseMessage &msg, const nlohmann::json &json) {
                     auto userptr = m_pClient->getUsersHandler().findUser(tryGetSnowflake("user_id", json));

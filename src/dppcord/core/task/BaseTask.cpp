@@ -33,6 +33,7 @@ BaseTask::BaseTask(const int interval, const bool instantproc) : m_instantproc(i
 
 void BaseTask::start(boost::asio::io_service &pio)
 {
+    pio.reset();
     std::cout << "Starting task with interval" << std::to_string(m_interval.count()) << " and instantproc: " << m_instantproc << "\n";
     if (m_instantproc)
     {
@@ -52,7 +53,7 @@ void BaseTask::stop()
     //pthread_cancel(m_thread.native_handle());
     m_taskTimer->cancel();
     m_thread.interrupt();
-    std::cout << "Task with interval "<< m_interval.count()<<"stopped\n";
+    std::cout << "Task with interval " << m_interval.count() << "stopped\n";
 }
 
 void BaseTask::setInterval(const int interval)

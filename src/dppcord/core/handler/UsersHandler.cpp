@@ -40,7 +40,7 @@ const bool UsersHandler::userExists(const Snowflake& id) const
 User& UsersHandler::findUser(const Snowflake &id) const
 {
     auto it = m_userMap.find(id);
-    if (it == m_userMap.end()) throw std::runtime_error("User not found");
+    if (it == m_userMap.end()) throw std::runtime_error("User with id " + std::to_string(id) + " not found");
     if (!it->second) throw std::runtime_error("User is nullptr");
     return *it->second;
 }
