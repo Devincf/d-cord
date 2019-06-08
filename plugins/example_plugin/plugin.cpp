@@ -13,6 +13,12 @@
 
 #include <iostream>
 
+const nlohmann::json ExamplePlugin::defaultConfig={
+        {"pluginname", "Money System"},
+        {"plugindesc", "Virtual money system for discord"},
+        {"pluginver", "1.0"}
+    };
+
 ExamplePlugin::ExamplePlugin(DiscordClient *pClient) : IPlugin(pClient, "Example Plugin")
 {
     std::cout << "Example Plugin loaded\n";

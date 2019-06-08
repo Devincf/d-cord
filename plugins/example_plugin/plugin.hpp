@@ -19,6 +19,11 @@ class ExamplePlugin : public IPlugin
     ExamplePlugin(DiscordClient* pClient);
     ~ExamplePlugin();
 
-    void init();
-    void shutdown();
+    const nlohmann::json& getDefaultConfig() override { return defaultConfig;}
+
+    void init()override;
+    void shutdown() override;
+    private:
+
+    static const nlohmann::json defaultConfig;
 };

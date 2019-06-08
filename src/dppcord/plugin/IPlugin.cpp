@@ -11,6 +11,8 @@
 
 #include "dppcord/plugin/IPlugin.hpp"
 
+#include <functional>
+
 namespace dppcord
 {
     IPlugin::IPlugin(DiscordClient* pClient, const std::string& name):  m_name(name)

@@ -11,7 +11,7 @@
 
 #ifndef IPLUGIN_HPP
 #define IPLUGIN_HPP
-#include <string>
+#include "nlohmann/json.hpp"
 
 namespace dppcord
 {
@@ -25,6 +25,7 @@ public:
     virtual void init();
     virtual void shutdown();
     const std::string& getName() const;
+    virtual const nlohmann::json& getDefaultConfig() = 0;
 
 protected:
     IPlugin(DiscordClient *pClient, const std::string &name);

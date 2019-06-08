@@ -1,5 +1,9 @@
 #include "bot.hpp"
 
+#include <string>
+#include <fstream>
+#include <streambuf>
+
 #include "dppcord/command/builder/CommandBuilder.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
@@ -41,7 +45,9 @@ int main(int argc, char *argv[])
         std::cin >> input;
         if(input== "random")
         {   
-            std::cout << e.getBotUser().getName();
+            std::cout << ConfigData::get("botdesc").get<std::string>() << '\n';
+            ConfigData::reloadConfig();
+            std::cout << ConfigData::get("botdesc").get<std::string>() << '\n';
         }
         else if(input == "exit")
         {

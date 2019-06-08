@@ -16,11 +16,15 @@
 #include "dppcord/core/handler/UsersHandler.hpp"
 #include "dppcord/core/objects/user/BotUser.hpp"
 
+#include "dppcord/core/config/ConfigData.hpp"
+
 #include "dppcord/database/Database.hpp"
 
 #include "dppcord/plugin/IPlugin.hpp"
 
 #include "dppcord/websocket/WebsocketHandler.hpp"
+
+
 
 namespace dppcord
 {
@@ -87,8 +91,11 @@ public:
     template <typename T>
     void loadPlugin()
     {
-        m_plugins.push_back(std::make_unique<T>(this));
-        m_plugins.back()->init();
+        std::unique_ptr<IPlugin> plugin = std::make_unique<T>(this);
+        plugin->init();
+        ConfigData::addPluginConfig(plugin->getName(), plugin->getDefaultConfig());
+        m_plugins.push_back(std::move(plugin));
+        //load config plugin->getDefault()
     }
 
     const bool isPluginLoaded(const std::string& pluginName) const;

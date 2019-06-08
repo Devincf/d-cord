@@ -38,6 +38,8 @@ src/dppcord/command/builder/CommandBuilder.cpp src/dppcord/command/builder/Comma
 src/dppcord/command/parser/CommandParser.cpp
 src/dppcord/command/Command.cpp src/dppcord/command/CommandName.cpp 
 
+src/dppcord/core/config/ConfigData.cpp src/dppcord/core/config/ConfigReader.cpp
+
 src/dppcord/database/Database.cpp src/dppcord/database/SQLiteDatabase.cpp
 
 src/dppcord/plugin/IPlugin.cpp
@@ -63,7 +65,7 @@ export(PACKAGE dppcord)
 target_include_directories(dppcord PRIVATE include/ submodules/nlohmannjson/single_include submodules/curlpp/include submodules/websocketpp/websocketpp
                             )
 
-target_link_libraries(dppcord Threads::Threads crypto ssl curl curlpp sqlite3 Boost::thread pthread)
+target_link_libraries(dppcord stdc++fs Threads::Threads crypto ssl  curl curlpp sqlite3 Boost::thread pthread)
 
 include(GNUInstallDirs)
 

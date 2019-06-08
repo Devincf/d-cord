@@ -16,13 +16,19 @@
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
 
+
 #include "dppcord/database/SQLiteDatabase.hpp"
+
+#include "dppcord/util/constants/config.hpp"
 
 namespace dppcord
 {
 DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
 {
     m_database = std::unique_ptr<Database>(new SQLiteDatabase("test.db"));
+
+    ConfigData::readConfig("main", config::main);
+
     CommandMap::addCommand("!about", [&](const BaseMessage &msg, const ArgumentList &argList) {
         nlohmann::json json2{
             {"embed",

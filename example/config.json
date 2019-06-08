@@ -1,0 +1,17 @@
+{
+    "botdesc": "a basic unnamed bot written using d++cord",
+    "botname": "unnamed bot",
+    "botver": 1.0,
+    "plugins": {
+        "Example Plugin": {
+            "plugindesc": "Virtual money system for discord",
+            "pluginname": "Money System",
+            "pluginver": 1.0
+        },
+        "Money System": {
+            "plugindesc": "Virtual money system for discord",
+            "pluginname": "Money System",
+            "pluginver": 1.0
+        }
+    }
+}

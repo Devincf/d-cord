@@ -27,7 +27,14 @@
 namespace dppcord::plugins::moneysystem
 {
 
-MoneySystem::MoneySystem(DiscordClient *pClient) : IPlugin(pClient, "Example Plugin")
+
+const nlohmann::json MoneySystem::defaultConfig={
+        {"pluginname", "Money System"},
+        {"plugindesc", "Virtual money system for discord"},
+        {"pluginver", "1.0"}
+    };
+
+MoneySystem::MoneySystem(DiscordClient *pClient) : IPlugin(pClient, "Money System")
 {
     std::cout << "MoneySystem loaded\n";
     m_globalMoneyMap = MoneyMap();

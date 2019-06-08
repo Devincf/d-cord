@@ -19,7 +19,7 @@ set_target_properties(example_plugin PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(example_plugin PROPERTIES SOVERSION 1)
 
 
-target_include_directories(example_plugin PRIVATE "../../include/" )
+target_include_directories(example_plugin PRIVATE "../../include/" "../../submodules/nlohmannjson/single_include/" )
 
 
 

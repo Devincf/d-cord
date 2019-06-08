@@ -29,12 +29,15 @@ public:
     void init()override;
     void shutdown()override;
 
-    const MoneyMap& getGlobalMoneyMap() const; 
+    const nlohmann::json& getDefaultConfig() override { return defaultConfig;}
+
+    const MoneyMap& getGlobalMoneyMap() const;
 
     private:
     MoneyMap m_globalMoneyMap;
     std::map<Snowflake, MoneyMap> m_guildMoneyMap;
 
     int m_messagesSinceDrop;
+    static const nlohmann::json defaultConfig;
 };
 } // namespace dppcord::moneysystem
