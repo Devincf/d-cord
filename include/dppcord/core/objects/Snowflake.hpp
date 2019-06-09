@@ -30,6 +30,7 @@ public:
    * @param snowflake the snowflake
    */
   Snowflake(const uint64_t snow) : m_snowflake(snow) {}
+  Snowflake(const Snowflake&) = default;
   /**
      * @brief Construct a new Snowflake object using a json payload
      * @param payload json that contains the snowflake

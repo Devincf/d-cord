@@ -28,19 +28,15 @@ BaseChannel::BaseChannel(const nlohmann::json &channeljson)
     m_iconHash = tryGetJson<std::string>("icon",channeljson);
     //timestamp
 }
-/*
+
 BaseMessage& BaseChannel::sendMessage(const std::string& msg)
 {
-    auto string = DiscordEndpoint::sendMessage(m_id, msg);
-    std::cout << string << '\n';
-    auto json = nlohmann::json::parse(string);
-    std::cout << json.dump(4) << '\n';
-    return std::ref({});
+    throw std::runtime_error("");
 }
 
 BaseMessage& BaseChannel::sendMessageExtended(const nlohmann::json& json)
 {
-    return {};
-}*/
+    throw std::runtime_error("");
+}
 
 } // namespace dppcord

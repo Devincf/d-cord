@@ -86,6 +86,7 @@ const RequestResponse Request::sendPUT(const std::string& url, const RequestHead
         myRequest.setOpt<HttpHeader>(headerList.get());
         myRequest.setOpt<CustomRequest>("PUT");
         myRequest.setOpt<WriteStream>(&ss);
+        
 
         // Send request and get a result.
         myRequest.perform();

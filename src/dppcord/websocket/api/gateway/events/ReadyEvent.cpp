@@ -22,5 +22,6 @@ namespace dppcord
         m_pDiscordClient->getWebsocketHandler().setReady();
         m_pDiscordClient->getBotUser() = BotUser(eventPacket);
         //m_pDiscordClient->getDatabase()->query("UPDATE bot_info SET session_id=\"" + eventPacket["session_id"].get<std::string>() + "\",last_sequence=0");
+        m_forwardData.add(eventPacket);
     }
 }

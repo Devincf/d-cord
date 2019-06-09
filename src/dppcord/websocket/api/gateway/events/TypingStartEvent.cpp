@@ -19,5 +19,6 @@ namespace dppcord
     void TypingStartEvent::proc(const nlohmann::json& eventPacket)
     {
         //std::cout << "TypingStart proc\n";
+        m_forwardData.add(eventPacket);
     }
 }

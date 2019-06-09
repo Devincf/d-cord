@@ -173,7 +173,7 @@ BaseChannel& Guild::addChannel(const nlohmann::json &channeldata)
     }
     case CHANNELTYPE_GUILD_VOICE:
     {
-        return *std::make_unique<GuildVoiceChannel>(this, channeldata);
+        return *std::make_shared<GuildVoiceChannel>(this, channeldata);
     }
     default:
         throw std::runtime_error("[ERROR] Channel with type " + std::to_string(type) + "passed to Guild::addChannel id: " + std::to_string(tryGetSnowflake("id", channeldata)) + " this should never happen \n");
@@ -204,7 +204,7 @@ User& Guild::getUserFromId(const Snowflake &id) const
 void Guild::addMessage(BaseMessage* const msg)
 {
     //std::cout << "adding message with id " << msg->getId(); 
-    auto res = m_messages.insert({msg->getId(), std::unique_ptr<BaseMessage>(msg)}); 
+    auto res = m_messages.insert({msg->getId(), std::shared_ptr<BaseMessage>(msg)}); 
     if(!res.second)
     {
         std::cout << "..error adding msg";

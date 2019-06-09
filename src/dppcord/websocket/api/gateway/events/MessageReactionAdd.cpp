@@ -22,14 +22,20 @@ void MessageReactionAdd::proc(const nlohmann::json &eventPacket)
 {
     //get message
     //if not nullptr procEvent.
+    try
+    {
+        auto &msg = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).getMessage(tryGetSnowflake("message_id", eventPacket));
+        msg.reactionListener(eventPacket);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 
-    auto& msg = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).getMessage(tryGetSnowflake("message_id", eventPacket));
-    msg.reactionListener(eventPacket);
-
+    m_forwardData.add(eventPacket);
 }
 
 } // namespace dppcord
-
 
 /*
 {

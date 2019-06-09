@@ -23,6 +23,7 @@ public:
      * @brief Construct a new Guild Voice Channel object
      */
     GuildVoiceChannel();
+    GuildVoiceChannel(const GuildVoiceChannel&) = default;
     /**
      * @brief Destroy the Guild Voice Channel object
      */

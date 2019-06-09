@@ -17,7 +17,7 @@
 
 namespace dppcord
 {
-class MessageReactionAdd : public BaseEvent
+class MessageReactionAdd : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 

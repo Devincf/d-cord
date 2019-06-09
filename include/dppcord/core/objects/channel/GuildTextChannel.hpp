@@ -24,6 +24,7 @@ public:
      * @brief Construct a new Guild Text Channel object
      */
     GuildTextChannel();
+    GuildTextChannel(const GuildTextChannel&) = default;
     /**
      * @brief Destroy the Guild Text Channel object
      */

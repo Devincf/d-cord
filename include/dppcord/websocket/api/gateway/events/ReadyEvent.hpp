@@ -16,7 +16,7 @@
 
 namespace dppcord
 {
-class ReadyEvent : public BaseEvent
+class ReadyEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 

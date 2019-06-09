@@ -16,7 +16,7 @@
 
 namespace dppcord
 {
-class ResumeEvent : public BaseEvent
+class ResumeEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 

@@ -35,7 +35,7 @@ public:
      * @brief Returns a pointer to the guild this channel belongs to
      * @return Guild* 
      */
-    Guild *getGuild() const ;
+    Guild &getGuild() const ;
 
     /**
      * @brief Sends a message and returns the newly created message object

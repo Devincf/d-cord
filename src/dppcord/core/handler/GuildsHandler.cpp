@@ -15,15 +15,11 @@ namespace dppcord
 {
 GuildsHandler::GuildsHandler() {}
 GuildsHandler::~GuildsHandler() {}
-const bool GuildsHandler::addGuild(Guild* const rGuild)
+Guild& GuildsHandler::addGuild(Guild* const rGuild)
 {
     auto res = m_guildMap.insert({rGuild->getId(), std::unique_ptr<Guild>(rGuild)});
-    if(!res.second)
-    {
-        //already existed.
-        return false;
-    }
-    return true;
+    if(!res.second) throw std::runtime_error("Guild"+ std::to_string(rGuild->getId())+" already existed");
+    return *res.first->second;
 }
 
 const int GuildsHandler::amount() const

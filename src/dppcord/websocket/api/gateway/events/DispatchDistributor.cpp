@@ -29,9 +29,9 @@ bool DispatchDistributor::distributeEvent(const std::string &eventName, const nl
     return true;
 }
 
-bool DispatchDistributor::addEvent(const std::string &eventName, BaseEvent *pBaseEvent)
+bool DispatchDistributor::addEvent(const std::string &eventName, IEvent *pBaseEvent)
 {
-    auto res = m_eventMap.insert({eventName, std::unique_ptr<BaseEvent>(pBaseEvent)});
+    auto res = m_eventMap.insert({eventName, std::unique_ptr<IEvent>(pBaseEvent)});
     if (!res.second)
     {
         //already existed
@@ -40,17 +40,12 @@ bool DispatchDistributor::addEvent(const std::string &eventName, BaseEvent *pBas
     return true;
 }
 
-BaseEvent *DispatchDistributor::getEvent(const std::string &eventName)
+IEvent& DispatchDistributor::getEvent(const std::string &eventName)
 {
     auto it = m_eventMap.find(eventName);
-    if(it == m_eventMap.end())
-    {
-        return nullptr;
-    }
-    else
-    {
-        return it->second.get();
-    }
+    if(it == m_eventMap.end()) throw std::runtime_error("Event"+eventName+" doesnt exist.");
+    if(!it->second) throw std::runtime_error("Event is nullptr");
+    return *it->second;
 }
 
 } // namespace dppcord

@@ -34,7 +34,7 @@ public:
      * @param rGuild Guild to be added
      * @return whether the guild didnt exist in the map before or not
      */
-    const bool addGuild(Guild * const rGuild);
+    Guild& addGuild(Guild * const rGuild);
 
     /**
      * @brief Returns a pointer to the guild with a given id

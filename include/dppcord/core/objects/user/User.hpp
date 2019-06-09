@@ -25,6 +25,7 @@ public:
      * @param json data to construct the user form
      */
     User(const nlohmann::json &userjson);
+    User(const User&) = default;
     /**
      * @brief Destroy the User object
      */

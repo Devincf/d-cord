@@ -59,8 +59,6 @@ const bool ConfigData::addPluginConfig(const std::string &pluginName, const nloh
         readConfig(std::forward<const std::string>(pluginName), std::forward<const nlohmann::json>(defaultConfig));
     }
 
-    std::cout << data.dump(4) << '\n';
-
     if (data.find("plugins") != data.end() && data["plugins"].empty())
     {
         std::cout << "plugins wasnt set\n";
@@ -73,9 +71,7 @@ const bool ConfigData::addPluginConfig(const std::string &pluginName, const nloh
             return true;
         }
     }
-    std::cout << data.dump(4) << '\n';
     data["plugins"][pluginName] = defaultConfig;
-    std::cout << data.dump(4) << '\n';
     return ConfigReader::writeFile(data.dump(4));
 }
 

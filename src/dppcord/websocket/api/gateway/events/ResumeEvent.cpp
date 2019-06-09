@@ -18,5 +18,6 @@ namespace dppcord
     {
         std::cout << "ResumeEvent proc\n";
         std::cout << eventPacket.dump(4) << '\n';
+        m_forwardData.add(eventPacket);
     }
 }

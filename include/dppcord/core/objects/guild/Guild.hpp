@@ -36,6 +36,12 @@ public:
      * @brief Destroy the Guild object
      */
     ~Guild();
+    Guild(const Guild& rhs) = default;
+
+    /**
+     * @brief Construct a new Guild object
+     */
+    Guild();
     /**
      * @brief Returns a pointer to a role object with a given id
      * @param id of the role
@@ -78,10 +84,6 @@ public:
     void removeMessage(const Snowflake& id);
 
 private:
-    /**
-     * @brief Construct a new Guild object
-     */
-    Guild();
     /**
      * @brief Guild icon hash
      */
@@ -195,11 +197,11 @@ private:
      * @brief Vector containing all guild channels
      * TODO: switch to Channel* after Channel has been split into different objects
      */
-    std::vector<std::unique_ptr<BaseChannel>> m_channels;
+    std::vector<std::shared_ptr<BaseChannel>> m_channels;
     /**
      * @brief Map containing all Messages sorted by their id
      */
-    std::map<Snowflake, std::unique_ptr<BaseMessage>> m_messages;
+    std::map<Snowflake, std::shared_ptr<BaseMessage>> m_messages;
 
     //presences
     /**

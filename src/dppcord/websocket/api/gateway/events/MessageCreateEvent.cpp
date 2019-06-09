@@ -24,17 +24,19 @@ namespace dppcord
 void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
 {
     std::cout << "MessageCreateEvent proc\n";
-    if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
+    /*if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
         return; // Bot message
-
+    */
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
         Guild& guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
         BaseChannel& channel = guild.getChannel(tryGetSnowflake("channel_id", eventPacket));
         BaseMessage* message = new BaseMessage(channel, eventPacket);
-        dppcord::CommandBuilder::tryBuildCommand(*message);
+        if (tryGetSnowflake("id", eventPacket["author"]) != 444648378199048214)
+            dppcord::CommandBuilder::tryBuildCommand(*message);
         guild.addMessage(message);
+        m_forwardData.add(*message);
     }
     else
     {

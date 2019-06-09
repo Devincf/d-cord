@@ -13,10 +13,11 @@
 #define MESSAGEDELETEEVENT_HPP
 
 #include "BaseEvent.hpp"
+#include "dppcord/core/objects/message/BaseMessage.hpp"
 
 namespace dppcord
 {
-class MessageDeleteEvent : public BaseEvent
+class MessageDeleteEvent : public BaseEvent<int>
 {
     using BaseEvent::BaseEvent;
 

@@ -28,6 +28,7 @@ public:
      * @brief Destroy the Dm Channel object
      */
     ~DmChannel();
+    DmChannel(const DmChannel&) = default;
 
     BaseMessage &sendMessage(const std::string &content)override;
     BaseMessage &sendMessageExtended(const nlohmann::json &json)override;

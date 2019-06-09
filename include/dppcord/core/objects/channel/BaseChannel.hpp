@@ -32,21 +32,22 @@ public:
      */
     virtual ~BaseChannel();
     /**
+     * @brief Construct a new Channel object
+     */
+    BaseChannel();
+    BaseChannel(const BaseChannel&) = default;
+    /**
      * @brief Sends a message in this channel
      * @param msg 
      */
-    virtual BaseMessage& sendMessage(const std::string& msg) = 0;
+    virtual BaseMessage& sendMessage(const std::string& msg);
     /**
      * @brief Sends a message in this channel from a json object
      * @param json 
      * @return std::shared_ptr<BaseMessage> 
      */
-    virtual BaseMessage& sendMessageExtended(const nlohmann::json& json) = 0;
+    virtual BaseMessage& sendMessageExtended(const nlohmann::json& json);
 protected:
-    /**
-     * @brief Construct a new Channel object
-     */
-    BaseChannel();
     /**
      * @brief Type of the channel 
      * TODO: replace with enum maybe or defines

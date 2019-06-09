@@ -13,10 +13,11 @@
 #define MESSAGECREATEEVENT_HPP
 
 #include "BaseEvent.hpp"
+#include "dppcord/core/objects/message/BaseMessage.hpp"
 
 namespace dppcord
 {
-class MessageCreateEvent : public BaseEvent
+class MessageCreateEvent : public BaseEvent<BaseMessage>
 {
     using BaseEvent::BaseEvent;
 

@@ -16,7 +16,7 @@
 
 namespace dppcord
 {
-class TypingStartEvent : public BaseEvent
+class TypingStartEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 

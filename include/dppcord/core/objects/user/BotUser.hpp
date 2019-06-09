@@ -21,7 +21,7 @@ class BotUser : public User
 public:
     BotUser(const nlohmann::json& botdata);
     ~BotUser() = default;
-
+    BotUser(const BotUser&) = default;
     BotUser() = default;
 
     const std::string& getSessionId() const;

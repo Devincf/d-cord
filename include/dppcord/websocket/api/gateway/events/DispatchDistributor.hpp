@@ -44,19 +44,19 @@ public:
      * @param pointer to the event 
      * @return Whether the event didnt exist in the map before  
      */
-    bool addEvent(const std::string &eventName, BaseEvent *pBaseEvent);
+    bool addEvent(const std::string &eventName, IEvent *pBaseEvent);
     /**
      * @brief Get the pointer of a event with a name
      * @param eventName of the event 
      * @return pointer of the event if exists, nullptr if eventName wasnt found
      */
-    BaseEvent *getEvent(const std::string &eventName);
+    IEvent &getEvent(const std::string &eventName);
 
 private:
     /**
      * @brief Map containing all dispatch events
      */
-    std::map<std::string, std::unique_ptr<BaseEvent>> m_eventMap;
+    std::map<std::string, std::unique_ptr<IEvent>> m_eventMap;
 };
 } // namespace dppcord
 

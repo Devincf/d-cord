@@ -43,9 +43,9 @@ void WebsocketConnection::connect(std::condition_variable * const cv)
     catch (const websocketpp::exception &e)
     {
         std::cout << "websocketpp::exception(WebsocketConnecction::connect): "<<e.what() << '\n';
-    }catch(const std::exception& e)
+    }catch(const std::runtime_error& e)
     {
-        std::cout << "std::exception(WebsocketConnecction::connect): " <<e.what() << '\n';
+        std::cout << "std::runtime_error(WebsocketConnecction::connect): " <<e.what() << '\n';
     }
 
     m_running = false;

@@ -18,8 +18,10 @@
 #include "dppcord/core/handler/UsersHandler.hpp"
 
 #include "dppcord/core/objects/message/BaseMessage.hpp"
-#include "dppcord/core/objects/channel/BaseChannel.hpp"
+#include "dppcord/core/objects/channel/GuildChannel.hpp"
 #include "dppcord/core/objects/guild/Guild.hpp"
+
+#include "dppcord/websocket/api/gateway/events/MessageCreateEvent.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
 #include "dppcord/util/emojilist.hpp"
@@ -71,16 +73,15 @@ void MoneySystem::init()
                                msg.channel().sendMessageExtended(json);
                            });
 
-    m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")->bind([&](const nlohmann::json &json) {
-        //std::cout << json.dump(2) << '\n';
-        if (tryGetSnowflake("guild_id", json) != 439065048628068363 || tryGetSnowflake("id", json["author"]) == 444648378199048214) // Todo: remove first part later(keep bot msg check)
+    static_cast<MessageCreateEvent&>(m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")).bind([&](const BaseMessage& msg) {
+        BaseChannel& channel = msg.channel();
+        const Guild& guild = static_cast<GuildChannel&>(channel).getGuild();
+        if (guild.getId() != 439065048628068363 || msg.author().getId() == 444648378199048214) // Todo: remove first part later(keep bot msg check)
             return;
         if (++m_messagesSinceDrop >= messagesUntilDrop)
         {
             //drop()
-            Guild& guild = m_pClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", json));
             std::cout << guild.getName() << '\n';
-            auto& msg = guild.getMessage(tryGetSnowflake("id", json));
             nlohmann::json drop_json;
             nlohmann::json embed;
             embed["title"] = "       Coin drop";
@@ -88,7 +89,7 @@ void MoneySystem::init()
             embed["description"] = "w-would u like a drink master?";
             embed["image"]["url"] = "https://cdn.discordapp.com/attachments/439065048628068365/576535445123629064/20190510_172533.jpg";
             drop_json["embed"] = embed;
-            auto& dropMessage = msg.channel().sendMessageExtended(drop_json);
+            auto& dropMessage = channel.sendMessageExtended(drop_json);
             dropMessage.react(emoji::coffee);
             dropMessage.reactionListener(
                 [=](BaseMessage &msg, const nlohmann::json &json) {

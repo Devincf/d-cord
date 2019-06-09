@@ -13,10 +13,11 @@
 #define GUILDCREATEEVENT_HPP
 
 #include "BaseEvent.hpp"
+#include "dppcord/core/objects/guild/Guild.hpp"
 
 namespace dppcord
 {
-class GuildCreateEvent : public BaseEvent
+class GuildCreateEvent : public BaseEvent<Guild>
 {
     using BaseEvent::BaseEvent;
 

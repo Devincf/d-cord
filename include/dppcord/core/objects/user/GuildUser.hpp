@@ -31,6 +31,7 @@ public:
      * @param guserjson 
      */
     GuildUser(Guild* pGuild,const nlohmann::json &guserjson);
+    GuildUser(const GuildUser&) = default;
 
     /**
      * @brief Destroy the Guild User object

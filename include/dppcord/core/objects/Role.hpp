@@ -30,12 +30,13 @@ public:
      * @brief Destroy the Role object
      */
     ~Role();
-
-private:
+    Role(const Role&) = default;
     /**
      * @brief Construct a new Role object
      */
     Role();
+
+private:
     /**
      * @brief Integer representation of hexadecimal color code
      */

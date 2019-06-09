@@ -18,5 +18,6 @@ namespace dppcord
     void PresenceUpdateEvent::proc(const nlohmann::json& eventPacket)
     {
         //std::cout << "PresenceUpdateEvent proc\n";
+        m_forwardData.add(eventPacket);
     }
 }

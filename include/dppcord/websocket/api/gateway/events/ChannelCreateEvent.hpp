@@ -14,9 +14,11 @@
 
 #include "BaseEvent.hpp"
 
+#include "dppcord/core/objects/channel/BaseChannel.hpp"
+
 namespace dppcord
 {
-class ChannelCreateEvent : public BaseEvent
+class ChannelCreateEvent : public BaseEvent<BaseChannel>
 {
     using BaseEvent::BaseEvent;
 

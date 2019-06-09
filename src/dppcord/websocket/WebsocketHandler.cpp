@@ -36,9 +36,13 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("MESSAGE_REACTION_ADD", new MessageReactionAdd(pDiscordClient));
     m_eventDispatcher.addEvent("RESUMED", new ResumeEvent(pDiscordClient));
 
-    m_eventDispatcher.getEvent("READY")->bind(
+    /*m_eventDispatcher.getEvent("READY").bind(
         [](const nlohmann::json &eventPacket) {
             //std::cout << "user defined ready proc\n";
+        });*/
+    static_cast<ReadyEvent&>(m_eventDispatcher.getEvent("READY")).bind(
+        [](const nlohmann::json &eventPacket) {
+            std::cout << "user defined ready proc\n";
         });
 }
 

@@ -9,42 +9,54 @@
  * 
  */
 
+
 #include "dppcord/websocket/api/gateway/events/BaseEvent.hpp"
+/*
 #include <iostream>
 namespace dppcord
 {
-BaseEvent::BaseEvent(DiscordClient *pDiscordClient)
+template <typename ...Args>
+BaseEvent<Args...>::BaseEvent(DiscordClient *pDiscordClient)
 {
     m_pDiscordClient = pDiscordClient;
 }
-BaseEvent::BaseEvent() {}
-BaseEvent::~BaseEvent() {}
+template <typename ...Args>
+BaseEvent<Args...>::BaseEvent() {}
 
-void BaseEvent::proc(const nlohmann::json &eventPacket)
+template <typename ...Args>
+BaseEvent<Args...>::~BaseEvent() {}
+
+template <typename ...Args>
+void BaseEvent<Args...>::proc(const nlohmann::json&)
 {
     std::cout << "[ERROR]Undefined Event proc has been called\n";
 }
-
-void BaseEvent::baseproc(const nlohmann::json &eventPacket)
+template <typename ...Args>
+void BaseEvent<Args...>::baseproc(const nlohmann::json &eventPacket)
 {
-    //std::cout << "calling base proc()\n";
     proc(eventPacket);
     //call user defined func ptr
     if(!m_userFunc.empty()){
-        //std::cout << "calling user-defined proc()\n";
-        m_userFunc(eventPacket);
+        if constexpr (sizeof...(Args) > 0)
+        {
+            m_forwardData.reset();
+            m_userFunc(fromAny<Args>(m_forwardData.next())...);
+        }
     }
 }
-void BaseEvent::bind(boost::function<void(const nlohmann::json &)> &funcptr)
+template <typename ...Args>
+void BaseEvent<Args...>::bind(const boost::function<void(Args...)> &funcptr)
 {
     //TODO: uhh maybe some checking if was already set?
     if(m_userFunc.empty())
         m_userFunc = funcptr;
 }
-void BaseEvent::bind(boost::function<void(const nlohmann::json &)> &&funcptr)
+template <typename ...Args>
+void BaseEvent<Args...>::bind(const boost::function<void(Args...)> &&funcptr)
 {
     //TODO: uhh maybe some checking if was already set?
     if(m_userFunc.empty())
         m_userFunc = funcptr;
 }
 } // namespace dppcord
+*/

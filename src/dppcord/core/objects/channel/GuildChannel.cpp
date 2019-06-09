@@ -46,5 +46,5 @@ BaseMessage& GuildChannel::sendMessageExtended(const nlohmann::json& json)
     return *m;
 }
 
-Guild *GuildChannel::getGuild() const{ return m_guild; }
+Guild &GuildChannel::getGuild() const{ return *m_guild; }
 } // namespace dppcord

@@ -28,7 +28,7 @@ BaseMessage::BaseMessage(BaseChannel& pChannel, const nlohmann::json &msgjson)
     m_id = tryGetSnowflake("id", msgjson);
     //std::cout << msgjson.dump(1) << '\n';
     Snowflake test = tryGetSnowflake("id", msgjson["author"]);
-    m_author = &channel.getGuild()->getUserFromId(test);
+    m_author = &channel.getGuild().getUserFromId(test);
     m_content = tryGetJson<std::string>("content", msgjson);
     m_timestamp = util::Timestamp(tryGetJson<std::string>("timestamp", msgjson));
     m_tts = tryGetJson<bool>("tts", msgjson);
@@ -57,7 +57,7 @@ std::string BaseMessage::react(const std::string& emoji)
     //emoji takes the form of name:id for custom guild emoji,
     return DiscordEndpoint::createReaction(std::to_string(m_channel->getId()), std::to_string(m_id), emoji);
 }
-
+User& BaseMessage::author() const { return *m_author; }
 const std::string& BaseMessage::content() const { return m_content; }
 BaseChannel& BaseMessage::channel()const {return *m_channel;}
 } // namespace dppcord

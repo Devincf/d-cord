@@ -16,7 +16,7 @@
 
 namespace dppcord
 {
-class PresenceUpdateEvent : public BaseEvent
+class PresenceUpdateEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 
