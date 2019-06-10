@@ -1,5 +1,5 @@
 /**
- * @file MessageReactionAdd.cpp
+ * @file MessageReactionAddEvent.cpp
  * @author Devin-Can Firat (devinc.firat@gmail.com)
  * @brief 
  * @version 0.1
@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/websocket/api/gateway/events/message/MessageReactionAdd.hpp"
+#include "dppcord/websocket/api/gateway/events/message/MessageReactionAddEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 
@@ -18,7 +18,7 @@
 
 namespace dppcord
 {
-void MessageReactionAdd::proc(const nlohmann::json &eventPacket)
+void MessageReactionAddEvent::proc(const nlohmann::json &eventPacket)
 {
     //get message
     //if not nullptr procEvent.

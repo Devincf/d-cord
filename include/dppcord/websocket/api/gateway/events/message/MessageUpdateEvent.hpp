@@ -1,23 +1,23 @@
 /**
- * @file MessageReactionAdd.hpp
+ * @file MessageUpdateEvent.hpp
  * @author Devin-Can Firat (devinc.firat@gmail.com)
  * @brief 
  * @version 0.1
- * @date 2019-06-02 04:29
+ * @date 2019-06-10 08:11
  * 
  * @copyright Copyright (c) 2019
  * 
  */
 
 
-#ifndef MESSAGEREACTIONADD_HPP
-#define MESSAGEREACTIONADD_HPP
+#ifndef MESSAGEUPDATEEVENT_HPP
+#define MESSAGEUPDATEEVENT_HPP
 
 #include "dppcord/websocket/api/gateway/events/BaseEvent.hpp"
 
 namespace dppcord
 {
-class MessageReactionAdd : public BaseEvent<nlohmann::json>
+class MessageUpdateEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 
