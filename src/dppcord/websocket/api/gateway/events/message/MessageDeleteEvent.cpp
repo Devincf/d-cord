@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/websocket/api/gateway/events/MessageDeleteEvent.hpp"
+#include "dppcord/websocket/api/gateway/events/message/MessageDeleteEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/util/jsonutil.hpp"
 #include <iostream>

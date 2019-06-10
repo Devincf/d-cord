@@ -27,14 +27,31 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_pClient = pDiscordClient;
 
     m_eventDispatcher.addEvent("READY", new ReadyEvent(pDiscordClient));
-    m_eventDispatcher.addEvent("GUILD_CREATE", new GuildCreateEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("RESUMED", new ResumeEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("CHANNEL_CREATE", new ChannelCreateEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("CHANNEL_UPDATE", new ChannelUpdateEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("CHANNEL_DELETE", new ChannelDeleteEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("CHANNEL_PINS_UPDATE", new ChannelPinsUpdateEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("GUILD_CREATE", new GuildCreateEvent(pDiscordClient));                
+    m_eventDispatcher.addEvent("GUILD_UPDATE", new GuildUpdateEvent(pDiscordClient)); //Untested
+    m_eventDispatcher.addEvent("GUILD_DELETE", new GuildDeleteEvent(pDiscordClient)); //Untested
+    m_eventDispatcher.addEvent("GUILD_BAN_ADD", new GuildBanAddEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("GUILD_BAN_REMOVE", new GuildBanRemoveEvent(pDiscordClient)); //Untested
+    m_eventDispatcher.addEvent("GUILD_EMOJIS_UPDATE", new GuildEmojisUpdateEvent(pDiscordClient));  //Untested
+    m_eventDispatcher.addEvent("GUILD_INTEGRATIONS_UPDATE", new GuildIntegrationsUpdateEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("GUILD_MEMBER_ADD", new GuildMemberAddEvent(pDiscordClient)); //Untested
+    m_eventDispatcher.addEvent("GUILD_MEMBER_REMOVE", new GuildMemberRemoveEvent(pDiscordClient));  //Untested
+    m_eventDispatcher.addEvent("GUILD_MEMBER_UPDATE", new GuildMemberUpdateEvent(pDiscordClient));  //Untested
+    m_eventDispatcher.addEvent("GUILD_MEMBERS_CHUNK", new GuildMembersChunkEvent(pDiscordClient));  //Untested
+    m_eventDispatcher.addEvent("GUILD_ROLE_CREATE", new GuildRoleCreateEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("GUILD_ROLE_UPDATE", new GuildRoleUpdateEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("GUILD_ROLE_DELETE", new GuildRoleDeleteEvent(pDiscordClient));//Untested
     m_eventDispatcher.addEvent("MESSAGE_CREATE", new MessageCreateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("MESSAGE_DELETE", new MessageDeleteEvent(pDiscordClient));
-    m_eventDispatcher.addEvent("CHANNEL_CREATE", new ChannelCreateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("PRESENCE_UPDATE", new PresenceUpdateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("TYPING_START", new TypingStartEvent(pDiscordClient));
     m_eventDispatcher.addEvent("MESSAGE_REACTION_ADD", new MessageReactionAdd(pDiscordClient));
-    m_eventDispatcher.addEvent("RESUMED", new ResumeEvent(pDiscordClient));
+
 
     /*m_eventDispatcher.getEvent("READY").bind(
         [](const nlohmann::json &eventPacket) {

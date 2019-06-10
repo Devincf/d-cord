@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/websocket/api/gateway/events/GuildCreateEvent.hpp"
+#include "dppcord/websocket/api/gateway/events/guild/GuildCreateEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
 #include <iostream>
 

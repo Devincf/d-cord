@@ -1,0 +1,6 @@
+TODO:
+-add guild_member_add event
+-add message_update event
+-read message from rest and add to message list if not exist
+-read user from rest and add to message list if not exist
+-oh 

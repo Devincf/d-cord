@@ -1,34 +1,33 @@
 /**
- * @file MessageDeleteEvent.hpp
+ * @file GuildBanAddEvent.hpp
  * @author Devin-Can Firat (devinc.firat@gmail.com)
  * @brief 
  * @version 0.1
- * @date 2019-06-05 01:15
+ * @date 2019-06-10 07:47
  * 
  * @copyright Copyright (c) 2019
  * 
  */
 
-#ifndef MESSAGEDELETEEVENT_HPP
-#define MESSAGEDELETEEVENT_HPP
+#ifndef GUILDBANADDEVENT_HPP
+#define GUILDBANADDEVENT_HPP
 
-#include "BaseEvent.hpp"
-#include "dppcord/core/objects/message/BaseMessage.hpp"
+#include "dppcord/websocket/api/gateway/events/BaseEvent.hpp"
+#include "dppcord/core/objects/guild/Guild.hpp"
 
 namespace dppcord
 {
-class MessageDeleteEvent : public BaseEvent<int>
+class GuildBanAddEvent : public BaseEvent<Guild>
 {
     using BaseEvent::BaseEvent;
 
 public:
     /**
-     * @brief Called when the client receives a MESSAGE_CREATE dispatch event
+     * @brief Called when the client receives a GUILD_CREATE dispatch event
      * @param json data containing information about the event
      */
     void proc(const nlohmann::json &eventPacket);
 };
 } // namespace dppcord
-
 
 #endif

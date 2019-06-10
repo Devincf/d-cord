@@ -60,5 +60,6 @@ std::vector<std::shared_ptr<Command>> CommandMap::getCommand(const std::string &
     return it->second;
 }
 
+
 std::map<std::string, std::vector<std::shared_ptr<Command>>> CommandMap::m_commandMap = {};
 } // namespace dppcord

@@ -21,7 +21,7 @@
 #include "dppcord/core/objects/channel/GuildChannel.hpp"
 #include "dppcord/core/objects/guild/Guild.hpp"
 
-#include "dppcord/websocket/api/gateway/events/MessageCreateEvent.hpp"
+#include "dppcord/websocket/api/gateway/events/message/MessageCreateEvent.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
 #include "dppcord/util/emojilist.hpp"

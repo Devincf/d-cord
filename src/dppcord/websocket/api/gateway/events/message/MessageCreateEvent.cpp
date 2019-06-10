@@ -9,7 +9,7 @@
  * 
  */
 
-#include "dppcord/websocket/api/gateway/events/MessageCreateEvent.hpp"
+#include "dppcord/websocket/api/gateway/events/message/MessageCreateEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/core/objects/channel/BaseChannel.hpp"

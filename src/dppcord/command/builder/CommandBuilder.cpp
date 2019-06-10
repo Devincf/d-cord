@@ -21,9 +21,7 @@ namespace dppcord
 
 bool CommandBuilder::tryBuildCommand(const BaseMessage& pMsg)
 {
-    //std::cout << "parsing arguments";
     auto parsedCommand = CommandParser::parse(pMsg.content());
-    //std::cout << "searching for command " << parsedCommand.name.name << "...\n";
     auto arguments = parsedCommand.argList.getArguments();
 
     auto commands = CommandMap::getCommand(parsedCommand.name.name);

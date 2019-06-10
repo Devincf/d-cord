@@ -48,10 +48,12 @@ src/dppcord/rest/Request.cpp src/dppcord/rest/RequestContent.cpp src/dppcord/res
 
 src/dppcord/websocket/WebsocketConnection.cpp       src/dppcord/websocket/WebsocketHandler.cpp
 src/dppcord/websocket/api/gateway/events/DispatchDistributor.cpp  src/dppcord/websocket/api/gateway/events/BaseEvent.cpp
-src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    src/dppcord/websocket/api/gateway/events/GuildCreateEvent.cpp    
-src/dppcord/websocket/api/gateway/events/MessageCreateEvent.cpp src/dppcord/websocket/api/gateway/events/MessageDeleteEvent.cpp
-src/dppcord/websocket/api/gateway/events/ChannelCreateEvent.cpp src/dppcord/websocket/api/gateway/events/TypingStartEvent.cpp src/dppcord/websocket/api/gateway/events/PresenceUpdateEvent.cpp 
-src/dppcord/websocket/api/gateway/events/MessageReactionAdd.cpp src/dppcord/websocket/api/gateway/events/ResumeEvent.cpp
+src/dppcord/websocket/api/gateway/events/ReadyEvent.cpp    
+src/dppcord/websocket/api/gateway/events/guild/GuildCreateEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildBanAddEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildBanRemoveEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildDeleteEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildEmojisUpdateEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildUpdateEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildIntegrationsUpdateEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildMemberAddEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildMemberRemoveEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildMembersChunkEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildMemberUpdateEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildRoleCreateEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildRoleDeleteEvent.cpp    src/dppcord/websocket/api/gateway/events/guild/GuildRoleUpdateEvent.cpp    
+src/dppcord/websocket/api/gateway/events/message/MessageCreateEvent.cpp src/dppcord/websocket/api/gateway/events/message/MessageDeleteEvent.cpp
+src/dppcord/websocket/api/gateway/events/channel/ChannelCreateEvent.cpp src/dppcord/websocket/api/gateway/events/channel/ChannelUpdateEvent.cpp src/dppcord/websocket/api/gateway/events/channel/ChannelPinsUpdateEvent.cpp src/dppcord/websocket/api/gateway/events/channel/ChannelDeleteEvent.cpp 
+src/dppcord/websocket/api/gateway/events/TypingStartEvent.cpp src/dppcord/websocket/api/gateway/events/PresenceUpdateEvent.cpp 
+src/dppcord/websocket/api/gateway/events/message/MessageReactionAdd.cpp src/dppcord/websocket/api/gateway/events/ResumeEvent.cpp
 src/dppcord/websocket/api/gateway/Heartbeater.cpp    
 
 )
