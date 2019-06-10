@@ -55,18 +55,11 @@ WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDis
     m_eventDispatcher.addEvent("MESSAGE_REACTION_REMOVE_ALL", new MessageReactionRemoveAllEvent(pDiscordClient));//Untested
     m_eventDispatcher.addEvent("PRESENCE_UPDATE", new PresenceUpdateEvent(pDiscordClient));
     m_eventDispatcher.addEvent("TYPING_START", new TypingStartEvent(pDiscordClient));
+    m_eventDispatcher.addEvent("USER_UPDATE", new UserUpdateEvent(pDiscordClient));                 //Untested
+    m_eventDispatcher.addEvent("VOICE_STATE_UPDATE", new VoiceStateUpdateEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("VOICE_SERVER_UPDATE", new VoiceServerUpdateEvent(pDiscordClient));//Untested
+    m_eventDispatcher.addEvent("WEBHOOKS_UPDATE", new WebhooksUpdateEvent(pDiscordClient));//Untested
 
-    /**
-     * @brief 
-Message Create	message was created
-Message Update	message was edited
-Message Delete	message was deleted
-Message Delete Bulk	multiple messages were deleted at once
-Message Reaction Add	user reacted to a message
-Message Reaction Remove	user removed a reaction from a message
-Message Reaction Remove All	all reactions were explicitly removed from a message
-     * 
-     */
 
 
     /*m_eventDispatcher.getEvent("READY").bind(

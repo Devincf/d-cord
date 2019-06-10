@@ -41,5 +41,9 @@
 #include "TypingStartEvent.hpp"
 #include "PresenceUpdateEvent.hpp"
 #include "ResumeEvent.hpp"
+#include "user/UserUpdateEvent.hpp"
+#include "voice/VoiceStateUpdateEvent.hpp"
+#include "voice/VoiceServerUpdateEvent.hpp"
+#include "WebhooksUpdateEvent.hpp"
 
 #endif

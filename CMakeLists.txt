@@ -53,6 +53,9 @@ src/dppcord/websocket/api/gateway/events/guild/GuildCreateEvent.cpp    src/dppco
 src/dppcord/websocket/api/gateway/events/message/MessageCreateEvent.cpp src/dppcord/websocket/api/gateway/events/message/MessageDeleteEvent.cpp src/dppcord/websocket/api/gateway/events/message/MessageDeleteBulkEvent.cpp src/dppcord/websocket/api/gateway/events/message/MessageUpdateEvent.cpp src/dppcord/websocket/api/gateway/events/message/MessageReactionRemoveEvent.cpp src/dppcord/websocket/api/gateway/events/message/MessageReactionRemoveAllEvent.cpp
 src/dppcord/websocket/api/gateway/events/channel/ChannelCreateEvent.cpp src/dppcord/websocket/api/gateway/events/channel/ChannelUpdateEvent.cpp src/dppcord/websocket/api/gateway/events/channel/ChannelPinsUpdateEvent.cpp src/dppcord/websocket/api/gateway/events/channel/ChannelDeleteEvent.cpp 
 src/dppcord/websocket/api/gateway/events/TypingStartEvent.cpp src/dppcord/websocket/api/gateway/events/PresenceUpdateEvent.cpp 
+src/dppcord/websocket/api/gateway/events/user/UserUpdateEvent.cpp
+src/dppcord/websocket/api/gateway/events/voice/VoiceServerUpdateEvent.cpp src/dppcord/websocket/api/gateway/events/voice/VoiceStateUpdateEvent.cpp
+src/dppcord/websocket/api/gateway/events/WebhooksUpdateEvent.cpp
 src/dppcord/websocket/api/gateway/events/message/MessageReactionAddEvent.cpp src/dppcord/websocket/api/gateway/events/ResumeEvent.cpp
 src/dppcord/websocket/api/gateway/Heartbeater.cpp    
 
