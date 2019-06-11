@@ -33,7 +33,7 @@ public:
      * @brief Construct a new Websocket Handler object
      * @param token for communication with the discordapi
      */
-    WebsocketHandler(const std::string &token, DiscordClient* const pDiscordClient);
+    WebsocketHandler(DiscordClient* const pDiscordClient);
     /**
      * @brief Destroy the Websocket Handler object
      */
@@ -51,6 +51,11 @@ public:
      * @brief Used to notify the websocket handler that the gateway connection is now ready
      */
     void setReady();
+    /**
+     * @brief Sets the discord token
+     * @param token 
+     */
+    void setToken(const std::string& token);
     /**
      * @brief Called when a HeartbeatACK gets received
      */

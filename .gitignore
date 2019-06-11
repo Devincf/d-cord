@@ -2,6 +2,7 @@ bin/
 .vscode/
 example/test.db
 example/token.txt
+example/config.json
 example/Makefile
 example/CMakeFiles/
 plugins/example_plugin/CMakeFiles/

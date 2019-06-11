@@ -30,17 +30,15 @@ GuildChannel::~GuildChannel() {}
 
 BaseMessage& GuildChannel::sendMessage(const std::string &msg)
 {
-    auto string = DiscordEndpoint::sendMessage(m_id, msg);
-    auto json = nlohmann::json::parse(string);
-    BaseMessage* m = new BaseMessage(*this, json);
+    auto newmsgjson = DiscordEndpoint::sendMessage(m_id, msg);
+    BaseMessage* m = new BaseMessage(*this, newmsgjson);
     m_guild->addMessage(m);
     return *m;
 }
 
 BaseMessage& GuildChannel::sendMessageExtended(const nlohmann::json& json)
 {
-    auto string = DiscordEndpoint::sendMessageExtended(m_id, json);
-    auto newmsgjson = nlohmann::json::parse(string);
+    auto newmsgjson = DiscordEndpoint::sendMessageExtended(m_id, json);
     BaseMessage* m = new BaseMessage(*this, newmsgjson);
     m_guild->addMessage(m);
     return *m;

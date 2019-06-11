@@ -47,7 +47,7 @@ public:
      * @param id of the role
      * @return std::shared_ptr<Role> 
      */
-    Role& getRole(const Snowflake &id) const;
+    Role& getRole(const Snowflake &id);
     /**
      * @brief Returns a pointer to a user object with a given id inside the guild
      * @param id of the user
@@ -140,7 +140,7 @@ private:
     /**
      * @brief Vector containing all guild specific roles
      */
-    std::map<Snowflake, std::unique_ptr<Role>> m_roles;
+    std::map<Snowflake, Role> m_roles;
     /**
      * @brief Vector containing all guild specific emojis
      */
@@ -197,7 +197,7 @@ private:
      * @brief Vector containing all guild channels
      * TODO: switch to Channel* after Channel has been split into different objects
      */
-    std::vector<std::shared_ptr<BaseChannel>> m_channels;
+    std::vector<std::unique_ptr<BaseChannel>> m_channels;
     /**
      * @brief Map containing all Messages sorted by their id
      */

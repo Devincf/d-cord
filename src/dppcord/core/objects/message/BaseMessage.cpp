@@ -45,14 +45,13 @@ BaseMessage::~BaseMessage()
 {
 }
 
-std::string BaseMessage::remove()
+bool BaseMessage::remove()
 {
-    auto ret = DiscordEndpoint::deleteMessage(std::to_string(m_channel->getId()), std::to_string(m_id));
+    return DiscordEndpoint::deleteMessage(std::to_string(m_channel->getId()), std::to_string(m_id));
     //std::dynamic_pointer_cast<GuildChannel>(m_channel)->getGuild()->removeMessage(m_id);
-    return ret;
 }
 
-std::string BaseMessage::react(const std::string& emoji)
+bool BaseMessage::react(const std::string& emoji)
 {
     //emoji takes the form of name:id for custom guild emoji,
     return DiscordEndpoint::createReaction(std::to_string(m_channel->getId()), std::to_string(m_id), emoji);

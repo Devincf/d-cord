@@ -20,6 +20,7 @@ namespace dppcord
     {
         //todo
         std::cout << "GuildDeleteEvent proc\n";
+        std::cout << eventPacket.dump(4) << '\n';
         Guild& guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("id", eventPacket));
         m_forwardData.add(guild);
     }

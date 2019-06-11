@@ -20,6 +20,7 @@ void VoiceServerUpdateEvent::proc(const nlohmann::json &eventPacket)
 {
     //todo
     std::cout << "VoiceServerUpdateEvent proc\n";
+        std::cout << eventPacket.dump(4) << '\n';
     m_forwardData.add(eventPacket);
 }
 } // namespace dppcord

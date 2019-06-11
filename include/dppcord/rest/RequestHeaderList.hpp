@@ -18,12 +18,19 @@
 namespace dppcord
 {
     enum RequestContentType{
-        REQUESTCONTENT_MULTIPART_FORMDATA
+        REQUESTCONTENT_MULTIPART_FORMDATA,
+        REQUESTCONTENT_APPLICATION_JSON
     };
 
     class RequestHeaderList
     {
         public:
+        RequestHeaderList();
+        RequestHeaderList(const std::string&& auth, RequestContentType&& rct);
+        RequestHeaderList(const std::string& auth, RequestContentType&& rct);
+        RequestHeaderList(RequestContentType&& rct);
+        RequestHeaderList(std::string& auth);
+
         RequestHeaderList& addHeader(const std::string& header);
         const std::list<std::string>& get() const;
         RequestHeaderList& setContent(RequestContentType rct);

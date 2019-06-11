@@ -21,9 +21,11 @@ namespace dppcord
     class Request
     {
         public:
-        static const RequestResponse sendPOST(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content);
-        static const RequestResponse sendDELETE(const std::string& url, const RequestHeaderList& headerList);
-        static const RequestResponse sendPUT(const std::string& url, const RequestHeaderList& headerList);
+        static const RequestResponse sendPOST(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
+        static const RequestResponse sendDELETE(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
+        static const RequestResponse sendPUT(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
+        static const RequestResponse sendGET(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
+        static const RequestResponse sendPATCH(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
 
     };
 }

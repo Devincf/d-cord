@@ -22,7 +22,7 @@
 
 namespace dppcord
 {
-WebsocketHandler::WebsocketHandler(const std::string &token, DiscordClient *pDiscordClient) : m_lastSequence(0), m_token(token), m_heartbeater(this, 0)
+WebsocketHandler::WebsocketHandler(DiscordClient *pDiscordClient) : m_lastSequence(0), m_heartbeater(this, 0)
 {
     m_pClient = pDiscordClient;
 
@@ -245,6 +245,8 @@ void WebsocketHandler::receiveHeartbeatACK()
     m_heartbeatACK = true;
 }
 void WebsocketHandler::resetHeartbeatACK() { m_heartbeatACK = false; }
+
+void WebsocketHandler::setToken(const std::string& token){m_token = token;}
 
 DispatchDistributor &WebsocketHandler::getDispatcher() { return m_eventDispatcher; }
 const int WebsocketHandler::getLastSequence() const { return m_lastSequence; }

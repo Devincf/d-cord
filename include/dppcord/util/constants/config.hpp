@@ -17,6 +17,7 @@
 namespace dppcord::config
 {
     const nlohmann::json main = {
+        {"discord_token", "ENTER TOKEN HERE"},
         {"botname",     "unnamed bot"},
         {"botdesc",     "a basic unnamed bot written using d++cord"},
         {"botver",      "1.0"}

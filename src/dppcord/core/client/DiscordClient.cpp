@@ -23,11 +23,17 @@
 
 namespace dppcord
 {
-DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), m_websockethandler(token, this)
+DiscordClient::DiscordClient(): m_websockethandler(this)
 {
     m_database = std::unique_ptr<Database>(new SQLiteDatabase("test.db"));
 
     ConfigData::readConfig("main", config::main);
+
+    m_discordtoken = ConfigData::get("discord_token");
+    if(m_discordtoken == "ENTER TOKEN HERE")
+        throw std::invalid_argument("No token entered, please specify your discord token inside the config.json and restart");
+
+    m_websockethandler.setToken(m_discordtoken);
 
     CommandMap::addCommand("!about", [&](const BaseMessage &msg, const ArgumentList &argList) {
         nlohmann::json json2{
@@ -46,7 +52,7 @@ DiscordClient::DiscordClient(const std::string &token) : m_discordtoken(token), 
         };
         msg.channel().sendMessageExtended(json2);
     });
-    DiscordEndpoint::init(token);
+    DiscordEndpoint::init(m_discordtoken);
 }
 
 DiscordClient::~DiscordClient()

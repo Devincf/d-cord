@@ -53,7 +53,7 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler)
 
     for (auto it = guildjson["roles"].begin(); it != guildjson["roles"].end(); it++)
     {
-        m_roles.insert({(*it)["id"], std::make_unique<Role>(this, *it)});
+        m_roles.insert({(*it)["id"], std::forward<Role>(Role(this, *it))});
     }
     for (auto it = guildjson["emojis"].begin(); it != guildjson["emojis"].end(); it++)
     {
@@ -180,12 +180,11 @@ BaseChannel& Guild::addChannel(const nlohmann::json &channeldata)
     }
 }
 
-Role& Guild::getRole(const Snowflake &id) const
+Role& Guild::getRole(const Snowflake &id) 
 {
     auto roleptr = m_roles.find(id);
     if (roleptr == m_roles.end()) throw std::runtime_error("Role with id " + std::to_string(id) + " wasn't found");
-    if(!roleptr->second) throw std::runtime_error("Role is nullptr");
-    return *roleptr->second;
+    return roleptr->second;
 }
 
 User& Guild::getUserFromId(const Snowflake &id) const

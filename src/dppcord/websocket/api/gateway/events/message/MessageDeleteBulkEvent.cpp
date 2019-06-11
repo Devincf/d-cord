@@ -22,6 +22,7 @@ void MessageDeleteBulkEvent::proc(const nlohmann::json &eventPacket)
 {
     //todo
     std::cout << "MessageDeleteBulkEvent proc\n";
+        std::cout << eventPacket.dump(4) << '\n';
     //BaseMessage& message = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).getMessage(tryGetSnowflake("id", eventPacket));
     m_forwardData.add(eventPacket);
 }

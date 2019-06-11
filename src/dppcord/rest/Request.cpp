@@ -47,8 +47,31 @@ const RequestResponse Request::sendPOST(const std::string &url, const RequestHea
     }
     return RequestResponse("");
 }
+const RequestResponse Request::sendGET(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content)
+{
+    try
+    {
+        curlpp::Cleanup myCleanup;
+        std::stringstream ss;
 
-const RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderList &headerList)
+        // Our request to be sent.
+        curlpp::Easy myRequest;
+        myRequest.setOpt<Url>(url);
+        myRequest.setOpt<HttpHeader>(headerList.get());
+        myRequest.setOpt<WriteStream>(&ss);
+
+        // Send request and get a result.
+        myRequest.perform();
+        return RequestResponse{ss.str()};
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    return RequestResponse("");
+}
+
+const RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderList &headerList, const RequestContent& content)
 {
     try
     {
@@ -73,7 +96,35 @@ const RequestResponse Request::sendDELETE(const std::string &url, const RequestH
     return RequestResponse("");
 }
 
-const RequestResponse Request::sendPUT(const std::string& url, const RequestHeaderList& headerList)
+const RequestResponse Request::sendPATCH(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content)
+{
+    try
+    {
+        curlpp::Cleanup myCleanup;
+        std::stringstream ss;
+
+        // Our request to be sent.
+        curlpp::Easy myRequest;
+        myRequest.setOpt<Url>(url);
+        myRequest.setOpt<HttpHeader>(headerList.get());
+        myRequest.setOpt<PostFields>(content.get());
+        myRequest.setOpt<PostFieldSize>(content.size());
+        myRequest.setOpt<CustomRequest>("PATCH");
+        myRequest.setOpt<WriteStream>(&ss);
+        
+
+        // Send request and get a result.
+        myRequest.perform();
+        return RequestResponse{ss.str()};
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Request::sendPUT(): " << e.what() << '\n';
+    }
+    return RequestResponse("");
+}
+
+const RequestResponse Request::sendPUT(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content)
 {
     try
     {
@@ -94,7 +145,7 @@ const RequestResponse Request::sendPUT(const std::string& url, const RequestHead
     }
     catch (const std::exception &e)
     {
-        std::cerr << e.what() << '\n';
+        std::cerr << "Request::sendPUT(): " << e.what() << '\n';
     }
     return RequestResponse("");
 }

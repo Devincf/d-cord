@@ -59,15 +59,15 @@ public:
     BaseChannel &channel() const;
     /**
      * @brief Removes the message
-     * @return std::string 
+     * @return bool true if message got removed succesfully
      */
-    std::string remove();
+    bool remove();
     /**
      * @brief React to this message with a given emoji
      * @param emoji to be used for reaction
      * @return std::string 
      */
-    std::string react(const std::string &emoji);
+    bool react(const std::string &emoji);
 
     void reactionListener(const nlohmann::json &json)
     {

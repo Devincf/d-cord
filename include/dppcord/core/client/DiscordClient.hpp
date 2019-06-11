@@ -32,11 +32,6 @@ class DiscordClient
 {
 public:
     /**
-     * @brief Construct a new Discord Client object
-     * deleted so its only possible to create a Discord Client with a token
-     */
-    DiscordClient() = delete;
-    /**
      * @brief Destroy the Discord Client object
      */
     virtual ~DiscordClient();
@@ -44,7 +39,7 @@ public:
      * @brief Construct a new Discord Client object
      * @param token - discord api token
      */
-    DiscordClient(const std::string &token);
+    DiscordClient();
     /**
      * @brief Get the Users Handler object
      * @return Pointer to the UsersHandler object
