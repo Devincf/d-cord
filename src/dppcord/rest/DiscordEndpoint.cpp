@@ -346,21 +346,62 @@ nlohmann::json DiscordEndpoint::getGuildRoles(const std::string &guildId)
 nlohmann::json DiscordEndpoint::createGuildRole(const std::string &guildId, const nlohmann::json &roledata)
 {
     //POST/guilds/{guild.id}/roles
-    return nlohmann::json();
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(roledata);
+
+    auto response = Request::sendPOST(
+        apiBase + "guilds/" + guildId + "/roles",
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
 }
 nlohmann::json DiscordEndpoint::modifyGuildRolePositions(const std::string &guildId, const nlohmann::json &rolearr)
 {
     //PATCH/guilds/{guild.id}/roles
-    return nlohmann::json();
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(rolearr);
+
+    auto response = Request::sendPATCH(
+        apiBase + "guilds/" + guildId + "/roles",
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
 }
-nlohmann::json DiscordEndpoint::modifyGuildRole(const std::string &guildId, const nlohmann::json &roledata)
+nlohmann::json DiscordEndpoint::modifyGuildRole(const std::string &guildId, const std::string& roleId, const nlohmann::json &roledata)
 {
     //PATCH/guilds/{guild.id}/roles/{role.id}
-    return nlohmann::json();
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(roledata);
+
+    auto response = Request::sendPATCH(
+        apiBase + "guilds/" + guildId + "/roles/" + roleId,
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
 }
-bool DiscordEndpoint::removeGuildRole(const std::string &guildId, const std::string &roleId)
+bool DiscordEndpoint::deleteGuildRole(const std::string &guildId, const std::string &roleId)
 {
     //DELETE/guilds/{guild.id}/roles/{role.id}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Lenght: 0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "guilds/" + guildId + "/roles/" + roleId,
+        rhl
+    );
+
+    if(response.get().size() != 0)
+    {
+        std::cout << "Error deleteGuildRole() : " << response.get() << '\n';
+        return false;
+    }
+
     return true;
 }
 nlohmann::json DiscordEndpoint::getGuildPruneCount(const std::string &guildId, const int days)
@@ -376,7 +417,17 @@ nlohmann::json DiscordEndpoint::getGuildPruneCount(const std::string &guildId, c
 nlohmann::json DiscordEndpoint::beginGuildPrune(const std::string &guildId, const int days, const bool compute_prune_count)
 {
     //POST/guilds/{guild.id}/prune
-    return nlohmann::json();
+    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+    const nlohmann::json json({{"days", days}, "compute_prune_count", compute_prune_count});
+    RequestContent rc(json);
+
+    auto response = Request::sendPOST(
+        apiBase + "guilds/" + guildId + "/prune",
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
 }
 nlohmann::json DiscordEndpoint::getGuildVoiceRegions(const std::string &guildId)
 {
@@ -410,22 +461,85 @@ nlohmann::json DiscordEndpoint::getGuildIntegrations(const std::string &guildId)
 }
 bool DiscordEndpoint::createGuildIntegration(const std::string &guildId, const std::string &type, const std::string &id)
 {
+    //TODO: fix
     //POST/guilds/{guild.id}/integrations
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    nlohmann::json data = {{"type", type}, {"id", id}};
+    RequestContent rc(data);
+
+    auto response = Request::sendPOST(
+        apiBase + "guilds/" + guildId + "/integrations",
+        rhl,
+        rc
+    );
+
+    if(response.get().size() != 0)
+    {
+        std::cout << "Error createGuildIntegration() : " << response.get() << '\n';
+        return false;
+    }
+
     return true;
 }
-bool DiscordEndpoint::modifyGuildIntegration(const std::string &guildId, const nlohmann::json &integrationdata)
+bool DiscordEndpoint::modifyGuildIntegration(const std::string &guildId, const std::string& integrationId, const nlohmann::json &integrationdata)
 {
+    //TODO: fix
     //PATCH/guilds/{guild.id}/integrations/{integration.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(integrationdata);
+
+    auto response = Request::sendPATCH(
+        apiBase + "guilds/" + guildId + "/integrations/" + integrationId,
+        rhl,
+        rc
+    );
+
+    if(response.get().size() != 0)
+    {
+        std::cout << "Error modifyGuildIntegration() : " << response.get() << '\n';
+        return false;
+    }
+
     return true;
 }
 bool DiscordEndpoint::deleteGuildIntegration(const std::string &guildId, const std::string &integrationId)
 {
+    //TODO: fix
     //DELETE/guilds/{guild.id}/integrations/{integration.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    rhl.addHeader("Content-Length: 0");
+    
+
+    auto response = Request::sendDELETE(
+        apiBase + "guilds/" + guildId + "/integrations/" + integrationId,
+        rhl
+    );
+
+    if(response.get().size() != 0)
+    {
+        std::cout << "Error deleteGuildIntegration() : " << response.get() << '\n';
+        return false;
+    }
+
     return true;
 }
 bool DiscordEndpoint::syncGuildIntegration(const std::string &guildId, const std::string &integrationId)
 {
+    //TODO: fix
     //POST/guilds/{guild.id}/integrations/{integration.id}/sync
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+
+    auto response = Request::sendPOST(
+        apiBase + "guilds/" + guildId + "/integrations/" + integrationId,
+        rhl
+    );
+
+    if(response.get().size() != 0)
+    {
+        std::cout << "Error syncGuildIntegration() : " << response.get() << '\n';
+        return false;
+    }
+
     return true;
 }
 nlohmann::json DiscordEndpoint::getGuildEmbed(const std::string &guildId)
@@ -442,7 +556,16 @@ nlohmann::json DiscordEndpoint::getGuildEmbed(const std::string &guildId)
 nlohmann::json DiscordEndpoint::modifyGuildEmbed(const std::string &guildId, const nlohmann::json &embeddata)
 {
     //PATCH/guilds/{guild.id}/embed
-    return nlohmann::json();
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc;
+
+    auto response = Request::sendPATCH(
+        apiBase + "guilds/" + guildId + "/embed",
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
 }
 nlohmann::json DiscordEndpoint::getGuildVanityURL(const std::string &guildId)
 {

@@ -33,6 +33,7 @@ public:
     static bool deleteMessage(const std::string &channel, const std::string &id);
     static bool createReaction(const std::string& channelId, const std::string& msgId, const std::string& emojiNameId);
 
+    //GUILD API CALLS
     static nlohmann::json getGuild(const std::string& guildId);
     static nlohmann::json modifyGuild(const std::string& guildId, const nlohmann::json& guilddata);
     static bool deleteGuild(const std::string& guildId);
@@ -50,19 +51,18 @@ public:
     static nlohmann::json getGuildBan(const std::string& guildId, const std::string& userId);
     static bool createGuildBan(const std::string& guildId, const std::string& userId, const nlohmann::json& bandata = nlohmann::json());
     static bool removeGuildBan(const std::string& guildId, const std::string& userId);
-
     static nlohmann::json getGuildRoles(const std::string& guildId);
     static nlohmann::json createGuildRole(const std::string& guildId, const nlohmann::json& roledata);
     static nlohmann::json modifyGuildRolePositions(const std::string& guildId, const nlohmann::json& rolearr);
-    static nlohmann::json modifyGuildRole(const std::string& guildId, const nlohmann::json& roledata);
-    static bool removeGuildRole(const std::string& guildId, const std::string& roleId);
+    static nlohmann::json modifyGuildRole(const std::string& guildId, const std::string& roleId, const nlohmann::json& roledata);
+    static bool deleteGuildRole(const std::string& guildId, const std::string& roleId);
     static nlohmann::json getGuildPruneCount(const std::string& guildId, const int days);
     static nlohmann::json beginGuildPrune(const std::string& guildId, const int days, const bool compute_prune_count = false);
     static nlohmann::json getGuildVoiceRegions(const std::string& guildId);
     static nlohmann::json getGuildInvites(const std::string& guildId);
     static nlohmann::json getGuildIntegrations(const std::string& guildId);
     static bool createGuildIntegration(const std::string& guildId, const std::string& type, const std::string& id);
-    static bool modifyGuildIntegration(const std::string& guildId, const nlohmann::json& integrationdata);
+    static bool modifyGuildIntegration(const std::string& guildId, const std::string& integrationId, const nlohmann::json& integrationdata);
     static bool deleteGuildIntegration(const std::string& guildId, const std::string& integrationId);
     static bool syncGuildIntegration(const std::string& guildId, const std::string& integrationId);
     static nlohmann::json getGuildEmbed(const std::string& guildId);

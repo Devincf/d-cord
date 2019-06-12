@@ -56,8 +56,6 @@ int main(int argc, char *argv[])
     auto nicknameChange = DiscordEndpoint::modifyCurrentNick("439065048628068363", "cute bot owo :3");
     auto newRole = DiscordEndpoint::addGuildMemberRole("439065048628068363","539820462285389824", "576209601482063875");
     auto newRole = DiscordEndpoint::removeGuildMemberRole("439065048628068363","539820462285389824", "576209601482063875");
-    std::string g = "439065048628068363";
-    std::cout << DiscordEndpoint::getGuildRoles(g) << '\n';
     std::cout << "###############################################\n\n\n";
     std::cout << DiscordEndpoint::getGuildPruneCount(g,100) << '\n';
     std::cout << "###############################################\n\n\n";
@@ -72,8 +70,22 @@ int main(int argc, char *argv[])
     std::cout << DiscordEndpoint::getGuildVanityURL(g) << '\n';
     std::cout << "###############################################\n\n\n";
     std::cout << DiscordEndpoint::getGuildWidgetImage(g) << '\n';
+    std::cout << DiscordEndpoint::createGuildIntegration(g, "twitch", "1");//change to int
+    std::cout << DiscordEndpoint::modifyGuildIntegration(g, , {{"expire_grace_period", 1337}});
+    std::cout << DiscordEndpoint::deleteGuildIntegration(g,);
+    std::cout << DiscordEndpoint::modifyGuildEmbed(g, {{"enabled", true}, {"channel_id", "445942826534961153"}});
+    std::cout << DiscordEndpoint::beginGuildPrune(g, 2, true);
+    std::cout << DiscordEndpoint::deleteGuildRole(g, "588336104055242753");
+    std::cout << DiscordEndpoint::modifyGuildRole(g, "588336851081887745", {{"name", "Modified name"}});
+    std::cout << DiscordEndpoint::createGuildRole(g, {{"name", "test role"}}).dump(4) << '\n';
+    std::cout << DiscordEndpoint::getGuildRoles(g).dump(4) << '\n';
+    nlohmann::json groleposjson = nlohmann::json::array();
+    groleposjson.push_back({{"id", "588338590208098314"},{ "position", 2}});
+    groleposjson.push_back({{"id", "576209601482063875"},{ "position", 1}});
+    std::cout << DiscordEndpoint::modifyGuildRolePositions(g, groleposjson);
     */
-
+    std::string g = "439065048628068363";
+    
     //std::thread run(&Example::run, &e);
     std::string input;
     for(;;)
