@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
     
     
-    //std::thread run(&Example::run, &e);
+    std::thread run(&Example::run, &e);
     std::string input;
     for(;;)
     {

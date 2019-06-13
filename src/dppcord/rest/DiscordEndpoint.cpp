@@ -449,7 +449,7 @@ bool DiscordEndpoint::deleteEmoji(const std::string &guildId, const std::string 
     return true;
 }
 
-nlohmann::json DiscordEndpoint::getInvite(const std::string &inviteCode, bool with_counts = true)
+nlohmann::json DiscordEndpoint::getInvite(const std::string &inviteCode, bool with_counts)
 {
     //GET/invites/{invite.code}
     RequestHeaderList rhl(token);
@@ -477,6 +477,7 @@ nlohmann::json DiscordEndpoint::deleteInvite(const std::string &inviteCode)
         std::cout << "Error deleteInvite() : " << response.get() << '\n';
         return false;
     }
+    return true;
 }
 
 nlohmann::json DiscordEndpoint::listVoiceRegions()
@@ -1010,6 +1011,30 @@ nlohmann::json DiscordEndpoint::getGuildWidgetImage(const std::string &guildId, 
 
     fclose(File);*/
     return nlohmann::json();
+}
+
+
+std::string DiscordEndpoint::getGateway()
+{
+    //GET/gateway
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "/gateway",
+        rhl
+    );
+    return nlohmann::json::parse(response.get())["url"];
+}
+nlohmann::json DiscordEndpoint::getGatewayBot()
+{
+    //GET/gateway/bot
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "/gateway/bot",
+        rhl
+    );
+    return nlohmann::json::parse(response.get());
 }
 
 } // namespace dppcord

@@ -1,5 +1,7 @@
 #include "dppcord/websocket/WebsocketConnection.hpp"
 
+#include "dppcord/rest/DiscordEndpoint.hpp"
+
 namespace dppcord
 {
 
@@ -25,7 +27,7 @@ WebsocketConnection::~WebsocketConnection()
 void WebsocketConnection::connect(std::condition_variable * const cv)
 {
     websocketpp::lib::error_code ec;
-    const std::string endpoint = "wss://gateway.discord.gg/?v=6&encoding=json";
+    const std::string endpoint = DiscordEndpoint::getGateway() + "/?v=6&encoding=json";
     auto conn_ptr = m_clientEndpoint.get_connection(endpoint, ec);
 
     if (ec)

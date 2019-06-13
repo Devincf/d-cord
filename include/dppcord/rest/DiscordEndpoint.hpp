@@ -116,6 +116,10 @@ public:
     static nlohmann::json modifyGuildEmbed(const std::string &guildId, const nlohmann::json &embeddata);
     static nlohmann::json getGuildVanityURL(const std::string &guildId);
     static nlohmann::json getGuildWidgetImage(const std::string &guildId, const std::string &&style = "shield");
+
+    //GATEWAY API CALLS
+    static std::string getGateway();
+    static nlohmann::json getGatewayBot();
 };
 } // namespace dppcord
 
