@@ -42,7 +42,6 @@ public:
     static bool deleteOwnReaction(const std::string &channelId, const std::string &messageId, const std::string &emoji);
     static bool deleteUserReaction(const std::string &channelId, const std::string &messageId, const std::string &emoji, const std::string &userId);
     static nlohmann::json getReactions(const std::string &channelId, const std::string &messageId, const std::string &emoji);
-    //TODO: check return
     static bool deleteAllReactions(const std::string &channelId, const std::string &messageId);
     static nlohmann::json editMessage(const std::string &channelId, const std::string &messageId, const nlohmann::json& messagedata);
     static bool deleteMessage(const std::string &channel, const std::string &id);
@@ -59,6 +58,26 @@ public:
     static nlohmann::json groupDmAddRecipient(const std::string& channelId, const std::string& userId);
     //TODO: check return
     static nlohmann::json groupDmRemoveRecipient(const std::string& channelId, const std::string& userId);
+    
+    //EMOJI API CALLS
+    static nlohmann::json listGuildEmojis(const std::string& guildId);
+    static nlohmann::json getGuildEmoji(const std::string& guildId, const std::string& emojiId);
+    static nlohmann::json createGuildEmoji(const std::string& guildId, const nlohmann::json& emojidata);
+    static nlohmann::json modifyGuildEmoji(const std::string& guildId,const std::string& emojiId, const nlohmann::json& emojidata);
+    static bool deleteEmoji(const std::string& guildId, const std::string& emojiId);
+
+    //INVITE API CALLS
+    static nlohmann::json getInvite(const std::string& inviteCode, bool with_counts = true);
+    static nlohmann::json deleteInvite(const std::string& inviteCode);
+
+    //USER API CALLS
+    //TODO: implement
+
+    //VOICE API CALLS
+    static nlohmann::json listVoiceRegions();
+
+    //WEBHOOK API CALLS
+    //TODO: implement
 
 
     //GUILD API CALLS

@@ -85,11 +85,7 @@ int main(int argc, char *argv[])
     groleposjson.push_back({{"id", "588338590208098314"},{ "position", 2}});
     groleposjson.push_back({{"id", "576209601482063875"},{ "position", 1}});
     std::cout << DiscordEndpoint::modifyGuildRolePositions(g, groleposjson);
-    */
     std::string c = "445942826534961153";
-
-    /*
-    
     std::cout << DiscordEndpoint::getChannel(c) << '\n';
     std::cout << "###############################################\n\n\n";
     std::cout << DiscordEndpoint::modifyChannel(c, {{"name", "hmmm3"}}) << '\n';
@@ -125,13 +121,25 @@ int main(int argc, char *argv[])
     std::cout << "###############################################\n\n\n";
     std::cout << DiscordEndpoint::getPinnedMessages(c) << '\n';
     std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::addPinnedChannelMessage(c,"588076479028658177") << '\n';
     std::cout << "###############################################\n\n\n";
     std::cout << DiscordEndpoint::deletePinnedChannelMessage(c,"588075799668850689") << '\n';
     std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::listGuildEmojis(g).dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getGuildEmoji(g, "546316631023026176").dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    //std::cout << DiscordEndpoint::createGuildEmoji(g) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::modifyGuildEmoji(g, "546316631023026176",{{"name", "emoji2"}}) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::deleteEmoji(g,"588609329720983562") << '\n';
+    std::cout << "###############################################\n\n\n";
      */
 
+    std::string g = "439065048628068363";
+
     
-    std::cout << DiscordEndpoint::addPinnedChannelMessage(c,"588076479028658177") << '\n';
     
     //std::thread run(&Example::run, &e);
     std::string input;
