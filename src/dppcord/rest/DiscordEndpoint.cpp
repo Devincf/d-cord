@@ -25,13 +25,91 @@ void DiscordEndpoint::init(const std::string &itoken)
     token = itoken;
 }
 
+nlohmann::json DiscordEndpoint::getGuildAuditLog(const std::string &guildId)
+{
+    //GET/guilds/{guild.id}/audit-logs
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "guilds/" + guildId + "/audit-logs",
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+
+nlohmann::json DiscordEndpoint::getChannel(const std::string &channelId)                                                                                                        
+{
+    //GET/channels/{channel.id}
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "channels/" + channelId,
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::modifyChannel(const std::string &channelId, const nlohmann::json &channeldata)
+{
+    //PUT/PATCH/channels/{channel.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(channeldata);
+
+    auto response = Request::sendPATCH(
+        apiBase + "channels/" + channelId ,
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::deleteChannel(const std::string &channelId)
+{
+    //DELETE/channels/{channel.id}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "channels/" + channelId ,
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getChannelMessages(const std::string &channelId)
+{
+    //GET/channels/{channel.id}/messages
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "channels/" + channelId + "/messages",
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getChannelMessage(const std::string &channelId, const std::string &messageId)
+{
+    //GET/channels/{channel.id}/messages/{message.id}
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "channels/" + channelId + "/messages/" + messageId,
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+
+
 nlohmann::json DiscordEndpoint::sendMessage(const Snowflake &channelId, const std::string &content)
 {
     return sendMessageExtended(channelId, {{"content", content}});
 }
 
 nlohmann::json DiscordEndpoint::sendMessageExtended(const Snowflake &channelId, const nlohmann::json &json)
-{
+{   
+    //
     RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
     RequestContent rc(json);
 
@@ -41,9 +119,107 @@ nlohmann::json DiscordEndpoint::sendMessageExtended(const Snowflake &channelId, 
         rc);
     return nlohmann::json::parse(response.get());
 }
+bool DiscordEndpoint::createReaction(const std::string &channelId, const std::string &msgId, const std::string &emojiNameId)
+{
+    //PUT/channels/{channel.id}/messages/{message.id}/reactions/{emoji}/@me
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+    auto response = Request::sendPUT(
+        apiBase + "channels/" + channelId + "/messages/" + msgId + "/reactions/" + emojiNameId + "/@me",
+        rhl);
+    //nlohmann::json temp = nlohmann::json::parse(response.get());
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error createReaction() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+
+bool DiscordEndpoint::deleteOwnReaction(const std::string &channelId, const std::string &messageId, const std::string &emoji)
+{
+    //DELETE/channels/{channel.id}/messages/{message.id}/reactions/{emoji}/@me
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "channels/" + channelId + "/messages/" + messageId + "/reactions/" + emoji + "/@me" ,
+        rhl
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error deleteOwnReaction() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+bool DiscordEndpoint::deleteUserReaction(const std::string &channelId, const std::string &messageId, const std::string &emoji, const std::string &userId)
+{
+    //DELETE/channels/{channel.id}/messages/{message.id}/reactions/{emoji}/{user.id}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "channels/" + channelId + "/messages/" + messageId + "/reactions/" + emoji + "/" + userId,
+        rhl
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error deleteUserReaction() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+nlohmann::json DiscordEndpoint::getReactions(const std::string &channelId, const std::string &messageId, const std::string &emoji)
+{
+    //GET/channels/{channel.id}/messages/{message.id}/reactions/{emoji}
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "channels/" + channelId + "/messages/" + messageId + "/reactions/" + emoji,
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+bool DiscordEndpoint::deleteAllReactions(const std::string &channelId, const std::string &messageId)
+{
+    //DELETE/channels/{channel.id}/messages/{message.id}/reactions
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "channels/" + channelId + "/messages/" + messageId + "/reactions",
+        rhl
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error deleteAllReactions() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+nlohmann::json DiscordEndpoint::editMessage(const std::string &channelId, const std::string &messageId, const nlohmann::json& messagedata)
+{
+    //PATCH/channels/{channel.id}/messages/{message.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(messagedata);
+
+    auto response = Request::sendPATCH(
+        apiBase + "channels/" + channelId + "/messages/" + messageId,
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
+}
 
 bool DiscordEndpoint::deleteMessage(const std::string &channel, const std::string &id)
 {
+    //DELETE/channels/{channel.id}/messages/{message.id}
     RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
 
     auto response = Request::sendDELETE(
@@ -56,22 +232,179 @@ bool DiscordEndpoint::deleteMessage(const std::string &channel, const std::strin
     }
     return true;
 }
-
-bool DiscordEndpoint::createReaction(const std::string &channelId, const std::string &msgId, const std::string &emojiNameId)
+bool DiscordEndpoint::bulkDeleteMessages(const std::string &channelId, const nlohmann::json &messagearr)
 {
-    //PUT/channels/{channel.id}/messages/{message.id}/reactions/{emoji}/@me
-    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
-    rhl.addHeader("Content-Length:0");
-    auto response = Request::sendPUT(
-        apiBase + "channels/" + channelId + "/messages/" + msgId + "/reactions/" + emojiNameId + "/@me",
-        rhl);
-    //nlohmann::json temp = nlohmann::json::parse(response.get());
+    //POST/channels/{channel.id}/messages/bulk-delete
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(messagearr);
+
+    auto response = Request::sendPOST(
+        apiBase + "channels/" + channelId + "/messages/bulk-delete",
+        rhl,
+        rc
+    );
+
+
     if (response.get().size() != 0)
     {
-        std::cout << "Error createReaction() : " << response.get() << '\n';
+        std::cout << "Error bulkDeleteMessages() : " << response.get() << '\n';
         return false;
     }
     return true;
+}
+bool DiscordEndpoint::editChannelPermissions(const std::string &channelId, const std::string &overwriteId, const nlohmann::json &permissiondata)
+{
+    //PUT/channels/{channel.id}/permissions/{overwrite.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+    RequestContent rc(permissiondata);
+
+    auto response = Request::sendPUT(
+        apiBase + "channels/" + channelId + "/permissions/" + overwriteId,
+        rhl,
+        rc
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error editChannelPermissions() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+nlohmann::json DiscordEndpoint::getChannelInvites(const std::string &channelId)
+{
+    //GET/channels/{channel.id}/invites
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase +  "channels/" + channelId + "/invites",
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::createChannelInvite(const std::string &channelId, const nlohmann::json &invitedata)
+{
+    //POST/channels/{channel.id}/invites
+    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+    RequestContent rc(invitedata);
+
+    auto response = Request::sendGET(
+        apiBase + "channels/" + channelId + "/invites",
+        rhl,
+        rc
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+bool DiscordEndpoint::deleteChannelPermissions(const std::string &channelId, const std::string &overwriteId)
+{
+    //DELETE/channels/{channel.id}/permissions/{overwrite.id}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "channels/" + channelId + "/permissions/" + overwriteId,
+        rhl
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error deleteChannelPermissions() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+bool DiscordEndpoint::triggerTypingIndicator(const std::string &channelId)
+{
+    //POST/channels/{channel.id}/typing
+    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+
+    auto response = Request::sendPOST(
+        apiBase + "channels/" + channelId  + "/typing",
+        rhl
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error triggerTypingIndicator() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+nlohmann::json DiscordEndpoint::getPinnedMessages(const std::string &channelId)
+{
+    //GET/channels/{channel.id}/pins
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "channels/" + channelId + "/pins",
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+bool DiscordEndpoint::addPinnedChannelMessage(const std::string &channelId, const std::string &messageId)
+{
+    //PUT/channels/{channel.id}/pins/{message.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendPUT(
+        apiBase + "channels/" + channelId + "/pins/" + messageId,
+        rhl
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error addPinnedChannelMessage() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+bool DiscordEndpoint::deletePinnedChannelMessage(const std::string &channelId, const std::string &messageId)
+{
+    //DELETE/channels/{channel.id}/pins/{message.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "channels/" + channelId + "/pins/" + messageId,
+        rhl
+    );
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error deletePinnedChannelMessage() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+nlohmann::json DiscordEndpoint::groupDmAddRecipient(const std::string &channelId, const std::string &userId)
+{
+    //PUT/channels/{channel.id}/recipients/{user.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendPUT(
+        apiBase + "channels/" + channelId + "/recipients/" + userId,
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::groupDmRemoveRecipient(const std::string &channelId, const std::string &userId)
+{
+    //DELETE/channels/{channel.id}/recipients/{user.id}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "channels/" + channelId + "/recipients/" + userId,
+        rhl
+    );
+
+    return nlohmann::json::parse(response.get());
 }
 
 nlohmann::json DiscordEndpoint::getGuild(const std::string &guildId)
@@ -352,8 +685,7 @@ nlohmann::json DiscordEndpoint::createGuildRole(const std::string &guildId, cons
     auto response = Request::sendPOST(
         apiBase + "guilds/" + guildId + "/roles",
         rhl,
-        rc
-    );
+        rc);
 
     return nlohmann::json::parse(response.get());
 }
@@ -366,12 +698,11 @@ nlohmann::json DiscordEndpoint::modifyGuildRolePositions(const std::string &guil
     auto response = Request::sendPATCH(
         apiBase + "guilds/" + guildId + "/roles",
         rhl,
-        rc
-    );
+        rc);
 
     return nlohmann::json::parse(response.get());
 }
-nlohmann::json DiscordEndpoint::modifyGuildRole(const std::string &guildId, const std::string& roleId, const nlohmann::json &roledata)
+nlohmann::json DiscordEndpoint::modifyGuildRole(const std::string &guildId, const std::string &roleId, const nlohmann::json &roledata)
 {
     //PATCH/guilds/{guild.id}/roles/{role.id}
     RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
@@ -380,8 +711,7 @@ nlohmann::json DiscordEndpoint::modifyGuildRole(const std::string &guildId, cons
     auto response = Request::sendPATCH(
         apiBase + "guilds/" + guildId + "/roles/" + roleId,
         rhl,
-        rc
-    );
+        rc);
 
     return nlohmann::json::parse(response.get());
 }
@@ -393,10 +723,9 @@ bool DiscordEndpoint::deleteGuildRole(const std::string &guildId, const std::str
 
     auto response = Request::sendDELETE(
         apiBase + "guilds/" + guildId + "/roles/" + roleId,
-        rhl
-    );
+        rhl);
 
-    if(response.get().size() != 0)
+    if (response.get().size() != 0)
     {
         std::cout << "Error deleteGuildRole() : " << response.get() << '\n';
         return false;
@@ -424,8 +753,7 @@ nlohmann::json DiscordEndpoint::beginGuildPrune(const std::string &guildId, cons
     auto response = Request::sendPOST(
         apiBase + "guilds/" + guildId + "/prune",
         rhl,
-        rc
-    );
+        rc);
 
     return nlohmann::json::parse(response.get());
 }
@@ -470,10 +798,9 @@ bool DiscordEndpoint::createGuildIntegration(const std::string &guildId, const s
     auto response = Request::sendPOST(
         apiBase + "guilds/" + guildId + "/integrations",
         rhl,
-        rc
-    );
+        rc);
 
-    if(response.get().size() != 0)
+    if (response.get().size() != 0)
     {
         std::cout << "Error createGuildIntegration() : " << response.get() << '\n';
         return false;
@@ -481,7 +808,7 @@ bool DiscordEndpoint::createGuildIntegration(const std::string &guildId, const s
 
     return true;
 }
-bool DiscordEndpoint::modifyGuildIntegration(const std::string &guildId, const std::string& integrationId, const nlohmann::json &integrationdata)
+bool DiscordEndpoint::modifyGuildIntegration(const std::string &guildId, const std::string &integrationId, const nlohmann::json &integrationdata)
 {
     //TODO: fix
     //PATCH/guilds/{guild.id}/integrations/{integration.id}
@@ -491,10 +818,9 @@ bool DiscordEndpoint::modifyGuildIntegration(const std::string &guildId, const s
     auto response = Request::sendPATCH(
         apiBase + "guilds/" + guildId + "/integrations/" + integrationId,
         rhl,
-        rc
-    );
+        rc);
 
-    if(response.get().size() != 0)
+    if (response.get().size() != 0)
     {
         std::cout << "Error modifyGuildIntegration() : " << response.get() << '\n';
         return false;
@@ -508,14 +834,12 @@ bool DiscordEndpoint::deleteGuildIntegration(const std::string &guildId, const s
     //DELETE/guilds/{guild.id}/integrations/{integration.id}
     RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
     rhl.addHeader("Content-Length: 0");
-    
 
     auto response = Request::sendDELETE(
         apiBase + "guilds/" + guildId + "/integrations/" + integrationId,
-        rhl
-    );
+        rhl);
 
-    if(response.get().size() != 0)
+    if (response.get().size() != 0)
     {
         std::cout << "Error deleteGuildIntegration() : " << response.get() << '\n';
         return false;
@@ -531,10 +855,9 @@ bool DiscordEndpoint::syncGuildIntegration(const std::string &guildId, const std
 
     auto response = Request::sendPOST(
         apiBase + "guilds/" + guildId + "/integrations/" + integrationId,
-        rhl
-    );
+        rhl);
 
-    if(response.get().size() != 0)
+    if (response.get().size() != 0)
     {
         std::cout << "Error syncGuildIntegration() : " << response.get() << '\n';
         return false;
@@ -562,8 +885,7 @@ nlohmann::json DiscordEndpoint::modifyGuildEmbed(const std::string &guildId, con
     auto response = Request::sendPATCH(
         apiBase + "guilds/" + guildId + "/embed",
         rhl,
-        rc
-    );
+        rc);
 
     return nlohmann::json::parse(response.get());
 }
@@ -585,7 +907,7 @@ nlohmann::json DiscordEndpoint::getGuildWidgetImage(const std::string &guildId, 
     auto response = Request::sendGET(
         apiBase + "guilds/" + guildId + "/widget.png",
         rhl);
-    
+
     /* TODO: somehow implement this lol
     std::string s = response.get();
     FILE *File = NULL;

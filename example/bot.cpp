@@ -15,6 +15,8 @@
 
 #include "nlohmann/json.hpp"
 
+#include "dppcord/util/emojilist.hpp"
+
 int main(int argc, char *argv[])
 {
     std::ifstream t("token.txt");
@@ -84,7 +86,52 @@ int main(int argc, char *argv[])
     groleposjson.push_back({{"id", "576209601482063875"},{ "position", 1}});
     std::cout << DiscordEndpoint::modifyGuildRolePositions(g, groleposjson);
     */
-    std::string g = "439065048628068363";
+    std::string c = "445942826534961153";
+
+    /*
+    
+    std::cout << DiscordEndpoint::getChannel(c) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::modifyChannel(c, {{"name", "hmmm3"}}) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::deleteChannel("588599803525464065") << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getChannelMessages(c) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getChannelMessage(c, "588077844358365194") << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::deleteOwnReaction(c,"588077501348184083", dppcord::emoji::coffee) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::deleteUserReaction(c, "588077501348184083", dppcord::emoji::coffee,"142733073262444545") << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getReactions(c,"588077833738518555", dppcord::emoji::coffee) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::deleteAllReactions(c,"588077833738518555") << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::editMessage(c,"588077844358365194", {{"content", "edited"}}) << '\n';
+    std::cout << "###############################################\n\n\n";
+    nlohmann::json arr = nlohmann::json::array();
+    arr.push_back("588077832467513367");
+    arr.push_back("588077833738518555");
+    nlohmann::json obj = {{"messages", arr}};
+    std::cout << obj.dump(4);
+    std::cout << DiscordEndpoint::bulkDeleteMessages(c, {{"messages", arr}}) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getChannelInvites(c) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::createChannelInvite(c,{{}}) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::triggerTypingIndicator(c) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getPinnedMessages(c) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::deletePinnedChannelMessage(c,"588075799668850689") << '\n';
+    std::cout << "###############################################\n\n\n";
+     */
+
+    
+    std::cout << DiscordEndpoint::addPinnedChannelMessage(c,"588076479028658177") << '\n';
     
     //std::thread run(&Example::run, &e);
     std::string input;
