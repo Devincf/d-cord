@@ -484,13 +484,148 @@ nlohmann::json DiscordEndpoint::listVoiceRegions()
 {
     //GET/voice/regions
     RequestHeaderList rhl(token);
-    
+
     auto response = Request::sendGET(
         apiBase + "/voice/regions",
-        rhl
-    );
+        rhl);
 
     return nlohmann::json::parse(response.get());
+}
+
+nlohmann::json DiscordEndpoint::createWebhook(const std::string &channelId, const nlohmann::json &webhookdata)
+{
+    //POST/channels/{channel.id}/webhooks
+    RequestHeaderList rhl(token,REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(webhookdata);
+
+    auto response = Request::sendPOST(
+        apiBase + "channels/" + channelId + "/webhooks",
+        rhl,
+        rc);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getChannelWebhooks(const std::string &channelId)
+{
+    //GET/channels/{channel.id}/webhooks
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "channels/" + channelId + "/webhooks",
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getGuildWebhooks(const std::string &guildId)
+{
+    //GET/guilds/{guild.id}/webhooks
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "guilds/" + guildId + "/webhooks",
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getWebhook(const std::string &webhookId)
+{
+    //GET/webhooks/{webhook.id}
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "webhooks/" + webhookId,
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getWebhookWithToken(const std::string &webhookId, const std::string &webhookToken)
+{
+    //GET/webhooks/{webhook.id}/{webhook.token}
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "webhooks/" + webhookId + "/" + webhookToken,
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::modifyWebhook(const std::string &webhookId, const nlohmann::json &webhookdata)
+{
+    //PATCH/webhooks/{webhook.id}
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(webhookdata);
+
+    auto response = Request::sendPATCH(
+        apiBase + "webhooks/" + webhookId,
+        rhl,
+        rc);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::modifyWebhookWithToken(const std::string &webhookId, const std::string &webhookToken, const nlohmann::json &webhookdata)
+{
+    //PATCH/webhooks/{webhook.id}/{webhook.token}
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(webhookdata);
+
+    auto response = Request::sendPATCH(
+        apiBase + "webhooks/" + webhookId + "/" + webhookToken,
+        rhl,
+        rc);
+
+    return nlohmann::json::parse(response.get());
+}
+bool DiscordEndpoint::deleteWebhook(const std::string &webhookId)
+{
+    //DELETE/webhooks/{webhook.id}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "guiwebhookslds/" + webhookId,
+        rhl);
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error deleteWebhook() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+bool DiscordEndpoint::deleteWebhook(const std::string &webhookId, const std::string &webhookToken)
+{
+    //DELETE/webhooks/{webhook.id}/{webhook.token}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "webhooks/" + webhookId + "/" + webhookToken,
+        rhl);
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error deleteWebhook2() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+nlohmann::json DiscordEndpoint::executeWebhook(const std::string &webhookId, const std::string &webhookToken, const nlohmann::json &webhookdata)
+{
+    //POST/webhooks/{webhook.id}/{webhook.token}
+    //TODO: implement
+    return nlohmann::json();
+}
+nlohmann::json DiscordEndpoint::executeSlackCompatibleWebhook(const std::string &webhookId, const std::string &webhookToken, const nlohmann::json &webhookdata)
+{
+    //POST/webhooks/{webhook.id}/{webhook.token}/slack
+    //TODO: implement
+    return nlohmann::json();
+}
+nlohmann::json DiscordEndpoint::executeGitHubCompatibleWebhook(const std::string &webhookId, const std::string &webhookToken, const nlohmann::json &webhookdata)
+{
+    //POST/webhooks/{webhook.id}/{webhook.token}/github
+    //TODO: implement
+    return nlohmann::json();
 }
 
 nlohmann::json DiscordEndpoint::getGuild(const std::string &guildId)
@@ -1013,6 +1148,116 @@ nlohmann::json DiscordEndpoint::getGuildWidgetImage(const std::string &guildId, 
     return nlohmann::json();
 }
 
+nlohmann::json DiscordEndpoint::getCurrentUser()
+{
+    //GET/users/@me
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "users/@me",
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getUser(const std::string &userId)
+{
+    //GET/users/{user.id}
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "users/" + userId,
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::modifyCurrentUser(const nlohmann::json &userdata)
+{
+    //PATCH/users/@me
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(userdata);
+
+    auto response = Request::sendPATCH(
+        apiBase + "users/@me",
+        rhl,
+        rc);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getCurrentUserGuilds()
+{
+    //GET/users/@me/guilds
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "users/@me/guilds",
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+bool DiscordEndpoint::leaveGuild(const std::string &guildId)
+{
+    //DELETE/users/@me/guilds/{guild.id}
+    RequestHeaderList rhl(token);
+    rhl.addHeader("Content-Length:0");
+
+    auto response = Request::sendDELETE(
+        apiBase + "users/@me/guilds/" + guildId,
+        rhl);
+
+    if (response.get().size() != 0)
+    {
+        std::cout << "Error leaveGuild() : " << response.get() << '\n';
+        return false;
+    }
+    return true;
+}
+nlohmann::json DiscordEndpoint::getUserDMs()
+{
+    //GET/users/@me/channels
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "users/@me/channels",
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::createDM(const nlohmann::json &params)
+{
+    //POST /users/@me/channels
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(params);
+    auto response = Request::sendPOST(
+        apiBase + "users/@me/channels",
+        rhl,
+        rc);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::createGroupDM(const nlohmann::json &params)
+{
+    //POST/users/@me/channels
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(params);
+
+    auto response = Request::sendGET(
+        apiBase + "users/@me/channels",
+        rhl,
+        rc);
+
+    return nlohmann::json::parse(response.get());
+}
+nlohmann::json DiscordEndpoint::getUserConnections()
+{
+    //GET/users/@me/connections
+    RequestHeaderList rhl(token);
+
+    auto response = Request::sendGET(
+        apiBase + "users/@me/connections",
+        rhl);
+
+    return nlohmann::json::parse(response.get());
+}
 
 std::string DiscordEndpoint::getGateway()
 {
@@ -1021,8 +1266,7 @@ std::string DiscordEndpoint::getGateway()
 
     auto response = Request::sendGET(
         apiBase + "/gateway",
-        rhl
-    );
+        rhl);
     return nlohmann::json::parse(response.get())["url"];
 }
 nlohmann::json DiscordEndpoint::getGatewayBot()
@@ -1032,8 +1276,7 @@ nlohmann::json DiscordEndpoint::getGatewayBot()
 
     auto response = Request::sendGET(
         apiBase + "/gateway/bot",
-        rhl
-    );
+        rhl);
     return nlohmann::json::parse(response.get());
 }
 

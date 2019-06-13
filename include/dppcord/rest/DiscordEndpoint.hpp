@@ -71,13 +71,34 @@ public:
     static nlohmann::json deleteInvite(const std::string& inviteCode);
 
     //USER API CALLS
-    //TODO: implement
+    static nlohmann::json getCurrentUser();
+    static nlohmann::json getUser(const std::string& userId);
+    static nlohmann::json modifyCurrentUser(const nlohmann::json& userdata);
+    static nlohmann::json getCurrentUserGuilds();
+    static bool leaveGuild(const std::string& guildId);
+    static nlohmann::json getUserDMs();
+    static nlohmann::json createDM(const nlohmann::json& params);
+    static nlohmann::json createGroupDM(const nlohmann::json& params);
+    static nlohmann::json getUserConnections();
 
     //VOICE API CALLS
     static nlohmann::json listVoiceRegions();
 
     //WEBHOOK API CALLS
     //TODO: implement
+    static nlohmann::json createWebhook(const std::string& channelId, const nlohmann::json& webhookdata);
+    static nlohmann::json getChannelWebhooks(const std::string& channelId);
+    static nlohmann::json getGuildWebhooks(const std::string& guildId);
+    static nlohmann::json getWebhook(const std::string& webhookId);
+    static nlohmann::json getWebhookWithToken(const std::string& webhookId, const std::string& webhookToken);
+    static nlohmann::json modifyWebhook(const std::string& webhookId, const nlohmann::json& webhookdata);
+    static nlohmann::json modifyWebhookWithToken(const std::string& webhookId, const std::string& webhookToken, const nlohmann::json& webhookdata);
+    static bool deleteWebhook(const std::string& webhookId);
+    static bool deleteWebhook(const std::string& webhookId, const std::string& webhookToken);
+    static nlohmann::json executeWebhook(const std::string& webhookId,const std::string& webhookToken,const nlohmann::json& webhookdata);
+    static nlohmann::json executeSlackCompatibleWebhook(const std::string& webhookId, const std::string& webhookToken, const nlohmann::json& webhookdata);
+    static nlohmann::json executeGitHubCompatibleWebhook(const std::string& webhookId,const std::string& webhookToken,const nlohmann::json& webhookdata);
+
 
 
     //GUILD API CALLS

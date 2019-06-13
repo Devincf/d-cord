@@ -85,7 +85,6 @@ int main(int argc, char *argv[])
     groleposjson.push_back({{"id", "588338590208098314"},{ "position", 2}});
     groleposjson.push_back({{"id", "576209601482063875"},{ "position", 1}});
     std::cout << DiscordEndpoint::modifyGuildRolePositions(g, groleposjson);
-    std::string c = "445942826534961153";
     std::cout << DiscordEndpoint::getChannel(c) << '\n';
     std::cout << "###############################################\n\n\n";
     std::cout << DiscordEndpoint::modifyChannel(c, {{"name", "hmmm3"}}) << '\n';
@@ -135,13 +134,35 @@ int main(int argc, char *argv[])
     std::cout << "###############################################\n\n\n";
     std::cout << DiscordEndpoint::deleteEmoji(g,"588609329720983562") << '\n';
     std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getCurrentUser().dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getUser("142733073262444545").dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getCurrentUserGuilds().dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::modifyCurrentUser({{"username", "Lumi Bot"}}).dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getUserDMs().dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getUserConnections().dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getChannelWebhooks(c).dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getGuildWebhooks(g).dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getWebhook("576458939202273291").dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
+    std::cout << DiscordEndpoint::getWebhookWithToken("576458939202273291","COdDKrRI6j1c6t2mVPWRO9ortC60uLn0FXjR9OcFhHldTJLZYmUkoDa2g5rGN0kTUxfR").dump(4) << '\n';
+    std::cout << "###############################################\n\n\n";
      */
 
     std::string g = "439065048628068363";
+    std::string c = "445942826534961153";
+
 
     
     
-    std::thread run(&Example::run, &e);
+    //std::thread run(&Example::run, &e);
     std::string input;
     for(;;)
     {
