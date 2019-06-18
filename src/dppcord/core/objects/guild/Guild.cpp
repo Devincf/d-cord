@@ -92,7 +92,7 @@ Guild::Guild(const nlohmann::json &guildjson)
     //std::cout << "loading channels\n";
     for (auto it = guildjson["channels"].begin(); it != guildjson["channels"].end(); it++)
     {
-        auto& channelptr = addChannel(*it);
+        auto &channelptr = addChannel(*it);
         if (channelptr.getId() == tryGetSnowflake("afk_channel_id", guildjson))
         {
             m_afkChannel = &channelptr;
@@ -134,19 +134,19 @@ Guild::Guild(const nlohmann::json &guildjson)
         std::cout << "owner id: " << std::to_string(m_ownerPtr->getId()) << '\n';*/
 }
 
-BaseChannel& Guild::addChannel(const nlohmann::json &channeldata)
+BaseChannel &Guild::addChannel(const nlohmann::json &channeldata)
 {
     int type = tryGetJson<int>("type", channeldata);
     switch (type)
     {
     case CHANNELTYPE_GUILD_TEXT:
     {
-        GuildTextChannel* channel = new GuildTextChannel(this, channeldata);
+        GuildTextChannel *channel = new GuildTextChannel(this, channeldata);
         return *m_channels.emplace_back(channel);
     }
     case CHANNELTYPE_GUILD_CATEGORY:
     {
-        GuildChannel* channel = new GuildChannel(this, channeldata);
+        GuildChannel *channel = new GuildChannel(this, channeldata);
         return *m_channels.emplace_back(channel);
     }
     case CHANNELTYPE_GUILD_VOICE:
@@ -157,15 +157,23 @@ BaseChannel& Guild::addChannel(const nlohmann::json &channeldata)
         throw std::runtime_error("[ERROR] Channel with type " + std::to_string(type) + "passed to Guild::addChannel id: " + std::to_string(tryGetSnowflake("id", channeldata)) + " this should never happen \n");
     }
 }
+const bool Guild::removeChannel(const Snowflake &id)
+{
+    auto channel = std::find_if(m_channels.begin(), m_channels.end(), [&id](std::unique_ptr<BaseChannel>& channel){return channel->getId() == id;});
+    if(channel == m_channels.end()) return false;
+    m_channels.erase(channel);
+    return true;
+}
 
-Role& Guild::getRole(const Snowflake &id) 
+Role &Guild::getRole(const Snowflake &id)
 {
     auto roleptr = m_roles.find(id);
-    if (roleptr == m_roles.end()) throw std::runtime_error("Role with id " + std::to_string(id) + " wasn't found");
+    if (roleptr == m_roles.end())
+        throw std::runtime_error("Role with id " + std::to_string(id) + " wasn't found");
     return roleptr->second;
 }
 
-User& Guild::getUserFromId(const Snowflake &id) const
+User &Guild::getUserFromId(const Snowflake &id) const
 {
     for (const auto &it : m_members)
     {
@@ -178,7 +186,7 @@ User& Guild::getUserFromId(const Snowflake &id) const
     throw std::runtime_error("User doesnt exist in guild map");
 }
 
-User& Guild::addUser(User* pUser)
+User &Guild::addUser(User *pUser)
 {
     m_members.push_back(pUser);
     return *pUser;
@@ -213,7 +221,7 @@ BaseMessage& Guild::getMessage(const Snowflake &id)const
     return *msg->second;
 }
 */
-BaseChannel& Guild::getChannel(const Snowflake &id) const
+BaseChannel &Guild::getChannel(const Snowflake &id) const
 {
     for (const auto &i : m_channels)
     {
@@ -225,6 +233,6 @@ BaseChannel& Guild::getChannel(const Snowflake &id) const
     throw std::runtime_error("Channel with id " + std::to_string(id) + " not found or is nullptr");
 }
 
-User* Guild::getOwner()const {return m_ownerPtr;}
+User *Guild::getOwner() const { return m_ownerPtr; }
 
 } // namespace dppcord
