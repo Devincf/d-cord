@@ -24,7 +24,6 @@ namespace dppcord
     void ChannelUpdateEvent::proc(const nlohmann::json& eventPacket)
     {
         std::cout << "ChannelUpdateEvent proc\n";
-        std::cout << eventPacket.dump(4) << '\n';
         int channeltype = eventPacket["type"].get<int>();
 
         switch(channeltype)
