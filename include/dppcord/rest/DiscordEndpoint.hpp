@@ -85,7 +85,6 @@ public:
     static nlohmann::json listVoiceRegions();
 
     //WEBHOOK API CALLS
-    //TODO: implement
     static nlohmann::json createWebhook(const std::string& channelId, const nlohmann::json& webhookdata);
     static nlohmann::json getChannelWebhooks(const std::string& channelId);
     static nlohmann::json getGuildWebhooks(const std::string& guildId);
@@ -98,8 +97,6 @@ public:
     static nlohmann::json executeWebhook(const std::string& webhookId,const std::string& webhookToken,const nlohmann::json& webhookdata);
     static nlohmann::json executeSlackCompatibleWebhook(const std::string& webhookId, const std::string& webhookToken, const nlohmann::json& webhookdata);
     static nlohmann::json executeGitHubCompatibleWebhook(const std::string& webhookId,const std::string& webhookToken,const nlohmann::json& webhookdata);
-
-
 
     //GUILD API CALLS
     static nlohmann::json getGuild(const std::string &guildId);

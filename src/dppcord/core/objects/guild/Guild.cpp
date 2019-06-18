@@ -199,7 +199,7 @@ User& Guild::getUserFromId(const Snowflake &id) const
     //doesnt exist.
     throw std::runtime_error("User doesnt exist in guild map");
 }
-
+/*
 void Guild::addMessage(BaseMessage* const msg)
 {
     //std::cout << "adding message with id " << msg->getId(); 
@@ -213,10 +213,10 @@ void Guild::addMessage(BaseMessage* const msg)
 
 void Guild::removeMessage(const Snowflake& id)
 {
-    /*if(m_messages.erase(id) == 0)Todo: fix bug with shared_ptr not being copied correctly(?)
+    if(m_messages.erase(id) == 0)Todo: fix bug with shared_ptr not being copied correctly(?)
     {
         std::cout << "Tried deleting message with id " << id << " but it didnt exist. \n";
-    }*/
+    }
 }
 
 BaseMessage& Guild::getMessage(const Snowflake &id)const
@@ -228,7 +228,7 @@ BaseMessage& Guild::getMessage(const Snowflake &id)const
     }
     return *msg->second;
 }
-
+*/
 BaseChannel& Guild::getChannel(const Snowflake &id) const
 {
     for (const auto &i : m_channels)

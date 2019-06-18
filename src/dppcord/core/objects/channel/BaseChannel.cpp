@@ -29,14 +29,4 @@ BaseChannel::BaseChannel(const nlohmann::json &channeljson)
     //timestamp
 }
 
-BaseMessage& BaseChannel::sendMessage(const std::string& msg)
-{
-    throw std::runtime_error("");
-}
-
-BaseMessage& BaseChannel::sendMessageExtended(const nlohmann::json& json)
-{
-    throw std::runtime_error("");
-}
-
 } // namespace dppcord

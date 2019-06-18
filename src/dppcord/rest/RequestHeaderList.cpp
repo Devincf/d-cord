@@ -18,12 +18,12 @@ RequestHeaderList::RequestHeaderList() {}
 
 RequestHeaderList::RequestHeaderList(const std::string &&auth, RequestContentType &&rct)
 {
-    setContent(rct);
+    setContent(std::forward<RequestContentType>(rct));
     m_headers.push_back("Authorization: Bot " + auth);
 }
 RequestHeaderList::RequestHeaderList(const std::string &auth, RequestContentType &&rct)
 {
-    setContent(rct);
+    setContent(std::forward<RequestContentType>(rct));
     m_headers.push_back("Authorization: Bot " + auth);
 }
 RequestHeaderList::RequestHeaderList(RequestContentType &&rct)
@@ -46,7 +46,7 @@ const std::list<std::string> &RequestHeaderList::get() const
     return m_headers;
 }
 
-RequestHeaderList &RequestHeaderList::setContent(RequestContentType rct)
+RequestHeaderList &RequestHeaderList::setContent(RequestContentType&& rct)
 {
     switch (rct)
     {

@@ -70,18 +70,18 @@ public:
      * @brief Adds a Message into the Message map
      * @param msg 
      */
-    void addMessage(BaseMessage* const msg);
+    //void addMessage(BaseMessage* const msg);
     /**
      * @brief Returns the pointer to the message with id if exists, nullptr otherwise
      * @param id of the message to get
      * @return std::shared_ptr<BaseMessage> 
      */
-    BaseMessage& getMessage(const Snowflake &id) const;
+    //BaseMessage& getMessage(const Snowflake &id) const;
     /**
      * @brief Removes a Message 
      * @param id 
      */
-    void removeMessage(const Snowflake& id);
+    //void removeMessage(const Snowflake& id);
 
 private:
     /**

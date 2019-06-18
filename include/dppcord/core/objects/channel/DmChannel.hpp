@@ -12,11 +12,11 @@
 #ifndef DMCHANNEL_HPP
 #define DMCHANNEL_HPP
 
-#include "BaseChannel.hpp"
+#include "TextChannel.hpp"
 
 namespace dppcord
 {
-class DmChannel : public BaseChannel
+class DmChannel : public TextChannel
 {
 public:
     /**
@@ -29,9 +29,6 @@ public:
      */
     ~DmChannel();
     DmChannel(const DmChannel&) = default;
-
-    BaseMessage &sendMessage(const std::string &content)override;
-    BaseMessage &sendMessageExtended(const nlohmann::json &json)override;
 
 protected:
 private:

@@ -24,7 +24,7 @@ BaseMessage::BaseMessage() {}
 BaseMessage::BaseMessage(BaseChannel& pChannel, const nlohmann::json &msgjson)
 {
     m_channel = &pChannel;
-    GuildChannel& channel = reinterpret_cast<GuildChannel&>(pChannel);
+    GuildChannel& channel = dynamic_cast<GuildChannel&>(pChannel);
     m_id = tryGetSnowflake("id", msgjson);
     //std::cout << msgjson.dump(1) << '\n';
     Snowflake test = tryGetSnowflake("id", msgjson["author"]);
@@ -37,8 +37,6 @@ BaseMessage::BaseMessage(BaseChannel& pChannel, const nlohmann::json &msgjson)
     m_pinned = tryGetJson<bool>("pinned",msgjson);
     m_webhookId = tryGetSnowflake("webhook_id",msgjson);
     m_type = tryGetJson<int>("type",msgjson);
-
-    std::cout << "new message from: " << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel " << channel.getName() << " : " << m_content << '\n';
 }
 
 BaseMessage::~BaseMessage() 
@@ -56,6 +54,14 @@ bool BaseMessage::react(const std::string& emoji)
     //emoji takes the form of name:id for custom guild emoji,
     return DiscordEndpoint::createReaction(std::to_string(m_channel->getId()), std::to_string(m_id), emoji);
 }
+
+std::string BaseMessage::str() const
+{
+    std::stringstream ss;
+    ss << m_author->getName() << " at " << m_timestamp.getISOTime() << " in channel " << dynamic_cast<GuildChannel&>(*m_channel).getName() << " : " << m_content;
+    return ss.str();
+}
+
 User& BaseMessage::author() const { return *m_author; }
 const std::string& BaseMessage::content() const { return m_content; }
 BaseChannel& BaseMessage::channel()const {return *m_channel;}

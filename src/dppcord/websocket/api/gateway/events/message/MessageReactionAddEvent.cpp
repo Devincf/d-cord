@@ -11,6 +11,7 @@
 
 #include "dppcord/websocket/api/gateway/events/message/MessageReactionAddEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
+#include "dppcord/core/objects/channel/TextChannel.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 
 #include "dppcord/util/jsonutil.hpp"
@@ -22,9 +23,12 @@ void MessageReactionAddEvent::proc(const nlohmann::json &eventPacket)
 {
     //get message
     //if not nullptr procEvent.
+    std::cout << "MessageReactionAddEvent proc\n";
     try
     {
-        auto &msg = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).getMessage(tryGetSnowflake("message_id", eventPacket));
+        TextChannel& channel = dynamic_cast<TextChannel&>(m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).getChannel(tryGetSnowflake("channel_id", eventPacket)));
+        std::cout << channel.getId() << '\n';
+        auto &msg = channel.getMessage(tryGetSnowflake("message_id", eventPacket));
         msg.reactionListener(eventPacket);
     }
     catch (const std::exception &e)

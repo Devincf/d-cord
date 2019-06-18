@@ -31,7 +31,7 @@ namespace dppcord
             std::cout << "new dm channel : " << test.getId() << " created\n";
         }else
         {
-            auto ptr = reinterpret_cast<GuildChannel&>(m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).addChannel(eventPacket));
+            auto ptr = dynamic_cast<GuildChannel&>(m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).addChannel(eventPacket));
             std::cout << "new guild channel : " << ptr.getName() << " created in guild " << ptr.getGuild().getName();
             m_forwardData.add(ptr);
         }

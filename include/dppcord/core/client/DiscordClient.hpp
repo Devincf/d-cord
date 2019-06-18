@@ -15,7 +15,6 @@
 #include "dppcord/core/handler/GuildsHandler.hpp"
 #include "dppcord/core/handler/UsersHandler.hpp"
 #include "dppcord/core/objects/user/BotUser.hpp"
-
 #include "dppcord/core/config/ConfigData.hpp"
 
 #include "dppcord/database/Database.hpp"

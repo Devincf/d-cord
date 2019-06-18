@@ -18,7 +18,7 @@
 #include "dppcord/core/handler/UsersHandler.hpp"
 
 #include "dppcord/core/objects/message/BaseMessage.hpp"
-#include "dppcord/core/objects/channel/GuildChannel.hpp"
+#include "dppcord/core/objects/channel/GuildTextChannel.hpp"
 #include "dppcord/core/objects/guild/Guild.hpp"
 
 #include "dppcord/websocket/api/gateway/events/message/MessageCreateEvent.hpp"
@@ -29,12 +29,10 @@
 namespace dppcord::plugins::moneysystem
 {
 
-
-const nlohmann::json MoneySystem::defaultConfig={
-        {"pluginname", "Money System"},
-        {"plugindesc", "Virtual money system for discord"},
-        {"pluginver", "1.0"}
-    };
+const nlohmann::json MoneySystem::defaultConfig = {
+    {"pluginname", "Money System"},
+    {"plugindesc", "Virtual money system for discord"},
+    {"pluginver", "1.0"}};
 
 MoneySystem::MoneySystem(DiscordClient *pClient) : IPlugin(pClient, "Money System")
 {
@@ -49,34 +47,35 @@ void MoneySystem::init()
     std::cout << "money init\n";
     CommandMap::addCommand("!leaderboard",
                            [=](const BaseMessage &msg, const ArgumentList &argList) {
-                               //auto leaderboard = Singleton<MoneyManager>::get()->getLeaderboard(10);
-                               auto leaderboard = m_pClient->getDatabase().query("SELECT id,money FROM users ORDER BY money DESC LIMIT 10");
-                               std::stringstream ss;
-                               int incrementer = 1;
-                               for (auto i : leaderboard)
-                               {
-                                   //auto userptr = Singleton<UserManager>::get()->findUser(current.first);
+                                //auto leaderboard = Singleton<MoneyManager>::get()->getLeaderboard(10);
+                                auto leaderboard = m_pClient->getDatabase().query("SELECT id,money FROM users ORDER BY money DESC LIMIT 10");
+                                std::stringstream ss;
+                                int incrementer = 1;
+                                for (auto i : leaderboard)
+                                {
+                                    //auto userptr = Singleton<UserManager>::get()->findUser(current.first);
                                     auto userptr = m_pClient->getUsersHandler().findUser(i["id"]);
                                     ss << emoji::rankingEmojis.at(incrementer++) << " **" << userptr.getName() << "**      ( " << i["money"] << " )\n\n";
-                               }
-                               nlohmann::json json;
-                               //https://news.bitcoin.com/wp-content/uploads/2018/07/ranking-300x237.jpg
+                                }
+                                nlohmann::json json;
+                                //https://news.bitcoin.com/wp-content/uploads/2018/07/ranking-300x237.jpg
 
-                               nlohmann::json embed;
-                               embed["title"] = ":trophy:  Rankings";
-                               embed["description"] = ss.str();
-                               embed["thumbnail"]["url"] = "https://news.bitcoin.com/wp-content/uploads/2018/07/ranking-300x237.jpg";
-                               embed["color"] = 8388352;
+                                nlohmann::json embed;
+                                embed["title"] = ":trophy:  Rankings";
+                                embed["description"] = ss.str();
+                                embed["thumbnail"]["url"] = "https://news.bitcoin.com/wp-content/uploads/2018/07/ranking-300x237.jpg";
+                                embed["color"] = 8388352;
 
-                               json["embed"] = embed;
-
-                               msg.channel().sendMessageExtended(json);
+                                json["embed"] = embed;
+                                TextChannel& channel = dynamic_cast<TextChannel&>(msg.channel());
+                                channel.sendMessageExtended(json);
                            });
 
-    static_cast<MessageCreateEvent&>(m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")).bind([&](const BaseMessage& msg) {
-        BaseChannel& channel = msg.channel();
-        const Guild& guild = static_cast<GuildChannel&>(channel).getGuild();
-        if (guild.getId() != 439065048628068363 || msg.author().getId() == 444648378199048214) // Todo: remove first part later(keep bot msg check)
+    static_cast<MessageCreateEvent &>(m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")).bind([&,this](const BaseMessage &msg) {
+        GuildTextChannel &channel = dynamic_cast<GuildTextChannel&>(msg.channel());
+        const Guild &guild = channel.getGuild();
+        std::cout << msg.author().getId() << "==" <<  m_pClient->getBotUser().getId() << '\n';
+        if (guild.getId() != 439065048628068363 || msg.author().getId() == m_pClient->getBotUser().getId()) // Todo: remove first part later(keep bot msg check)
             return;
         if (++m_messagesSinceDrop >= messagesUntilDrop)
         {
@@ -89,10 +88,10 @@ void MoneySystem::init()
             embed["description"] = "w-would u like a drink master?";
             embed["image"]["url"] = "https://cdn.discordapp.com/attachments/439065048628068365/576535445123629064/20190510_172533.jpg";
             drop_json["embed"] = embed;
-            auto& dropMessage = channel.sendMessageExtended(drop_json);
+            auto &dropMessage = channel.sendMessageExtended(drop_json);
             dropMessage.react(emoji::coffee);
             dropMessage.reactionListener(
-                [=](BaseMessage &msg, const nlohmann::json &json) {
+                [&channel, this](BaseMessage &msg, const nlohmann::json &json) {
                     auto userptr = m_pClient->getUsersHandler().findUser(tryGetSnowflake("user_id", json));
                     if (tryGetJson<std::string>("name", json["emoji"]) == emoji::coffee && userptr.getId() != m_pClient->getBotUser().getId())
                     {
@@ -103,7 +102,7 @@ void MoneySystem::init()
                         //updata data in database
                         m_pClient->getDatabase().query("UPDATE users SET money=money+100 WHERE id=" + std::to_string(userptr.getId()));
                         msg.remove();
-                        msg.channel().sendMessage(userptr.getName() + " claimed 100 coins!");
+                        channel.sendMessage(userptr.getName() + " claimed 100 coins!");
                     }
                 });
             m_messagesSinceDrop = 0;

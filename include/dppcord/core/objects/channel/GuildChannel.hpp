@@ -17,7 +17,7 @@
 namespace dppcord
 {
 class Guild;
-class GuildChannel : public BaseChannel, public INamedObject
+class GuildChannel : public INamedObject, virtual public BaseChannel
 {
 public:
     /**
@@ -29,27 +29,12 @@ public:
     /**
      * @brief Destroy the Guild Channel object
      */
-    ~GuildChannel();
-
+    virtual ~GuildChannel();
     /**
      * @brief Returns a pointer to the guild this channel belongs to
      * @return Guild* 
      */
     Guild &getGuild() const ;
-
-    /**
-     * @brief Sends a message and returns the newly created message object
-     * @param msg 
-     * @return std::shared_ptr<BaseMessage> 
-     */
-    BaseMessage& sendMessage(const std::string &msg) override;
-
-    /**
-     * @brief Sends a message and returns the newly created message object
-     * @param json 
-     * @return std::shared_ptr<BaseMessage> 
-     */
-    BaseMessage& sendMessageExtended(const nlohmann::json& json) override;
 
 protected:
     /**

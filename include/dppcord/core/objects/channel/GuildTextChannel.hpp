@@ -13,18 +13,18 @@
 #define GUILDTEXTCHANNEL_HPP
 
 #include "GuildChannel.hpp"
+#include "TextChannel.hpp"
 
 namespace dppcord
 {
-class BaseMessage;
-class GuildTextChannel : public GuildChannel
+class GuildTextChannel : public GuildChannel, public TextChannel
 {
 public:
     /**
      * @brief Construct a new Guild Text Channel object
      */
     GuildTextChannel();
-    GuildTextChannel(const GuildTextChannel&) = default;
+    GuildTextChannel(const GuildTextChannel &) = default;
     /**
      * @brief Destroy the Guild Text Channel object
      */
@@ -34,14 +34,10 @@ public:
      * @param pGuild pointer to the Guild this channel belongs to
      * @param channeljson json data used to construct the channel
      */
-    GuildTextChannel(Guild* pGuild, const nlohmann::json& channeljson);
+    GuildTextChannel(Guild *pGuild, const nlohmann::json &channeljson);
 
 protected:
 private:
-    /**
-     * @brief Pointer to the last Message object
-     */
-    std::shared_ptr<BaseMessage> m_lastMessage;
     /**
      * @brief the channel topic (0-1024 characters)
      */

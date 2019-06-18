@@ -33,7 +33,7 @@ namespace dppcord
 
         RequestHeaderList& addHeader(const std::string& header);
         const std::list<std::string>& get() const;
-        RequestHeaderList& setContent(RequestContentType rct);
+        RequestHeaderList& setContent(RequestContentType&& rct);
         private:
         std::list<std::string> m_headers;
     };

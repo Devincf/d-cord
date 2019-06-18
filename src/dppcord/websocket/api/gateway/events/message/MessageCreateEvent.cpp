@@ -12,7 +12,7 @@
 #include "dppcord/websocket/api/gateway/events/message/MessageCreateEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
-#include "dppcord/core/objects/channel/BaseChannel.hpp"
+#include "dppcord/core/objects/channel/TextChannel.hpp"
 
 #include "dppcord/command/builder/CommandBuilder.hpp"
 
@@ -24,18 +24,23 @@ namespace dppcord
 void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
 {
     std::cout << "MessageCreateEvent proc\n";
-    /*if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
-        return; // Bot message
-    */
+
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
-        Guild& guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
-        BaseChannel& channel = guild.getChannel(tryGetSnowflake("channel_id", eventPacket));
-        BaseMessage* message = new BaseMessage(channel, eventPacket);
+        Guild &guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
+        TextChannel &channel = dynamic_cast<TextChannel &>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
+
+        if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
+        {
+            m_forwardData.add(channel.getLastMessage());
+            return; // Bot message
+        }
+
+        BaseMessage *message = new BaseMessage(channel, eventPacket);
         if (tryGetSnowflake("id", eventPacket["author"]) != 444648378199048214)
             dppcord::CommandBuilder::tryBuildCommand(*message);
-        guild.addMessage(message);
+        channel.addMessage(message);
         m_forwardData.add(*message);
     }
     else
@@ -44,6 +49,49 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
         //std::cout << eventPacket.dump(1) << '\n';
     }
 }
+
+/*REPLACE ABOVE WITH THIS IF ASYNC MESSAGE CREATE PROBLEMS ARISE
+this happens whenever the bot sends 2 messages in a row in the same message before the first one can get processed by a message_create event
+bot sends 1. message->(last message becomes 1. message)
+bot sends 2. message->(last message becomes 2. message)
+message_create from 1. message-> last message is 2. message(overwritten.)
+message_create from 2. message-> last message is 2. message
+void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
+{
+    std::cout << "MessageCreateEvent proc\n";
+    std::cout << eventPacket.dump(4);
+    
+    if (jsonIsSet("guild_id", eventPacket))
+    {
+        // guild message
+        Guild &guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
+        TextChannel &channel = dynamic_cast<TextChannel &>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
+        auto msgid = tryGetSnowflake("id", eventPacket);
+        if(!channel.hasMessage(msgid))
+        {
+            BaseMessage* message = new BaseMessage(channel, eventPacket);
+            
+            if (tryGetSnowflake("id", eventPacket["author"]) != 444648378199048214)
+                dppcord::CommandBuilder::tryBuildCommand(*message);
+
+            channel.addMessage(message);
+            std::cout << message->str() << '\n';
+            m_forwardData.add(*message);
+        }else
+        {
+            auto& msg = channel.getMessage(msgid);
+            m_forwardData.add(msg);
+        }
+        
+        
+    }
+    else
+    {
+        // dm/groupdm
+        //std::cout << eventPacket.dump(1) << '\n';
+    }
+}
+ */
 
 } // namespace dppcord
 

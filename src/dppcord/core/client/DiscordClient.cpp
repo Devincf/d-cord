@@ -15,6 +15,7 @@
 #include "dppcord/command/builder/CommandMap.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
+#include "dppcord/core/objects/channel/TextChannel.hpp"
 
 
 #include "dppcord/database/SQLiteDatabase.hpp"
@@ -50,7 +51,8 @@ DiscordClient::DiscordClient(): m_websockethandler(this)
 
              }} // namespace dppcord
         };
-        msg.channel().sendMessageExtended(json2);
+        TextChannel& channel = dynamic_cast<TextChannel&>(msg.channel());
+        channel.sendMessageExtended(json2);
     });
     DiscordEndpoint::init(m_discordtoken);
 }

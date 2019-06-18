@@ -7,6 +7,7 @@
 #include "dppcord/command/builder/CommandBuilder.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/core/objects/channel/BaseChannel.hpp"
+#include "dppcord/core/objects/channel/TextChannel.hpp"
 
 #include "plugins/example_plugin/plugin.hpp"
 #include "plugins/MoneySystem/plugin.hpp"
@@ -33,17 +34,21 @@ int main(int argc, char *argv[])
     }*/
 
     dppcord::CommandMap::addCommand("!ping", [](const dppcord::BaseMessage& msg, const dppcord::ArgumentList &args) {
-        msg.channel().sendMessage("pong").reactionListener(
-            [](dppcord::BaseMessage &msg, const nlohmann::json &json) {
+        TextChannel& channel = dynamic_cast<TextChannel&>(msg.channel());
+        channel.sendMessage("pong").reactionListener(
+            [&channel](dppcord::BaseMessage &msg, const nlohmann::json &json) {
                 std::cout << msg.content() << '\n';
-                msg.channel().sendMessage("reacted to pong!");
+                channel.sendMessage("reacted to pong!");
             });
     });
 
     e.loadPlugin<ExamplePlugin>();
     e.loadPlugin<dppcord::plugins::moneysystem::MoneySystem>();
 
-    /* auto test = DiscordEndpoint::getGuild("439065048628068363");
+    /* 
+    std::string g = "439065048628068363";
+    std::string c = "445942826534961153";
+    auto test = DiscordEndpoint::getGuild("439065048628068363");
     nlohmann::json patchjson = {{"name", "modified"}};
     auto guildPatch = DiscordEndpoint::modifyGuild("439065048628068363", patchjson);
     auto getChannels = DiscordEndpoint::getGuildChannels("439065048628068363");
@@ -156,13 +161,11 @@ int main(int argc, char *argv[])
     std::cout << "###############################################\n\n\n";
      */
 
-    std::string g = "439065048628068363";
-    std::string c = "445942826534961153";
 
 
     
     
-    //std::thread run(&Example::run, &e);
+    std::thread run(&Example::run, &e);
     std::string input;
     for(;;)
     {
@@ -198,7 +201,7 @@ int main(int argc, char *argv[])
         }
         
     }
-    //run.join();
+    run.join();
 
     return 0;
 }

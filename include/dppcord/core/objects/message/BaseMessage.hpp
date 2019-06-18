@@ -62,6 +62,8 @@ public:
      * @return bool true if message got removed succesfully
      */
     bool remove();
+    std::string str() const;
+
     /**
      * @brief React to this message with a given emoji
      * @param emoji to be used for reaction
@@ -76,7 +78,7 @@ public:
             m_reactionListener(*this, json);
         }
     }
-
+    //TODO: change json to reaction obj
     void reactionListener(const std::function<void(BaseMessage &msg, const nlohmann::json &)> &fn)
     {
         m_reactionListener = fn;

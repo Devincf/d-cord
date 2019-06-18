@@ -36,17 +36,6 @@ public:
      */
     BaseChannel();
     BaseChannel(const BaseChannel&) = default;
-    /**
-     * @brief Sends a message in this channel
-     * @param msg 
-     */
-    virtual BaseMessage& sendMessage(const std::string& msg);
-    /**
-     * @brief Sends a message in this channel from a json object
-     * @param json 
-     * @return std::shared_ptr<BaseMessage> 
-     */
-    virtual BaseMessage& sendMessageExtended(const nlohmann::json& json);
 protected:
     /**
      * @brief Type of the channel 

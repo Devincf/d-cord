@@ -11,6 +11,7 @@
 
 #include "dppcord/websocket/api/gateway/events/message/MessageDeleteEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
+#include "dppcord/core/objects/channel/TextChannel.hpp"
 #include "dppcord/util/jsonutil.hpp"
 #include <iostream>
 
@@ -19,15 +20,15 @@ namespace dppcord
     void MessageDeleteEvent::proc(const nlohmann::json &eventPacket)
 {
     std::cout << "MessageDeleteEvent proc\n";
-
-    std::cout << eventPacket.dump(2) << '\n';
     
 
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
         Guild& guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
-        guild.removeMessage(tryGetSnowflake("id", eventPacket));
+        TextChannel& channel = dynamic_cast<TextChannel&>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
+        channel.removeMessage(tryGetSnowflake("id", eventPacket));
+        //guild.removeMessage(tryGetSnowflake("id", eventPacket));
     }
     else
     {
