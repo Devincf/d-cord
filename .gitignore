@@ -5,6 +5,7 @@ example/token.txt
 example/config.json
 example/Makefile
 example/CMakeFiles/
+autoban/
 plugins/example_plugin/CMakeFiles/
 plugins/MoneySystem/CMakeFiles/
 build.sh

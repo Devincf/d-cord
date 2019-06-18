@@ -24,6 +24,7 @@ namespace dppcord
 void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
 {
     std::cout << "MessageCreateEvent proc\n";
+    //std::cout << eventPacket.dump(4);
 
     if (jsonIsSet("guild_id", eventPacket))
     {
@@ -31,22 +32,32 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
         Guild &guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
         TextChannel &channel = dynamic_cast<TextChannel &>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
 
+        BaseMessage *message = new BaseMessage(&channel, eventPacket);
+        channel.addMessage(message);
+        m_forwardData.add(*message);
+
         if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
         {
-            m_forwardData.add(channel.getLastMessage());
             return; // Bot message
         }
 
-        BaseMessage *message = new BaseMessage(channel, eventPacket);
         dppcord::CommandBuilder::tryBuildCommand(*message);
-        channel.addMessage(message);
-        std::cout << message->str() << '\n';
-        m_forwardData.add(*message);
     }
     else
     {
-        // dm/groupdm
-        //std::cout << eventPacket.dump(1) << '\n';
+        DmChannel *channel = m_pDiscordClient->getDmChannel(tryGetSnowflake("channel_id", eventPacket));
+        BaseMessage *message = new BaseMessage(channel, eventPacket, &m_pDiscordClient->findUser(tryGetSnowflake("id", eventPacket["author"])));
+        channel->addMessage(message);
+        //std::cout << "asdfafsdfsd" << message->str() << '\n';
+
+        if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
+        {
+            m_forwardData.add(*message);
+            return; // Bot message
+        }
+        m_forwardData.add(*message);
+
+        dppcord::CommandBuilder::tryBuildCommand(*message);
     }
 }
 

@@ -100,8 +100,18 @@ DmChannel *DiscordClient::addDmChannel(const nlohmann::json &channeljson)
 {
     auto id = tryGetSnowflake("id", channeljson);
     auto res = m_dmchannels.insert({id, std::make_unique<DmChannel>(channeljson)});
-
+    if(!res.second) std::cout << "channel already existed.\n";
     return res.first->second.get();
+}
+
+DmChannel *DiscordClient::getDmChannel(const Snowflake &id)
+{
+    auto ptr = m_dmchannels.find(id);
+    if(ptr == m_dmchannels.end())
+    {
+        return nullptr;
+    }
+    return ptr->second.get();
 }
 
 Guild &DiscordClient::addGuild(Guild *const rGuild)

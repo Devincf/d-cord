@@ -18,6 +18,8 @@
 #include "dppcord/core/objects/channel/ChannelTypes.hpp"
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 
+#include "dppcord/rest/DiscordEndpoint.hpp"
+
 #include <string>
 
 namespace dppcord
@@ -160,7 +162,7 @@ BaseChannel &Guild::addChannel(const nlohmann::json &channeldata)
 
 BaseChannel &Guild::updateChannel(const nlohmann::json &channeldata)
 {
-    auto& channel = getChannel(tryGetSnowflake("id", channeldata));
+    auto &channel = getChannel(tryGetSnowflake("id", channeldata));
     channel.update(channeldata);
     return channel;
 }
@@ -199,6 +201,18 @@ User &Guild::addUser(User *pUser)
 {
     m_members.push_back(pUser);
     return *pUser;
+}
+
+const bool Guild::banUser(const Snowflake &id)
+{
+    auto user = std::find_if(m_members.begin(),m_members.end(),[&id](User* user){return user->getId() == id;});
+    if(user != m_members.end())
+    {
+        //ban
+        std::cout << "banning " << std::to_string(id)<<"...";
+        return DiscordEndpoint::createGuildBan(std::to_string(m_id),std::to_string(id),{});
+    }
+    return false;
 }
 /*
 void Guild::addMessage(BaseMessage* const msg)

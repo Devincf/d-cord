@@ -34,7 +34,7 @@ namespace dppcord
             case CHANNELTYPE_GUILD_NEWS:
             case CHANNELTYPE_GUILD_STORE:
             {
-                m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket)).updateChannel(eventPacket);
+                m_forwardData.add(m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket)).updateChannel(eventPacket));
                 break;
             }
             case CHANNELTYPE_DM:

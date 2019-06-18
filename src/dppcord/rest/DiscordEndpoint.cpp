@@ -853,11 +853,14 @@ nlohmann::json DiscordEndpoint::getGuildBan(const std::string &guildId, const st
 bool DiscordEndpoint::createGuildBan(const std::string &guildId, const std::string &userId, const nlohmann::json &bandata)
 {
     //PUT/guilds/{guild.id}/bans/{user.id}
-    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
     rhl.addHeader("Content-Length:0");
     RequestContent rc(bandata);
 
-    auto response = Request::sendDELETE(
+    std::string t = apiBase + "guilds/" + guildId + "/bans/" + userId;
+    std::cout << t << '\n';
+    std::cout << bandata.dump(4) << '\n';
+    auto response = Request::sendPUT(
         apiBase + "guilds/" + guildId + "/bans/" + userId,
         rhl,
         rc);
@@ -1222,11 +1225,13 @@ nlohmann::json DiscordEndpoint::getUserDMs()
 
     return nlohmann::json::parse(response.get());
 }
-nlohmann::json DiscordEndpoint::createDM(const nlohmann::json &params)
+nlohmann::json DiscordEndpoint::createDM(const Snowflake& userId)
 {
     //POST /users/@me/channels
     RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
-    RequestContent rc(params);
+    nlohmann::json data = {{"recipient_id", (uint64_t)userId}};
+    std::cout << data.dump(4);
+    RequestContent rc(data);
     auto response = Request::sendPOST(
         apiBase + "users/@me/channels",
         rhl,

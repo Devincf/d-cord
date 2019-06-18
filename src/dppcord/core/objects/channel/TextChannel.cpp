@@ -41,7 +41,7 @@ BaseMessage &TextChannel::getMessage(const Snowflake &id)
 BaseMessage &TextChannel::sendMessage(const std::string &msg)
 {
     auto newmsgjson = DiscordEndpoint::sendMessage(m_id, msg);
-    BaseMessage *m = new BaseMessage(*this, newmsgjson);
+    BaseMessage *m = new BaseMessage(this, newmsgjson);
     addMessage(m);
     return *m;
 }
@@ -54,7 +54,7 @@ bool TextChannel::hasMessage(const Snowflake &id)
 BaseMessage &TextChannel::sendMessageExtended(const nlohmann::json &json)
 {
     auto newmsgjson = DiscordEndpoint::sendMessageExtended(m_id, json);
-    BaseMessage *m = new BaseMessage(*this, newmsgjson);
+    BaseMessage *m = new BaseMessage(this, newmsgjson);
     addMessage(m);
     return *m;
 }
@@ -64,5 +64,5 @@ bool TextChannel::removeMessage(const Snowflake &id)
     return m_messages.erase(id) != 0;
 }
 
-const BaseMessage &TextChannel::getLastMessage() const { return *m_lastMessage; }
+BaseMessage &TextChannel::getLastMessage() { return *m_lastMessage; }
 } // namespace dppcord

@@ -11,6 +11,8 @@
 
 #include "dppcord/core/objects/user/User.hpp"
 
+#include "dppcord/rest/DiscordEndpoint.hpp"
+
 #include "dppcord/util/jsonutil.hpp"
 
 namespace dppcord
@@ -30,6 +32,12 @@ User::User(const nlohmann::json &userjson)
     m_email = tryGetJson<std::string>("email",userjson);
     m_flags = tryGetJson<int>("flages",userjson);
     m_premiumType = tryGetJson<int>("premium_type",userjson);
-
 }
+
+void User::sendDirect(const std::string& msg)
+{
+    auto id = DiscordEndpoint::createDM(std::to_string(m_id))["id"].get<std::string>();
+    std::cout << DiscordEndpoint::sendMessage(id, msg) << '\n';
+}
+
 } // namespace dppcord

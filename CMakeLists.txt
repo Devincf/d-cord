@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(dppcord VERSION 0.3.0 DESCRIPTION "Discord Library written in C++")
+project(dppcord VERSION 0.8.0 DESCRIPTION "Discord Library written in C++")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

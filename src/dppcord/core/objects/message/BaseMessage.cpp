@@ -21,14 +21,18 @@ namespace dppcord
 {
 BaseMessage::BaseMessage() {}
 
-BaseMessage::BaseMessage(BaseChannel& pChannel, const nlohmann::json &msgjson)
+BaseMessage::BaseMessage(BaseChannel* pChannel, const nlohmann::json &msgjson, User* author)
 {
-    m_channel = &pChannel;
-    GuildChannel& channel = dynamic_cast<GuildChannel&>(pChannel);
+    m_channel = pChannel;
+    GuildChannel& channel = *(dynamic_cast<GuildChannel*>(pChannel));
     m_id = tryGetSnowflake("id", msgjson);
     //std::cout << msgjson.dump(1) << '\n';
     Snowflake test = tryGetSnowflake("id", msgjson["author"]);
-    m_author = &channel.getGuild().getUserFromId(test);
+    if(author == nullptr)
+        m_author = &channel.getGuild().getUserFromId(test);
+    else
+        m_author = author;
+    
     m_content = tryGetJson<std::string>("content", msgjson);
     m_timestamp = util::Timestamp(tryGetJson<std::string>("timestamp", msgjson));
     m_tts = tryGetJson<bool>("tts", msgjson);
