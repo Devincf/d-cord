@@ -219,7 +219,7 @@ void WebsocketHandler::shutdown()
         m_heartbeater.stop();
         m_connection->shutdown();
 
-        std::string q = "UPDATE bot_info SET last_sequence=" + std::to_string(m_lastSequence) + ", session_id=\"" + m_pClient->getBotUser().getSessionId() + '\"';
+        std::string q = "UPDATE bot_info SET last_sequence=" + std::to_string(m_lastSequence) + ", session_id=\"" + m_pClient->getBotUser()->getSessionId() + '\"';
         m_pClient->getDatabase().query(q);
         m_websocketConnectionThread.join();
         std::cout << "shutdown complete";

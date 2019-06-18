@@ -13,8 +13,6 @@
 
 #include "dppcord/util/jsonutil.hpp"
 
-#include "dppcord/core/handler/UsersHandler.hpp"
-
 #include "dppcord/core/objects/channel/GuildVoiceChannel.hpp"
 #include "dppcord/core/objects/channel/GuildTextChannel.hpp"
 #include "dppcord/core/objects/channel/ChannelTypes.hpp"
@@ -27,7 +25,7 @@ namespace dppcord
 Guild::Guild() {}
 Guild::~Guild() {}
 
-Guild::Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler)
+Guild::Guild(const nlohmann::json &guildjson)
 {
     m_afkChannel = nullptr;
     m_systemChannel = nullptr;
@@ -91,26 +89,6 @@ Guild::Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler)
     else
     {
     }*/
-    for (auto it = guildjson["members"].begin(); it != guildjson["members"].end(); it++)
-    {
-        Snowflake userid = tryGetSnowflake("id", (*it)["user"]);
-        User* user;
-        if(!pUserHandler.userExists(userid))
-        {
-            user = new GuildUser(this, *it);
-            pUserHandler.addUser(user);
-        }else
-        {
-            user = &pUserHandler.findUser(userid);
-        }
-        m_members.push_back(user);
-
-        if (user->getId() == tryGetSnowflake("owner_id", guildjson))
-        {
-            m_ownerPtr = user;
-        }
-    }
-
     //std::cout << "loading channels\n";
     for (auto it = guildjson["channels"].begin(); it != guildjson["channels"].end(); it++)
     {
@@ -199,6 +177,12 @@ User& Guild::getUserFromId(const Snowflake &id) const
     //doesnt exist.
     throw std::runtime_error("User doesnt exist in guild map");
 }
+
+User& Guild::addUser(User* pUser)
+{
+    m_members.push_back(pUser);
+    return *pUser;
+}
 /*
 void Guild::addMessage(BaseMessage* const msg)
 {
@@ -240,5 +224,7 @@ BaseChannel& Guild::getChannel(const Snowflake &id) const
     }
     throw std::runtime_error("Channel with id " + std::to_string(id) + " not found or is nullptr");
 }
+
+User* Guild::getOwner()const {return m_ownerPtr;}
 
 } // namespace dppcord

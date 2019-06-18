@@ -20,7 +20,9 @@ namespace dppcord
     {
         std::cout << "ReadyEvent proc\n";
         m_pDiscordClient->getWebsocketHandler().setReady();
-        m_pDiscordClient->getBotUser() = BotUser(eventPacket);
+        BotUser* botuser = new BotUser(eventPacket);
+        m_pDiscordClient->addUser(botuser);
+        m_pDiscordClient->setBotUser(botuser);
         //m_pDiscordClient->getDatabase()->query("UPDATE bot_info SET session_id=\"" + eventPacket["session_id"].get<std::string>() + "\",last_sequence=0");
         m_forwardData.add(eventPacket);
     }

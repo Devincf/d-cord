@@ -25,7 +25,7 @@ namespace dppcord
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
-        Guild& guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
+        Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
         TextChannel& channel = dynamic_cast<TextChannel&>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
         channel.removeMessage(tryGetSnowflake("id", eventPacket));
         //guild.removeMessage(tryGetSnowflake("id", eventPacket));

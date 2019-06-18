@@ -26,17 +26,17 @@ namespace dppcord
         std::cout << "ChannelCreateEvent proc\n";
         if(!jsonIsSet("guild_id", eventPacket))
         {
-            //dm 
-            DmChannel test(eventPacket);
-            std::cout << "new dm channel : " << test.getId() << " created\n";
+            //dm
+            DmChannel* channel = m_pDiscordClient->addDmChannel(eventPacket);
+            std::cout << "new dm channel : " << channel->getId() << " created\n";
         }else
         {
-            auto ptr = dynamic_cast<GuildChannel&>(m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).addChannel(eventPacket));
+            auto ptr = dynamic_cast<GuildChannel&>(m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket)).addChannel(eventPacket));
             std::cout << "new guild channel : " << ptr.getName() << " created in guild " << ptr.getGuild().getName();
             m_forwardData.add(ptr);
         }
         
-        //m_pDiscordClient->getGuildsHandler().addGuild(new Guild(eventPacket, m_pDiscordClient->getUsersHandler()));
+        //m_pDiscordClient->addGuild(new Guild(eventPacket, m_pDiscordClient->getUsersHandler()));
     }
 }
 

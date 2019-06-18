@@ -31,7 +31,7 @@ public:
      * @param guildjson the json object to construct the guild from
      * @param pUserHandler pointer to Userhandler if you want to use global userlists
      */
-    Guild(const nlohmann::json &guildjson, UsersHandler &pUserHandler);
+    Guild(const nlohmann::json &guildjson);
     /**
      * @brief Destroy the Guild object
      */
@@ -66,6 +66,8 @@ public:
      * @return std::shared_ptr<BaseChannel> the pointer that belongs to the new channel
      */
     BaseChannel& addChannel(const nlohmann::json &channeldata);
+
+    User& addUser(User* user);
     /**
      * @brief Adds a Message into the Message map
      * @param msg 
@@ -82,6 +84,8 @@ public:
      * @param id 
      */
     //void removeMessage(const Snowflake& id);
+
+    User* getOwner()const ;
 
 private:
     /**

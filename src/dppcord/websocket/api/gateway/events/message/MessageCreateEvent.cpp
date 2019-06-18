@@ -28,7 +28,7 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
-        Guild &guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
+        Guild &guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
         TextChannel &channel = dynamic_cast<TextChannel &>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
 
         if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
@@ -38,9 +38,9 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
         }
 
         BaseMessage *message = new BaseMessage(channel, eventPacket);
-        if (tryGetSnowflake("id", eventPacket["author"]) != 444648378199048214)
-            dppcord::CommandBuilder::tryBuildCommand(*message);
+        dppcord::CommandBuilder::tryBuildCommand(*message);
         channel.addMessage(message);
+        std::cout << message->str() << '\n';
         m_forwardData.add(*message);
     }
     else
@@ -64,7 +64,7 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
     if (jsonIsSet("guild_id", eventPacket))
     {
         // guild message
-        Guild &guild = m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket));
+        Guild &guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
         TextChannel &channel = dynamic_cast<TextChannel &>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
         auto msgid = tryGetSnowflake("id", eventPacket);
         if(!channel.hasMessage(msgid))

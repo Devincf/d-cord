@@ -15,8 +15,6 @@
 #include "dppcord/core/client/DiscordClient.hpp"
 #include "dppcord/command/builder/CommandMap.hpp"
 
-#include "dppcord/core/handler/UsersHandler.hpp"
-
 #include "dppcord/core/objects/message/BaseMessage.hpp"
 #include "dppcord/core/objects/channel/GuildTextChannel.hpp"
 #include "dppcord/core/objects/guild/Guild.hpp"
@@ -54,7 +52,7 @@ void MoneySystem::init()
                                 for (auto i : leaderboard)
                                 {
                                     //auto userptr = Singleton<UserManager>::get()->findUser(current.first);
-                                    auto userptr = m_pClient->getUsersHandler().findUser(i["id"]);
+                                    auto userptr = m_pClient->findUser(i["id"]);
                                     ss << emoji::rankingEmojis.at(incrementer++) << " **" << userptr.getName() << "**      ( " << i["money"] << " )\n\n";
                                 }
                                 nlohmann::json json;
@@ -74,8 +72,8 @@ void MoneySystem::init()
     static_cast<MessageCreateEvent &>(m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")).bind([&,this](const BaseMessage &msg) {
         GuildTextChannel &channel = dynamic_cast<GuildTextChannel&>(msg.channel());
         const Guild &guild = channel.getGuild();
-        std::cout << msg.author().getId() << "==" <<  m_pClient->getBotUser().getId() << '\n';
-        if (guild.getId() != 439065048628068363 || msg.author().getId() == m_pClient->getBotUser().getId()) // Todo: remove first part later(keep bot msg check)
+        std::cout << msg.author().getId() << "==" <<  m_pClient->getBotUser()->getId() << '\n';
+        if (guild.getId() != 439065048628068363 || msg.author().getId() == m_pClient->getBotUser()->getId()) // Todo: remove first part later(keep bot msg check)
             return;
         if (++m_messagesSinceDrop >= messagesUntilDrop)
         {
@@ -92,8 +90,8 @@ void MoneySystem::init()
             dropMessage.react(emoji::coffee);
             dropMessage.reactionListener(
                 [&channel, this](BaseMessage &msg, const nlohmann::json &json) {
-                    auto userptr = m_pClient->getUsersHandler().findUser(tryGetSnowflake("user_id", json));
-                    if (tryGetJson<std::string>("name", json["emoji"]) == emoji::coffee && userptr.getId() != m_pClient->getBotUser().getId())
+                    auto& userptr = m_pClient->findUser(tryGetSnowflake("user_id", json));
+                    if (tryGetJson<std::string>("name", json["emoji"]) == emoji::coffee && userptr.getId() != m_pClient->getBotUser()->getId())
                     {
                         //claim money.
                         //std::cout << json.dump(2) << '\n';

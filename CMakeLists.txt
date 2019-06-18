@@ -20,9 +20,6 @@ find_package(Threads REQUIRED)
 
 add_library(dppcord SHARED
 src/dppcord/core/client/DiscordClient.cpp  
-
-src/dppcord/core/handler/GuildsHandler.cpp
-src/dppcord/core/handler/UsersHandler.cpp
  
 src/dppcord/core/task/BaseTask.cpp
 

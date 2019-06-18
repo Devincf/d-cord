@@ -26,9 +26,9 @@ void MessageReactionAddEvent::proc(const nlohmann::json &eventPacket)
     std::cout << "MessageReactionAddEvent proc\n";
     try
     {
-        TextChannel& channel = dynamic_cast<TextChannel&>(m_pDiscordClient->getGuildsHandler().getGuild(tryGetSnowflake("guild_id", eventPacket)).getChannel(tryGetSnowflake("channel_id", eventPacket)));
-        std::cout << channel.getId() << '\n';
+        TextChannel& channel = dynamic_cast<TextChannel&>(m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket)).getChannel(tryGetSnowflake("channel_id", eventPacket)));
         auto &msg = channel.getMessage(tryGetSnowflake("message_id", eventPacket));
+        std::cout << msg.str() << '\n';
         msg.reactionListener(eventPacket);
     }
     catch (const std::exception &e)
