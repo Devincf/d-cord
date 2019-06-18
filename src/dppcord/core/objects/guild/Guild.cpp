@@ -157,10 +157,19 @@ BaseChannel &Guild::addChannel(const nlohmann::json &channeldata)
         throw std::runtime_error("[ERROR] Channel with type " + std::to_string(type) + "passed to Guild::addChannel id: " + std::to_string(tryGetSnowflake("id", channeldata)) + " this should never happen \n");
     }
 }
+
+BaseChannel &Guild::updateChannel(const nlohmann::json &channeldata)
+{
+    auto& channel = getChannel(tryGetSnowflake("id", channeldata));
+    channel.update(channeldata);
+    return channel;
+}
+
 const bool Guild::removeChannel(const Snowflake &id)
 {
-    auto channel = std::find_if(m_channels.begin(), m_channels.end(), [&id](std::unique_ptr<BaseChannel>& channel){return channel->getId() == id;});
-    if(channel == m_channels.end()) return false;
+    auto channel = std::find_if(m_channels.begin(), m_channels.end(), [&id](std::unique_ptr<BaseChannel> &channel) { return channel->getId() == id; });
+    if (channel == m_channels.end())
+        return false;
     m_channels.erase(channel);
     return true;
 }

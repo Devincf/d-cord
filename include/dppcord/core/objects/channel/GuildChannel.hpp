@@ -35,6 +35,7 @@ public:
      * @return Guild* 
      */
     Guild &getGuild() const ;
+    virtual void update(const nlohmann::json& channeldata){}
 
 protected:
     /**

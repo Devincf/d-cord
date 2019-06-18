@@ -36,6 +36,8 @@ public:
      */
     GuildTextChannel(Guild *pGuild, const nlohmann::json &channeljson);
 
+    void update(const nlohmann::json& channeldata) override;
+
 protected:
 private:
     /**

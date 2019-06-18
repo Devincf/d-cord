@@ -23,4 +23,15 @@ GuildTextChannel::GuildTextChannel(Guild *pGuild, const nlohmann::json &channelj
     m_rateLimitPerUser = tryGetJson<int>("rate_limit_per_user",channeljson);
 }
 
+
+void GuildTextChannel::update(const nlohmann::json& channeljson)
+{
+    m_topic = tryGetJson<std::string>("topic", channeljson);
+    m_rateLimitPerUser = tryGetJson<int>("rate_limit_per_user",channeljson);
+    m_name = tryGetJson<std::string>("name", channeljson);
+    m_position = tryGetJson<int>("position", channeljson);
+    m_nsfw = tryGetJson<bool>("nsfw", channeljson, false);
+    m_iconHash = tryGetJson<std::string>("icon",channeljson);
+}
+
 } // namespace dppcord

@@ -30,6 +30,7 @@ public:
     ~DmChannel();
     DmChannel(const DmChannel&) = default;
 
+    void update(const nlohmann::json& channeldata) override{}
 protected:
 private:
     //TODO: recipients

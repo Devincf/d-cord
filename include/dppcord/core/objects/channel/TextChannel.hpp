@@ -34,7 +34,7 @@ public:
 
     bool hasMessage(const Snowflake& id);
 
-
+    virtual void update(const nlohmann::json& channeldata) = 0;
     /**
      * @brief Sends a message in this channel
      * @param msg 

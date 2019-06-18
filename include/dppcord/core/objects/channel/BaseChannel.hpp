@@ -36,6 +36,8 @@ public:
      */
     BaseChannel();
     BaseChannel(const BaseChannel&) = default;
+
+    virtual void update(const nlohmann::json&) = 0;
 protected:
     /**
      * @brief Type of the channel 

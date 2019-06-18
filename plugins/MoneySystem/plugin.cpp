@@ -72,7 +72,6 @@ void MoneySystem::init()
     static_cast<MessageCreateEvent &>(m_pClient->getWebsocketHandler().getDispatcher().getEvent("MESSAGE_CREATE")).bind([&,this](const BaseMessage &msg) {
         GuildTextChannel &channel = dynamic_cast<GuildTextChannel&>(msg.channel());
         const Guild &guild = channel.getGuild();
-        std::cout << msg.author().getId() << "==" <<  m_pClient->getBotUser()->getId() << '\n';
         if (guild.getId() != 439065048628068363 || msg.author().getId() == m_pClient->getBotUser()->getId()) // Todo: remove first part later(keep bot msg check)
             return;
         if (++m_messagesSinceDrop >= messagesUntilDrop)

@@ -35,6 +35,7 @@ public:
      */
     GuildVoiceChannel(Guild *pGuild, const nlohmann::json &channeljson);
 
+    void update(const nlohmann::json& channeldata) override{}
 private:
     /**
      * @brief Maximum bitrate of the voice channel

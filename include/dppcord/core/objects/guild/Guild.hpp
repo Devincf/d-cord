@@ -67,6 +67,8 @@ public:
      */
     BaseChannel& addChannel(const nlohmann::json &channeldata);
 
+    BaseChannel& updateChannel(const nlohmann::json& channeldata);
+
     const bool removeChannel(const Snowflake& id);
 
     User& addUser(User* user);
