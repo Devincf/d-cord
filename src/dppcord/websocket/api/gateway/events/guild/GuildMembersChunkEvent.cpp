@@ -21,7 +21,7 @@ namespace dppcord
         //todo
         std::cout << "GuildMembersChunkEvent proc\n";
         std::cout << eventPacket.dump(4) << '\n';
-        Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
+        Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
         m_forwardData.add(guild);
     }
 
