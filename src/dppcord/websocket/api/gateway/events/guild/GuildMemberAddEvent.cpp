@@ -21,12 +21,20 @@ namespace dppcord
     {
         //todo
         std::cout << "GuildMemberAddEvent proc\n";
+        User* user = m_pDiscordClient->findUser(tryGetSnowflake("id", eventPacket["user"]));
         Guild& guild =m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
-        GuildUser* user = new GuildUser(&guild,eventPacket);
-        guild.addUser(user);
-        m_forwardData.add(user);
+        GuildUser* guser = nullptr;
+        if(user == nullptr)
+        {
+            guser = new GuildUser(&guild,eventPacket);
+            m_pDiscordClient->addUser(static_cast<User*>(guser));
+        }else
+        {
+            guser = new GuildUser(&guild,user,eventPacket);
+        }
+        guild.addUser(guser);
+        m_forwardData.add(guser);
     }
-
 }
 /*
 {

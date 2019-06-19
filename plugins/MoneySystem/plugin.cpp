@@ -53,7 +53,7 @@ void MoneySystem::init()
                                 {
                                     //auto userptr = Singleton<UserManager>::get()->findUser(current.first);
                                     auto userptr = m_pClient->findUser(i["id"]);
-                                    ss << emoji::rankingEmojis.at(incrementer++) << " **" << userptr.getName() << "**      ( " << i["money"] << " )\n\n";
+                                    ss << emoji::rankingEmojis.at(incrementer++) << " **" << userptr->getName() << "**      ( " << i["money"] << " )\n\n";
                                 }
                                 nlohmann::json json;
                                 //https://news.bitcoin.com/wp-content/uploads/2018/07/ranking-300x237.jpg
@@ -89,17 +89,18 @@ void MoneySystem::init()
             dropMessage.react(emoji::coffee);
             dropMessage.reactionListener(
                 [&channel, this](BaseMessage &msg, const nlohmann::json &json) {
-                    auto& userptr = m_pClient->findUser(tryGetSnowflake("user_id", json));
-                    if (tryGetJson<std::string>("name", json["emoji"]) == emoji::coffee && userptr.getId() != m_pClient->getBotUser()->getId())
+                    auto userptr = m_pClient->findUser(tryGetSnowflake("user_id", json));
+                    if(userptr == nullptr) return;
+                    if (tryGetJson<std::string>("name", json["emoji"]) == emoji::coffee && userptr->getId() != m_pClient->getBotUser()->getId())
                     {
                         //claim money.
                         //std::cout << json.dump(2) << '\n';
                         //Todo: think about whether I want to localize this or not
                         //m_globalMoneyMap.find(tryGetSnowflake("user_id", json))->second += 100; //Todo: replace with configurable moneyvalue
                         //updata data in database
-                        m_pClient->getDatabase().query("UPDATE users SET money=money+100 WHERE id=" + std::to_string(userptr.getId()));
+                        m_pClient->getDatabase().query("UPDATE users SET money=money+100 WHERE id=" + std::to_string(userptr->getId()));
                         msg.remove();
-                        channel.sendMessage(userptr.getName() + " claimed 100 coins!");
+                        channel.sendMessage(userptr->getName() + " claimed 100 coins!");
                     }
                 });
             m_messagesSinceDrop = 0;

@@ -125,7 +125,7 @@ public:
      * @param id to look for
      * @return std::shared_ptr<User> of the user. nullptr if no user was found
      */
-    User& findUser(const Snowflake& id) const;
+    User* findUser(const Snowflake& id) const;
     /**
      * @brief Checks whether a User exists or not
      * @param id of the user

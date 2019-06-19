@@ -31,4 +31,8 @@ GuildUser::GuildUser(Guild* pGuild, const nlohmann::json &guserjson):User(guserj
     m_deaf = tryGetJson<bool>("deaf", guserjson);
     m_mute = tryGetJson<bool>("mute", guserjson);
 }
+GuildUser::GuildUser(Guild* pGuild, User* pUser,const nlohmann::json &guserjson):User(*pUser)
+{
+    GuildUser(pGuild,guserjson);
+}
 } // namespace dppcord

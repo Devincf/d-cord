@@ -46,7 +46,7 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
     else
     {
         DmChannel *channel = m_pDiscordClient->getDmChannel(tryGetSnowflake("channel_id", eventPacket));
-        BaseMessage *message = new BaseMessage(channel, eventPacket, &m_pDiscordClient->findUser(tryGetSnowflake("id", eventPacket["author"])));
+        BaseMessage *message = new BaseMessage(channel, eventPacket, m_pDiscordClient->findUser(tryGetSnowflake("id", eventPacket["author"])));
         //std::cout << "asdfafsdfsd" << message->str() << '\n';
         m_forwardData.add(*message);
 

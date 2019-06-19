@@ -128,7 +128,7 @@ Guild &DiscordClient::addGuild(const nlohmann::json &guildjson)
     for (const auto &userjson : guildjson["members"])
     {
         Snowflake userid = tryGetSnowflake("id", userjson["user"]);
-        User *user;
+        GuildUser *user;
 
         auto ptr = m_users.find(userid);
         if (ptr == m_users.end())
@@ -138,7 +138,7 @@ Guild &DiscordClient::addGuild(const nlohmann::json &guildjson)
         }
         else
         {
-            user = ptr->second.get();
+            user = new GuildUser(guild,ptr->second.get(),userjson);
         }
         guild->addUser(user);
 
@@ -173,14 +173,11 @@ const bool DiscordClient::userExists(const Snowflake &id) const
     return m_users.find(id) != m_users.end();
 }
 
-User &DiscordClient::findUser(const Snowflake &id) const
+User *DiscordClient::findUser(const Snowflake &id) const
 {
     auto it = m_users.find(id);
-    if (it == m_users.end())
-        throw std::runtime_error("User with id " + std::to_string(id) + " not found");
-    if (!it->second)
-        throw std::runtime_error("User is nullptr");
-    return *it->second;
+    if (it == m_users.end()) return nullptr;
+    return it->second.get();
 }
 
 const int DiscordClient::guildAmount() const
