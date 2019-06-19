@@ -14,11 +14,10 @@
 #define GUILDMEMBERREMOVEEVENT_HPP
 
 #include "dppcord/websocket/api/gateway/events/BaseEvent.hpp"
-#include "dppcord/core/objects/guild/Guild.hpp"
 
 namespace dppcord
 {
-class GuildMemberRemoveEvent : public BaseEvent<Guild>
+class GuildMemberRemoveEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 

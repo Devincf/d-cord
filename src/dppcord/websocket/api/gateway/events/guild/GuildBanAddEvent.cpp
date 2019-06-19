@@ -19,10 +19,8 @@ namespace dppcord
     void GuildBanAddEvent::proc(const nlohmann::json& eventPacket)
     {
         std::cout << "GuildBanAddEvent proc\n";
-        //std::cout << eventPacket.dump(4) << '\n';
         Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
         guild.removeUser(tryGetSnowflake("id", eventPacket["user"]));
         m_forwardData.add(eventPacket);
     }
-
 }
