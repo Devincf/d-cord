@@ -3,4 +3,4 @@ TODO:
 -add message_update event
 -read message from rest and add to message list if not exist
 -read user from rest and add to message list if not exist
--oh 
+-fix guildban event(guild not found...)

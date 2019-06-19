@@ -28,7 +28,7 @@ public:
      * @brief Construct a new Emoji object with given json data
      * @param json data to construct the emoji from
      */
-    Emoji(User& pUser, const nlohmann::json &emojijson);
+    Emoji(User* pUser, const nlohmann::json &emojijson);
     Emoji(const Emoji&) = default;
     /**
      * @brief Destroy the Emoji object
@@ -39,6 +39,8 @@ public:
      * @param emojijson 
      */
     Emoji(const nlohmann::json& emojijson);
+
+    void setValues(const nlohmann::json& emojijson);
 
 private:
     /**

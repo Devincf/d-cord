@@ -95,6 +95,10 @@ public:
 
     User* getOwner()const ;
 
+    Emoji* getEmoji(const Snowflake& id);
+
+    void updateEmojis(const nlohmann::json& emojis);
+
 private:
     /**
      * @brief Guild icon hash

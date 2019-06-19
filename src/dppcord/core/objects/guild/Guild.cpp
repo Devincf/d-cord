@@ -58,7 +58,7 @@ Guild::Guild(const nlohmann::json &guildjson)
     for (auto it = guildjson["emojis"].begin(); it != guildjson["emojis"].end(); it++)
     {
         if (it->find("user") != it->end())
-            m_emojis.push_back(Emoji(getUserFromId(tryGetSnowflake("id", (*it)["user"])), *it));
+            m_emojis.push_back(Emoji(&getUserFromId(tryGetSnowflake("id", (*it)["user"])), *it));
         else
             m_emojis.push_back(Emoji(*it));
     }
@@ -260,6 +260,33 @@ BaseChannel &Guild::getChannel(const Snowflake &id) const
         }
     }
     throw std::runtime_error("Channel with id " + std::to_string(id) + " not found or is nullptr");
+}
+
+Emoji* Guild::getEmoji(const Snowflake& id)
+{
+    auto existing = std::find_if(m_emojis.begin(), m_emojis.end(), [&id](const Emoji& e) { return e.getId() == id; });
+    if(existing == m_emojis.end()) return nullptr;
+    return &(*existing);
+}
+
+void Guild::updateEmojis(const nlohmann::json &emojis)
+{
+
+    for (const auto &emoji : emojis)
+    {
+        auto id = tryGetSnowflake("id", emoji);
+        Emoji* existing = getEmoji(id);
+        if (existing == nullptr)
+        {
+            if (emoji.find("user") != emoji.end())
+                m_emojis.emplace_back(&getUserFromId(tryGetSnowflake("id", emoji["user"])), emoji);
+            else
+                m_emojis.emplace_back(emoji);
+        }else
+        {
+            existing->setValues(emoji);
+        }
+    }
 }
 
 User *Guild::getOwner() const { return m_ownerPtr; }

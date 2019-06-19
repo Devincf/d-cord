@@ -20,9 +20,36 @@ namespace dppcord
     {
         //todo
         std::cout << "GuildEmojisUpdateEvent proc\n";
-        std::cout << eventPacket.dump(4) << '\n';
-        Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
-        m_forwardData.add(guild);
+        if(eventPacket["emojis"].is_array() && eventPacket["emojis"].size() > 0)
+            m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket)).updateEmojis(eventPacket["emojis"]);
+        
+        m_forwardData.add(eventPacket);
     }
 
 }
+
+/*
+{
+    "emojis": [
+        {
+            "animated": false,
+            "available": true,
+            "id": "546316631023026176",
+            "managed": false,
+            "name": "emoji",
+            "require_colons": true,
+            "roles": []
+        },
+        {
+            "animated": false,
+            "available": true,
+            "id": "588748016513581059",
+            "managed": false,
+            "name": "urarakasurprised",
+            "require_colons": true,
+            "roles": []
+        }
+    ],
+    "guild_id": "439065048628068363"
+}
+ */

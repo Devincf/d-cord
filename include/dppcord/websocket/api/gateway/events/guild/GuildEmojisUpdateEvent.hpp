@@ -12,11 +12,10 @@
 #define GUILDEMOJISUPDATEEVENT_HPP
 
 #include "dppcord/websocket/api/gateway/events/BaseEvent.hpp"
-#include "dppcord/core/objects/guild/Guild.hpp"
 
 namespace dppcord
 {
-class GuildEmojisUpdateEvent : public BaseEvent<Guild>
+class GuildEmojisUpdateEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 

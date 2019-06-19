@@ -18,11 +18,23 @@ namespace dppcord
 Emoji::Emoji() {}
 Emoji::~Emoji() {}
 
-Emoji::Emoji(const nlohmann::json& emojijson){}
-
-Emoji::Emoji(User& pUser, const nlohmann::json &emojijson)
+Emoji::Emoji(const nlohmann::json& emojijson)
 {
-    m_user = &pUser;
+    setValues(std::move(emojijson));
+}
+
+Emoji::Emoji(User* pUser, const nlohmann::json &emojijson)
+{
+    m_user = pUser;
+
+    setValues(std::move(emojijson));
+
+    if(m_user)
+        std::cout << m_name << " creator:  " << m_user->getName() <<'\n';
+}
+void Emoji::setValues(const nlohmann::json& emojijson)
+{
+
     m_id = tryGetSnowflake("id", emojijson);
     m_name = tryGetJson<std::string>("name", emojijson);
     //user
@@ -30,7 +42,5 @@ Emoji::Emoji(User& pUser, const nlohmann::json &emojijson)
     m_managed = tryGetJson<bool>("managed", emojijson);
     m_animated = tryGetJson<bool>("animated", emojijson);
 
-    if(m_user)
-        std::cout << m_name << " creator:  " << m_user->getName() <<'\n';
 }
 } // namespace dppcord

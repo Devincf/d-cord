@@ -15,12 +15,11 @@
 
 #include "dppcord/util/jsonutil.hpp"
 
-
 namespace dppcord
 {
 TextChannel::TextChannel() {}
 TextChannel::~TextChannel() {}
-TextChannel::TextChannel(const nlohmann::json &channeldata): m_lastMessage(nullptr) //: BaseChannel(channeldata)
+TextChannel::TextChannel(const nlohmann::json &channeldata) : m_lastMessage(nullptr) //: BaseChannel(channeldata)
 {
 }
 
@@ -67,14 +66,15 @@ bool TextChannel::removeMessage(const Snowflake &id)
     return m_messages.erase(id) != 0;
 }
 
-BaseMessage &TextChannel::getLastMessage() 
-{ 
-    if(m_lastMessage) return *m_lastMessage;
+BaseMessage &TextChannel::getLastMessage()
+{
+    if (m_lastMessage)
+        return *m_lastMessage;
     std::cout << "last message not set yet, querying\n";
-    auto last_msg = DiscordEndpoint::getChannelMessages(std::to_string(m_id), {{"limit",1}}).at(0);
+    auto last_msg = DiscordEndpoint::getChannelMessages(std::to_string(m_id), {{"limit", 1}}).at(0);
     auto id = tryGetSnowflake("id", last_msg);
     m_messages.insert({id, std::make_unique<BaseMessage>(this, last_msg)});
     m_lastMessage = m_messages[id].get();
-    return *m_lastMessage; 
+    return *m_lastMessage;
 }
 } // namespace dppcord
