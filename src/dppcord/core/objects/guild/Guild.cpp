@@ -205,15 +205,21 @@ User &Guild::addUser(User *pUser)
 
 const bool Guild::banUser(const Snowflake &id)
 {
-    auto user = std::find_if(m_members.begin(),m_members.end(),[&id](User* user){return user->getId() == id;});
-    if(user != m_members.end())
+    auto user = std::find_if(m_members.begin(), m_members.end(), [&id](User *user) { return user->getId() == id; });
+    if (user != m_members.end())
     {
         //ban
-        std::cout << "banning " << std::to_string(id)<<"...";
-        return DiscordEndpoint::createGuildBan(std::to_string(m_id),std::to_string(id),{});
+        std::cout << "banning " << std::to_string(id) << "...";
+        return DiscordEndpoint::createGuildBan(std::to_string(m_id), std::to_string(id), {});
     }
     return false;
 }
+
+const void Guild::removeUser(const Snowflake &id)
+{
+    m_members.erase(std::remove_if(m_members.begin(), m_members.end(), [&id](User *user) { return user->getId() == id; }), m_members.end());
+}
+
 /*
 void Guild::addMessage(BaseMessage* const msg)
 {

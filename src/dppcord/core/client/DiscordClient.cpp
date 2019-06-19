@@ -100,7 +100,6 @@ DmChannel *DiscordClient::addDmChannel(const nlohmann::json &channeljson)
 {
     auto id = tryGetSnowflake("id", channeljson);
     auto res = m_dmchannels.insert({id, std::make_unique<DmChannel>(channeljson)});
-    if(!res.second) std::cout << "channel already existed.\n";
     return res.first->second.get();
 }
 
@@ -117,16 +116,13 @@ DmChannel *DiscordClient::getDmChannel(const Snowflake &id)
 Guild &DiscordClient::addGuild(Guild *const rGuild)
 {
     auto res = m_guilds.insert({rGuild->getId(), std::unique_ptr<Guild>(rGuild)});
-    if (!res.second)
-        throw std::runtime_error("Guild" + std::to_string(rGuild->getId()) + " already existed");
-
     return *res.first->second;
 }
 Guild &DiscordClient::addGuild(const nlohmann::json &guildjson)
 {
     auto res = m_guilds.insert({tryGetSnowflake("id", guildjson), std::make_unique<Guild>(guildjson)});
     if (!res.second)
-        throw std::runtime_error("Guild" + std::to_string(res.first->second->getId()) + " already existed");
+        return *res.first->second;
 
     Guild *guild = res.first->second.get();
     for (const auto &userjson : guildjson["members"])

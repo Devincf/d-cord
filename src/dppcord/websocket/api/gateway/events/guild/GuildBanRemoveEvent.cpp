@@ -21,8 +21,7 @@ namespace dppcord
         //todo
         std::cout << "GuildBanRemoveEvent proc\n";
         std::cout << eventPacket.dump(4) << '\n';
-        Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
-        m_forwardData.add(guild);
+        //Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
+        m_forwardData.add(eventPacket);
     }
-
 }

@@ -17,7 +17,7 @@
 
 namespace dppcord
 {
-class GuildBanAddEvent : public BaseEvent<Guild>
+class GuildBanAddEvent : public BaseEvent<nlohmann::json>
 {
     using BaseEvent::BaseEvent;
 

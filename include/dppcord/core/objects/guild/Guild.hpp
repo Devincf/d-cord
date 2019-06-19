@@ -74,6 +74,8 @@ public:
     User& addUser(User* user);
 
     const bool banUser(const Snowflake& id);
+
+    const void removeUser(const Snowflake& id);
     /**
      * @brief Adds a Message into the Message map
      * @param msg 
