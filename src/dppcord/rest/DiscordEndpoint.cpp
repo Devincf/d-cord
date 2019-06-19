@@ -73,14 +73,16 @@ nlohmann::json DiscordEndpoint::deleteChannel(const std::string &channelId)
 
     return nlohmann::json::parse(response.get());
 }
-nlohmann::json DiscordEndpoint::getChannelMessages(const std::string &channelId)
+nlohmann::json DiscordEndpoint::getChannelMessages(const std::string &channelId, const nlohmann::json& info)
 {
     //GET/channels/{channel.id}/messages
-    RequestHeaderList rhl(token);
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
+    RequestContent rc(info);
 
     auto response = Request::sendGET(
         apiBase + "channels/" + channelId + "/messages",
-        rhl);
+        rhl,
+        rc);
 
     return nlohmann::json::parse(response.get());
 }
@@ -104,9 +106,9 @@ nlohmann::json DiscordEndpoint::sendMessage(const Snowflake &channelId, const st
 nlohmann::json DiscordEndpoint::sendMessageExtended(const Snowflake &channelId, const nlohmann::json &json)
 {
     //
-    RequestHeaderList rhl(token, REQUESTCONTENT_MULTIPART_FORMDATA);
+    RequestHeaderList rhl(token, REQUESTCONTENT_APPLICATION_JSON);
     RequestContent rc(json);
-
+    
     auto response = Request::sendPOST( //this should be post?
         apiBase + "channels/" + std::to_string(channelId) + "/messages",
         rhl,
@@ -857,9 +859,6 @@ bool DiscordEndpoint::createGuildBan(const std::string &guildId, const std::stri
     rhl.addHeader("Content-Length:0");
     RequestContent rc(bandata);
 
-    std::string t = apiBase + "guilds/" + guildId + "/bans/" + userId;
-    std::cout << t << '\n';
-    std::cout << bandata.dump(4) << '\n';
     auto response = Request::sendPUT(
         apiBase + "guilds/" + guildId + "/bans/" + userId,
         rhl,
@@ -1270,7 +1269,7 @@ std::string DiscordEndpoint::getGateway()
     RequestHeaderList rhl(token);
 
     auto response = Request::sendGET(
-        apiBase + "/gateway",
+        apiBase + "gateway",
         rhl);
     return nlohmann::json::parse(response.get())["url"];
 }
@@ -1280,7 +1279,7 @@ nlohmann::json DiscordEndpoint::getGatewayBot()
     RequestHeaderList rhl(token);
 
     auto response = Request::sendGET(
-        apiBase + "/gateway/bot",
+        apiBase + "gateway/bot",
         rhl);
     return nlohmann::json::parse(response.get());
 }

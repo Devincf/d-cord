@@ -34,7 +34,7 @@ public:
     static nlohmann::json getChannel(const std::string &channelId);
     static nlohmann::json modifyChannel(const std::string &channelId, const nlohmann::json &channeldata);
     static nlohmann::json deleteChannel(const std::string &channelId);
-    static nlohmann::json getChannelMessages(const std::string &channelId);
+    static nlohmann::json getChannelMessages(const std::string &channelId, const nlohmann::json& info = {});
     static nlohmann::json getChannelMessage(const std::string &channelId, const std::string &messageId);
     static nlohmann::json sendMessage(const Snowflake &channelId, const std::string &msg);
     static nlohmann::json sendMessageExtended(const Snowflake &channelId, const nlohmann::json &json);

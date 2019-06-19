@@ -33,7 +33,6 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
         TextChannel &channel = dynamic_cast<TextChannel &>(guild.getChannel(tryGetSnowflake("channel_id", eventPacket)));
 
         BaseMessage *message = new BaseMessage(&channel, eventPacket);
-        channel.addMessage(message);
         m_forwardData.add(*message);
 
         if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
@@ -41,21 +40,22 @@ void MessageCreateEvent::proc(const nlohmann::json &eventPacket)
             return; // Bot message
         }
 
+        channel.addMessage(message);
         dppcord::CommandBuilder::tryBuildCommand(*message);
     }
     else
     {
         DmChannel *channel = m_pDiscordClient->getDmChannel(tryGetSnowflake("channel_id", eventPacket));
         BaseMessage *message = new BaseMessage(channel, eventPacket, &m_pDiscordClient->findUser(tryGetSnowflake("id", eventPacket["author"])));
-        channel->addMessage(message);
         //std::cout << "asdfafsdfsd" << message->str() << '\n';
+        m_forwardData.add(*message);
 
         if (tryGetSnowflake("id", eventPacket["author"]) == 444648378199048214)
         {
             m_forwardData.add(*message);
             return; // Bot message
         }
-        m_forwardData.add(*message);
+        channel->addMessage(message);
 
         dppcord::CommandBuilder::tryBuildCommand(*message);
     }

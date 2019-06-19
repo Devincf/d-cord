@@ -48,7 +48,7 @@ public:
     BaseMessage& sendMessageExtended(const nlohmann::json& json);
     
     BaseMessage& getLastMessage();
-private:
+protected:
     std::map<Snowflake,std::unique_ptr<BaseMessage>> m_messages;
     /**
      * @brief Pointer to the last Message object

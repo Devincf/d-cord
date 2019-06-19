@@ -16,7 +16,7 @@ namespace dppcord
 
 RequestContent::RequestContent() {}
 RequestContent::~RequestContent() {}
-RequestContent::RequestContent(const nlohmann::json &content):m_content(content)
+RequestContent::RequestContent(const nlohmann::json &content) : m_content(content)
 {
 }
 
@@ -27,6 +27,12 @@ const std::string RequestContent::get() const
 
 const int RequestContent::size() const
 {
-    return m_content.dump().size();
+    return m_content.size();
 }
+
+const nlohmann::json RequestContent::raw() const
+{
+    return m_content;
+}
+
 } // namespace dppcord

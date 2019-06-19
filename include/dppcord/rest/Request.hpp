@@ -24,7 +24,7 @@ namespace dppcord
         static const RequestResponse sendPOST(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
         static const RequestResponse sendDELETE(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
         static const RequestResponse sendPUT(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
-        static const RequestResponse sendGET(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
+        static const RequestResponse sendGET(std::string url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
         static const RequestResponse sendPATCH(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content = RequestContent());
 
     };

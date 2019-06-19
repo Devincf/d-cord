@@ -34,7 +34,7 @@ const RequestResponse Request::sendPOST(const std::string &url, const RequestHea
         myRequest.setOpt<Url>(url);
         myRequest.setOpt<HttpHeader>(headerList.get());
         myRequest.setOpt<PostFields>(content.get());
-        myRequest.setOpt<PostFieldSize>(content.size());
+        myRequest.setOpt<PostFieldSize>(content.get().size());
         myRequest.setOpt<WriteStream>(&ss);
 
         // Send request and get a result.
@@ -47,16 +47,27 @@ const RequestResponse Request::sendPOST(const std::string &url, const RequestHea
     }
     return RequestResponse("");
 }
-const RequestResponse Request::sendGET(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content)
+const RequestResponse Request::sendGET(std::string url, const RequestHeaderList &headerList, const RequestContent &content)
 {
     try
     {
         curlpp::Cleanup myCleanup;
         std::stringstream ss;
 
+        std::stringstream finalurl;
+        finalurl << url;
+        if (content.size() > 0)
+        {
+            finalurl << '?';
+            const auto json = content.raw();
+            for (auto it = json.begin(); it != json.end(); ++it)
+            {
+                finalurl << it.key() << '=' << it.value() << '&';
+            }
+        }
         // Our request to be sent.
         curlpp::Easy myRequest;
-        myRequest.setOpt<Url>(url);
+        myRequest.setOpt<Url>(finalurl.str());
         myRequest.setOpt<HttpHeader>(headerList.get());
         myRequest.setOpt<WriteStream>(&ss);
 
@@ -71,7 +82,7 @@ const RequestResponse Request::sendGET(const std::string& url, const RequestHead
     return RequestResponse("");
 }
 
-const RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderList &headerList, const RequestContent& content)
+const RequestResponse Request::sendDELETE(const std::string &url, const RequestHeaderList &headerList, const RequestContent &content)
 {
     try
     {
@@ -96,7 +107,7 @@ const RequestResponse Request::sendDELETE(const std::string &url, const RequestH
     return RequestResponse("");
 }
 
-const RequestResponse Request::sendPATCH(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content)
+const RequestResponse Request::sendPATCH(const std::string &url, const RequestHeaderList &headerList, const RequestContent &content)
 {
     try
     {
@@ -111,7 +122,6 @@ const RequestResponse Request::sendPATCH(const std::string& url, const RequestHe
         myRequest.setOpt<PostFieldSize>(content.size());
         myRequest.setOpt<CustomRequest>("PATCH");
         myRequest.setOpt<WriteStream>(&ss);
-        
 
         // Send request and get a result.
         myRequest.perform();
@@ -124,7 +134,7 @@ const RequestResponse Request::sendPATCH(const std::string& url, const RequestHe
     return RequestResponse("");
 }
 
-const RequestResponse Request::sendPUT(const std::string& url, const RequestHeaderList& headerList, const RequestContent& content)
+const RequestResponse Request::sendPUT(const std::string &url, const RequestHeaderList &headerList, const RequestContent &content)
 {
     try
     {
@@ -137,7 +147,6 @@ const RequestResponse Request::sendPUT(const std::string& url, const RequestHead
         myRequest.setOpt<HttpHeader>(headerList.get());
         myRequest.setOpt<CustomRequest>("PUT");
         myRequest.setOpt<WriteStream>(&ss);
-        
 
         // Send request and get a result.
         myRequest.perform();

@@ -24,6 +24,7 @@ public:
     RequestContent(const nlohmann::json& content);
     const int size() const;
     const std::string get() const;
+    const nlohmann::json raw() const;
 private:
     nlohmann::json m_content;
 };

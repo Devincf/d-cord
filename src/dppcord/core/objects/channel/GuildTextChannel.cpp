@@ -11,7 +11,6 @@
 
 #include "dppcord/core/objects/channel/GuildTextChannel.hpp"
 #include "dppcord/util/jsonutil.hpp"
-
 namespace dppcord
 {
 GuildTextChannel::GuildTextChannel() {}

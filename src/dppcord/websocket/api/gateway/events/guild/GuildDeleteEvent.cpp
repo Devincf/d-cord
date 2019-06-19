@@ -24,5 +24,4 @@ namespace dppcord
         Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
         m_forwardData.add(guild);
     }
-
 }
