@@ -12,11 +12,11 @@
 #define GUILDMEMBERADDEVENT_HPP
 
 #include "dppcord/websocket/api/gateway/events/BaseEvent.hpp"
-#include "dppcord/core/objects/guild/Guild.hpp"
+#include "dppcord/core/objects/user/GuildUser.hpp"
 
 namespace dppcord
 {
-class GuildMemberAddEvent : public BaseEvent<Guild>
+class GuildMemberAddEvent : public BaseEvent<GuildUser>
 {
     using BaseEvent::BaseEvent;
 

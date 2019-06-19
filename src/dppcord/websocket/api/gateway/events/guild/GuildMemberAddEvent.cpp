@@ -11,6 +11,7 @@
 
 #include "dppcord/websocket/api/gateway/events/guild/GuildMemberAddEvent.hpp"
 #include "dppcord/core/client/DiscordClient.hpp"
+#include "dppcord/core/objects/user/GuildUser.hpp"
 #include <iostream>
 #include "dppcord/util/jsonutil.hpp"
 
@@ -20,9 +21,27 @@ namespace dppcord
     {
         //todo
         std::cout << "GuildMemberAddEvent proc\n";
-        std::cout << eventPacket.dump(4) << '\n';
-        Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
-        m_forwardData.add(guild);
+        Guild& guild =m_pDiscordClient->getGuild(tryGetSnowflake("id", eventPacket));
+        GuildUser* user = new GuildUser(&guild,eventPacket);
+        guild.addUser(user);
+        m_forwardData.add(user);
     }
 
 }
+/*
+{
+    "deaf": false,
+    "guild_id": "301858197713584130",
+    "joined_at": "2019-06-18T19:17:00.584947+00:00",
+    "mute": false,
+    "nick": null,
+    "premium_since": null,
+    "roles": [],
+    "user": {
+        "avatar": "7f2cf4400f213fdb1ee151244c452d06",
+        "discriminator": "7836",
+        "id": "253664664964169730",
+        "username": "Matheus Nunes"
+    }
+}
+ */
