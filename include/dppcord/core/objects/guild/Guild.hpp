@@ -76,6 +76,8 @@ public:
     const bool banUser(const Snowflake& id);
 
     const void removeUser(const Snowflake& id);
+
+    const int memberCount() const;
     /**
      * @brief Adds a Message into the Message map
      * @param msg 

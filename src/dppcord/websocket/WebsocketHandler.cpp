@@ -187,7 +187,7 @@ void WebsocketHandler::sendIdentify()
     payload["d"]["properties"]["$browser"] = "dppcord";
     payload["d"]["properties"]["$device"] = "dppcord";
     payload["d"]["compress"] = false;
-    payload["d"]["large_threshold"] = 250;
+    payload["d"]["large_threshold"] = 50;
     payload["d"]["shard"] = {0, 1};
     payload["d"]["presence"]["game"] = nullptr;
     payload["d"]["presence"]["status"] = "online";

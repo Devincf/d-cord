@@ -18,7 +18,7 @@ namespace dppcord
 {
     void GuildBanRemoveEvent::proc(const nlohmann::json& eventPacket)
     {
-        //TODO: test
+        //TODO: add ban stuff
         std::cout << "GuildBanRemoveEvent proc\n";
         std::cout << eventPacket.dump(4) << '\n';
         m_forwardData.add(eventPacket);

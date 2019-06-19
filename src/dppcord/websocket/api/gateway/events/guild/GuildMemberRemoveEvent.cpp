@@ -20,7 +20,6 @@ namespace dppcord
 {
     void GuildMemberRemoveEvent::proc(const nlohmann::json& eventPacket)
     {
-        //TODO:test
         std::cout << eventPacket.dump(4) << '\n';
         Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
         guild.removeUser(tryGetSnowflake("id", eventPacket["user"]));

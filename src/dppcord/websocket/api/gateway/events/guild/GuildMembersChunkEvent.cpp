@@ -16,13 +16,32 @@
 
 namespace dppcord
 {
-    void GuildMembersChunkEvent::proc(const nlohmann::json& eventPacket)
+void GuildMembersChunkEvent::proc(const nlohmann::json &eventPacket)
+{
+    /*TODO:
+        Used to request all members for a guild or a list of guilds. 
+        When initially connecting, the gateway will only send offline members if a guild has less than the large_threshold members (value in the Gateway Identify). 
+        If a client wishes to receive additional members, they need to explicitly request them via this operation. 
+        The server will send Guild Members Chunk events in response with up to 1000 members per chunk until all members that match the request have been sent.
+    */
+    std::cout << "GuildMembersChunkEvent proc\n";
+    Guild &guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
+    for (const auto &member : eventPacket["members"])
     {
-        //todo
-        std::cout << "GuildMembersChunkEvent proc\n";
-        std::cout << eventPacket.dump(4) << '\n';
-        Guild& guild = m_pDiscordClient->getGuild(tryGetSnowflake("guild_id", eventPacket));
-        m_forwardData.add(guild);
-    }
+        GuildUser *guser = nullptr;
 
+        User *user = m_pDiscordClient->findUser(tryGetSnowflake("id", member["user"]));
+        if (user == nullptr)
+        {
+            guser = new GuildUser(&guild, eventPacket);
+            m_pDiscordClient->addUser(static_cast<User *>(guser));
+        }
+        else
+        {
+            guser = new GuildUser(&guild, user, eventPacket);
+        }
+        guild.addUser(guser);
+    }
+    m_forwardData.add(guild);
 }
+} // namespace dppcord

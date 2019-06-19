@@ -289,6 +289,8 @@ void Guild::updateEmojis(const nlohmann::json &emojis)
     }
 }
 
+const int Guild::memberCount() const{ return m_memberCount; }
+
 User *Guild::getOwner() const { return m_ownerPtr; }
 
 } // namespace dppcord

@@ -19,6 +19,7 @@ namespace dppcord
     {
         std::cout << "GuildEvent proc\n";
         Guild& guild = m_pDiscordClient->addGuild(eventPacket);
+        std::cout << guild.memberCount() << '\n'; 
         m_forwardData.add(guild);
     }
 
